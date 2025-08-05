@@ -3,10 +3,10 @@ image: node:18
 pages:
   stage: deploy
   script:
-    - npm ci # Установка зависимостей
-    - npm run build # Сборка проекта (vite build)
-    - mkdir public # Создаем папку public
-    - cp -r dist/* public/ # Копируем билд в public
+    - npm ci
+    - npm run build
+    - mkdir public
+    - cp -r dist/* public/
   artifacts:
     paths:
       - public
