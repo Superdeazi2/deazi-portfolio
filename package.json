@@ -1,9 +1,10 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "deploy": "git subtree push --prefix dist origin gh-pages",
     "build:css": "tailwindcss -i ./src/tailwind.css -o ./style.css --minify"
   },
   "devDependencies": {
