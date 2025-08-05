@@ -2,7 +2,8 @@
 
 @font-face {
   font-family: "Kyiv_Machine_Font";
-  src: url("/fonts/kyiv-machine-font/KyivMachine-nR0aM.ttf") format("truetype");
+  src: url("../fonts/kyiv-machine-font/KyivMachine-nR0aM.ttf")
+    format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +17,7 @@ body {
   font-family: "Kyiv_Machine_Font", monospace;
 }
 .bg {
-  background-image: url("png/bg.png");
+  background-image: url("../assets/bg.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -34,6 +35,15 @@ body {
   }
 }
 
+.avatar {
+  background-image: url("../assets/avatar.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-size: 110%;
+  z-index: 30;
+}
+
 .avatar-zoom {
   transition: transform 0.3s;
   cursor: pointer;
@@ -47,11 +57,4 @@ body {
   .avatar-zoom:active {
     transform: scale(1.6);
   }
-}
-#loading1,
-#loading2,
-#loading3,
-#loading4,
-#loading5 {
-  filter: invert(65%) sepia(20%) saturate(500%) hue-rotate(180deg);
 }

@@ -2,7 +2,12 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
-  base: "/about_me_web/",
+  root: "src/views",
+  resolve: {
+    alias: {
+      "/css": resolve(__dirname, "src/css"),
+    },
+  },
   build: {
     rollupOptions: {
       input: {
@@ -11,6 +16,5 @@ export default defineConfig({
         experience: resolve(__dirname, "src/views/experience.html"),
       },
     },
-    outDir: "dist",
   },
 });
