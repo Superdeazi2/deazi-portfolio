@@ -1,11 +1,10 @@
 image: node:18
-
 pages:
   stage: deploy
   script:
-    - echo "Deploying site from gh-pages branch"
-  artifacts:
-    paths:
-      - .
+    - echo "Deploy from gh-pages"
   only:
     - gh-pages
+  artifacts:
+    paths:
+      - public
