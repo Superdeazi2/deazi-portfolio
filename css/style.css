@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Kyiv_Machine_Font";
+  src: url("/fonts/kyiv-machine-font/KyivMachine-nR0aM.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  color: #fff;
+  position: relative;
+  z-index: 0;
+}
+.cust_font {
+  font-family: "Kyiv_Machine_Font", monospace;
+}
+.bg {
+  background-image: url("png/bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-size: 400%;
+  z-index: 30;
+}
+@media (max-width: 1200px) {
+  .bg {
+    background-size: 4000%;
+  }
+}
+@media (min-width: 1800px) {
+  .bg {
+    background-size: 220%;
+  }
+}
+
+.avatar-zoom {
+  transition: transform 0.3s;
+  cursor: pointer;
+  z-index: 1;
+}
+.avatar-zoom:hover {
+  transform: scale(1.3);
+  z-index: 2;
+}
+@media (max-width: 768px) {
+  .avatar-zoom:active {
+    transform: scale(1.6);
+  }
+}
+#loading1,
+#loading2,
+#loading3,
+#loading4,
+#loading5 {
+  filter: invert(65%) sepia(20%) saturate(500%) hue-rotate(180deg);
+}

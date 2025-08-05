@@ -1,0 +1,6 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Первая часть пунктирная (короткий пунктир) -->
+  <path d="M32 8 A24 24 0 0 1 56 32" fill="none" stroke="black" stroke-width="4" stroke-dasharray="2 1"></path>
+  <!-- Вторая часть сплошная -->
+  <path d="M56 32 A24 24 0 0 1 32 56" fill="none" stroke="black" stroke-width="4"></path>
+</svg>
