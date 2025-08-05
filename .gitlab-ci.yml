@@ -1,14 +1,29 @@
 image: node:18
 
-pages:
-  stage: deploy
+stages:
+  - build
+  - deploy
+
+build_job:
+  stage: build
   script:
     - npm ci
     - npm run build
+  artifacts:
+    paths:
+      - dist
+  only:
+    - main
+
+pages:
+  stage: deploy
+  dependencies:
+    - build_job
+  script:
     - mkdir public
     - cp -r dist/* public/
   artifacts:
     paths:
       - public
   only:
-    - gh-pages
+    - main
