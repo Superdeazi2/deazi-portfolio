@@ -5,7 +5,7 @@ pages:
   script:
     - npm ci
     - npm run build
-    - cp -r dist public
+    - cp -r src/views/dist public
   artifacts:
     paths:
       - public
