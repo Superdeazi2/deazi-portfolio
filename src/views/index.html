@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,10 +8,9 @@
       name="description"
       content="Портфолио Mikhail Russkikh — Frontend Developer."
     />
-
-    <link rel="stylesheet" href="/css/style.css">
-        <link rel="icon" type="image/svg+xml" href="/src/assets/logo.svg" />
-      </head>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="icon" type="image/svg+xml" href="/src/assets/logo.svg" />
+  </head>
   <body class="bg min-h-screen flex flex-col items-center p-2" id="about">
     <nav
       class="fixed top-0 left-0 w-full flex justify-between items-center backdrop-blur border-b border-white/20 py-3 px-6 z-50"
@@ -52,7 +51,7 @@
         Middle Frontend Developer
       </div>
     </div>
-    <main class="w-full max-w-4xl rounded-2xl flex flex-col md:flex-row">
+    <div class="w-full max-w-4xl rounded-2xl flex flex-col md:flex-row">
       <section
         class="flex flex-col justify-start gap-6 flex-1 p-6 md:p-8 bg-white/10 rounded-lg border border-white/10"
       >
@@ -78,18 +77,20 @@
             <div>TypeScript</div>
             <div>HTML</div>
             <div>CSS</div>
-            <div></div>
+            <div>Ruby on Rails</div>
             <div>Vite</div>
           </div>
         </div>
         <div>
           <div
-            class="cust_font grid grid-cols-2 gap-2 bg-white/20 rounded-lg p-3 text-white text-center text-sm font-medium"
+            class="cust_font grid grid-cols-3 gap-2 bg-white/10 rounded-lg p-3 text-gray-100 text-center text-sm font-medium"
           >
-            <div>Git</div>
-            <div>REST API</div>
-            <div>React Router</div>
-            <div>Axios</div>
+            <div>Figma</div>
+            <div>Next.js</div>
+            <div>Webpack</div>
+            <div>Bootstrap</div>
+            <div>Prettier</div>
+            <div>Tailwind</div>
           </div>
         </div>
       </section>
@@ -100,45 +101,36 @@
           <div class="text-white text-lg font-bold">О себе</div>
           <a
             href="./about.html"
-            class="flex border py-1 px-5 border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 transition text-base font-medium"
+            class="flex border select-none py-1 px-5 border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 transition text-base font-medium"
           >
             Подробнее
           </a>
         </div>
 
         <div class="bg-white/15 rounded-lg p-4 text-white text-base space-y-2">
-          <div>Меня зовут Русских Михаил, я фронтенд-разработчик.</div>
           <div>
-            <span class="cust_font">Люблю</span> придумывать и создавать
-            понятные и удобные интерфейсы и получать удовольствие от
-
-            <span class="cust_font">процесса</span>.
+            Меня зовут Русских Михаил -<br />
+            фронтенд-разработчик.
           </div>
           <div>
-            Сейчас сосредоточен на создании веб-сайтов и интерфейсов.
+            <span class="cust_font">Люблю</span> превращать макеты в живые,
+            адаптивные и удобные страницы.<br />
+            А ещё больше мне нравится, когда есть готовый дизайн - можно
+            сосредоточиться на чистом коде и
+            <span class="cust_font"
+              >получать удовольствие от процесса создания</span
+            >.
           </div>
+          <div>Сейчас сосредоточен на создании веб-сайтов и интерфейсов.</div>
         </div>
+
         <div class="space-y-2 my-auto">
           <a
-            href="mailto:deazinew@mail.ru"
-            class="flex items-center gap-2 text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
-          >
-            <svg class="w-5 h-5 text-gray-100" fill="none" viewBox="0 0 24 24">
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-width="2"
-                d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
-              />
-            </svg>
-            deazinew@mail.ru
-          </a>
-          <a
             href="https://t.me/SuperDeazi"
-            class="flex items-center gap-2 text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
+            class="flex items-center gap-2 text-[18px] text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
             target="_blank"
           >
-            <svg class="w-5 h-5 text-gray-100" fill="none" viewBox="0 0 24 24">
+            <svg class="w-7 h-7 text-gray-100" fill="none" viewBox="0 0 24 24">
               <path
                 stroke="currentColor"
                 stroke-linecap="round"
@@ -150,12 +142,45 @@
             Telegram
           </a>
           <a
-            href="https://github.com/SuperDeaziNew"
-            class="flex items-center gap-2 text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
+            href="https://perm.hh.ru/resume/59a52d39ff0f36147d0039ed1f62787635706f"
+            class="flex items-center gap-2 text-[18px] underline underline-offset-5 hover:text-blue-400 hover:underline"
             target="_blank"
           >
             <svg
-              class="w-5 h-5 text-gray-100"
+              class="w-7 h-7"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="currentColor"
+                d="M10.8 9.5v5h5v-5h2.4v13h-2.4v-5.5h-5v5.5H8.4v-13h2.4zM20.9 9.5c3 0 4.5 1.8 4.5 4.6v3.8c0 2.8-1.5 4.6-4.5 4.6-3 0-4.5-1.8-4.5-4.6v-3.8c0-2.8 1.5-4.6 4.5-4.6zm0 2.2c-1.3 0-2 0.8-2 2.3v3.6c0 1.5 0.7 2.3 2 2.3 1.3 0 2-0.8 2-2.3v-3.6c0-1.5-0.7-2.3-2-2.3z"
+              />
+            </svg>
+            Резюме - hh.ru
+          </a>
+
+          <a
+            href="mailto:deazinew@mail.ru"
+            class="flex items-center gap-2 text-[18px] text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
+          >
+            <svg class="w-7 h-7 text-gray-100" fill="none" viewBox="0 0 24 24">
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+                d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
+              />
+            </svg>
+            deazinew@mail.ru
+          </a>
+          <a
+            href="https://github.com/SuperDeaziNew"
+            class="flex items-center gap-2 text-[18px] text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
+            target="_blank"
+          >
+            <svg
+              class="w-7 h-7 text-gray-100"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -167,156 +192,129 @@
             </svg>
             GitHub
           </a>
+          <a
+            href="https://gitlab.com/Deazi"
+            class="flex items-center gap-2 text-[18px] text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
+            target="_blank"
+          >
+            <svg
+              class="w-7 h-7 text-gray-100"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M22.74 9.42l-.02-.06-2.14-6.58a.85.85 0 0 0-1.63-.05l-1.45 4.45H6.5L5.05 2.73a.85.85 0 0 0-1.63.05L1.28 9.36l-.02.06a3.66 3.66 0 0 0 1.27 4.1l9.45 7.12 9.45-7.12a3.66 3.66 0 0 0 1.27-4.1z"
+              />
+            </svg>
+            GitLab
+          </a>
         </div>
       </div>
-    </main>
+    </div>
     <section
       class="w-full max-w-4xl mt-8 bg-white/10 border rounded-lg border-white/10 p-6 md:p-10"
       id="experience"
     >
       <h2 class="text-white text-lg font-bold mb-3">Опыт работы:</h2>
       <div class="bg-white/20 rounded-lg p-4 text-white text-sm mb-6">
-        <div class="text-base font-bold mb-1">
-          Frontend Developer в Aagency
-        </div>
+        <div class="text-base font-bold mb-1">Frontend Developer в Aagency</div>
         <div class="mb-2">
-          Разработал адаптивный сайт на Ruby on Rails с использованием Tailwind CSS, добавил мультиязычность 
-          (RU/EN) и настроил SEO. Создал переиспользуемые компоненты с анимациями и оптимизировал скорость загрузки. 
-          Вёл проект в GitLab, работал с заказчиком и исправлял баги для стабильной работы сайта. 
+          Разработал адаптивный сайт на Ruby on Rails с анимациями, слайдерами и
+          мультиязычной поддержкой. Оптимизировал загрузку, настроил SEO и
+          обеспечил удобный UI/UX.
         </div>
-        <div class="flex items-center justify-between">
-          <div class="flex md:flex-row flex-col space-y-5 md:space-y-0">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap md:flex-row flex-col gap-3">
             <a
-              href="#"
-              class="flex mx-2 border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
+              href="./experience.html#Aagency"
+              class="flex border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
             >
               Подробнее
             </a>
-            <a
-              href="#"
-              class="flex mx-2 border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
+            <div
+              class="flex flex-wrap gap-2 text-xs text-gray-200 items-center mx-5"
             >
-              GitHub
-              <svg
-                class="w-4 h-4 ml-2 text-white"
-                fill="currentColor"
-                viewBox="0 0 24 24"
+              <span class="bg-blue-600/60 rounded px-2 py-1"
+                >Ruby on Rails</span
               >
-                <path
-                  fill-rule="evenodd"
-                  d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </a>
-            <div class="flex space-x-3 text-xs text-gray-200 items-center mx-5">
-              <span class="bg-blue-600/60 rounded px-2 py-1">React</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">HTML</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">Tailwind CSS</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">HTML5</span>
               <span class="bg-blue-600/60 rounded px-2 py-1">CSS</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">Vite</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">JavaScript</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">GitLab</span>
             </div>
           </div>
-          <div class="text-white-200 mt-3 mr-2">2021</div>
+          <div class="text-gray-200 text-sm">06.25 – 08.25</div>
+        </div>
+      </div>
+      <div class="bg-white/20 rounded-lg p-4 text-white text-sm mb-6">
+        <div class="text-base font-bold mb-1">Frontend Developer в Aliot</div>
+        <div class="mb-2">
+          Разработал веб-интерфейс для умной аквариумной лампы с возможностью
+          управления по Wi‑Fi. Создал адаптивный дизайн, реализовал темы,
+          графики и анимации, обеспечил удобное управление и интеграцию с
+          backend.
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap md:flex-row flex-col gap-3">
+            <a
+              href="./experience.html#Aliot"
+              class="flex border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
+            >
+              Подробнее
+            </a>
+            <div
+              class="flex flex-wrap gap-2 text-xs text-gray-200 items-center mx-5"
+            >
+              <span class="bg-blue-600/60 rounded px-2 py-1">React</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">Tailwind CSS</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">HTML5</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">CSS</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">JavaScript</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">GitLab</span>
+            </div>
+          </div>
+          <div class="text-gray-200 text-sm">10.24 – 04.25</div>
         </div>
       </div>
       <div class="bg-white/20 rounded-lg p-4 text-white text-sm mb-6">
         <div class="text-base font-bold mb-1">
-          Frontend Developer в WebStudio
+          Frontend Developer в Софт-онлайн
         </div>
         <div class="mb-2">
-          Разрабатывал современные интерфейсы для корпоративных клиентов.
-          Внедрял новые UI-паттерны, оптимизировал производительность,
-          участвовал в командных code review. Работал с React, TypeScript,
-          Tailwind, REST API.
+          Разработал адаптивный сайт на Bootstrap с поддержкой светлой/тёмной
+          темы, формой обратной связи и админ‑панелью. Оптимизировал под SEO и
+          настроил базу данных PostgreSQL.
         </div>
-        <div class="flex items-center justify-between">
-          <div class="flex md:flex-row flex-col space-y-5 md:space-y-0">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap md:flex-row flex-col gap-3">
             <a
-              href="#"
-              class="flex mx-2 border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
+              href="./experience.html#soft"
+              class="flex border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
             >
               Подробнее
             </a>
-            <a
-              href="#"
-              class="flex mx-2 border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
+            <div
+              class="flex flex-wrap gap-2 text-xs text-gray-200 items-center mx-5"
             >
-              GitHub
-              <svg
-                class="w-4 h-4 ml-2 text-white"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </a>
-            <div class="flex space-x-3 text-xs text-gray-200 items-center mx-5">
-              <span class="bg-blue-600/60 rounded px-2 py-1">React</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">HTML</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">HTML5</span>
               <span class="bg-blue-600/60 rounded px-2 py-1">CSS</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">Vite</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">Bootstrap</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">Node.js</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">PostgreSQL</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">Git</span>
             </div>
           </div>
-          <div class="text-white-200 mt-3 mr-2">2021</div>
-        </div>
-      </div>
-      <div class="bg-white/20 rounded-lg p-4 text-white text-sm mb-6">
-        <div class="text-base font-bold mb-1">
-          Frontend Developer в WebStudio
-        </div>
-        <div class="mb-2">
-          Разрабатывал современные интерфейсы для корпоративных клиентов.
-          Внедрял новые UI-паттерны, оптимизировал производительность,
-          участвовал в командных code review. Работал с React, TypeScript,
-          Tailwind, REST API.
-        </div>
-        <div class="flex justify-between">
-          <div class="flex md:flex-row flex-col space-y-5 md:space-y-0">
-            <a
-              href="#"
-              class="flex mx-2 border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
-            >
-              Подробнее
-            </a>
-            <a
-              href="#"
-              class="flex mx-2 border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
-            >
-              GitHub
-              <svg
-                class="w-4 h-4 ml-2 text-white"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </a>
-            <div class="flex space-x-3 text-xs text-gray-200 items-center mx-5">
-              <span class="bg-blue-600/60 rounded px-2 py-1">React</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">HTML</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">CSS</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">Vite</span>
-            </div>
-          </div>
-          <div class="text-white-200 mt-3 mr-2">2021</div>
+          <div class="text-gray-200 text-sm">12.23 – 02.24</div>
         </div>
       </div>
     </section>
-
     <footer class="w-full max-w-4xl mt-12 mb-4">
       <div
         class="bg-white/10 rounded-lg border border-white/10 px-6 py-10 flex flex-col items-center"
       >
         <div
-          class="text-white text-xl font-bold tracking-wide mb-8"
+          class="text-white text-[35px] font-bold tracking-wide mb-8"
           id="contacts"
         >
           Контакты
@@ -413,6 +411,14 @@
           </a>
         </div>
       </div>
+      <section>
+        <div class="max-w-3xl mx-auto p-6 text-center text-gray-300">
+          <p class="text-base">
+            Сайт разработан с использованием Vite и Tailwind CSS.
+          </p>
+          <p>Хостинг проекта опубликован на GitLab Pages.</p>
+        </div>
+      </section>
     </footer>
   </body>
 </html>
