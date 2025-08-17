@@ -20,7 +20,7 @@ pages:
   dependencies:
     - build_job
   script:
-    - mkdir public
+    - mkdir -p public
     - cp -r dist/* public/
   artifacts:
     paths:
