@@ -2,10 +2,10 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
-  root: "src/views", // корень для html — можно и "src"
+  root: "src/views",
   build: {
-    outDir: "../../dist", // папка для сборки (относительно root)
-    emptyOutDir: true, // очистить dist перед билдом
+    outDir: "../../dist",
+    emptyOutDir: true,
     rollupOptions: {
       input: {
         index: resolve(__dirname, "src/views/index.html"),
