@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mikhail Russkikh | Frontend Developer</title>
+    <meta
+      name="description"
+      content="Портфолио Mikhail Russkikh — Frontend Developer."
+    />
+    <link rel="icon" type="image/svg+xml" href="/assets/logo-LP5rJ6RS.svg" />
+    <link rel="stylesheet" crossorigin href="/assets/style-nsGDHawo.css">
+  </head>
+  <body class="bg min-h-screen flex flex-col items-center p-2" id="about">
+    <nav
+      class="fixed top-0 left-0 w-full flex justify-between items-center backdrop-blur border-b border-white/20 py-3 px-6 z-50"
+    >
+      <ul class="flex space-x-6 text-white font-semibold text-base">
+        <li>
+          <a href="./index.html" class="hover:text-blue-400 transition"
+            >Главная</a
+          >
+        </li>
+        <li>
+          <a href="./about.html" class="hover:text-blue-400 transition"
+            >Обо мне
+          </a>
+        </li>
+        <li>
+          <a
+            href="./experience.html"
+            class="text-white font-bold mb-8 underline decoration-gray-300 decoration-1 underline-offset-4"
+            >Опыт работы</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <div class="h-16"></div>
+    <div
+      class="px-5 py-2 bg-black/20 rounded-lg text-center shadow-lg max-w-xl w-full mb-6 mt-2"
+    >
+      <div
+        class="text-2xl md:text-3xl font-bold text-white border-b border-white/20"
+      >
+        Mikhail Russkikh
+      </div>
+      <div
+        class="cust_font text-base md:text-lg text-gray-300 font-medium mt-1"
+      >
+        Middle Frontend Developer
+      </div>
+    </div>
+    <div class="w-full flex justify-start max-w-4xl mx-auto">
+      <a
+        href="./index.html"
+        class="flex items-center text-sm font-medium text-blue-300 hover:text-blue-400 transition px-2 py-1 rounded mb-2"
+      >
+        ← Назад
+      </a>
+    </div>
+
+    <section
+      class="w-full max-w-4xl bg-white/10 border rounded-lg border-white/10 p-6 md:p-10"
+      id="experience"
+    >
+      <h2 class="text-3xl md:text-4xl font-bold text-white text-center">
+        Мои работы
+      </h2>
+      <h3 class="text-3xl md:text-2xl text-white text-left my-5">Figma</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <a
+          onclick="openLightbox('project1')"
+          target="_blank"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project1 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">Софт‐онлайн</div>
+        </a>
+        <a
+          target="_blank"
+          onclick="openLightbox('project2')"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project2 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">Elevator Protocol</div>
+        </a>
+        <a
+          onclick="openLightbox('project3')"
+          target="_blank"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project3 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">
+            Aliot
+            <span class="text-sm text-gray-300">не финальная верстка</span>
+          </div>
+        </a>
+      </div>
+
+      <h3 class="text-3xl md:text-2xl text-white text-left my-5">
+        Готовые работы
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <a
+          onclick="openLightbox('project4')"
+          target="_blank"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project4 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">Aagency</div>
+        </a>
+        <a
+          onclick="openLightbox('project5')"
+          target="_blank"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project5 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">Aagency</div>
+        </a>
+
+        <a
+          onclick="openLightbox('project6')"
+          target="_blank"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project6 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">WebSocketNodeJs</div>
+        </a>
+      </div>
+      <h3 class="text-3xl md:text-2xl text-white text-left my-5">Сайты:</h3>
+      <a
+        href="https://aagency.agency/"
+        target="_blank"
+        class="text-blue-300 underline"
+      >
+        aagency
+      </a>
+    </section>
+
+    <section
+      class="w-full max-w-4xl bg-white/10 border rounded-lg border-white/10 p-6 md:p-10"
+      id="experience"
+    >
+      <h2 class="text-white text-lg font-bold mb-3" id="Aagency">
+        Опыт работы:
+      </h2>
+      <div class="bg-white/20 rounded-lg p-4 text-white text-sm mb-6">
+        <div class="text-base font-bold mb-1">Frontend Developer в Aagency</div>
+
+        <div class="mb-2">
+          <p>
+            - Разработал адаптивный сайт на Ruby on Rails с использованием
+            Tailwind CSS.
+          </p>
+          <p>
+            - Создал переиспользуемые компоненты с анимацией, реагирующей на
+            движение мыши.
+          </p>
+          <p>
+            - Реализовал слайдеры и карусели с возможностью разворачивания на
+            весь экран.
+          </p>
+          <p>
+            - Настроил метатеги на всех страницах для улучшения SEO и видимости
+            сайта в поисковых системах.
+          </p>
+          <p>
+            - Оптимизировал скорость загрузки сайта, упростив компоненты без
+            потери функционала.
+          </p>
+          <p>- Обеспечил поддержку двух языков — русского и английского.</p>
+          <p>
+            - Анализировал баги и предлагал решения для предотвращения их
+            повторного появления.
+          </p>
+          <p>
+            - Вёл проект в GitLab, регулярно публиковал изменения и
+            взаимодействовал с заказчиком для согласования задач.
+          </p>
+          <br />
+          <p>Навыки, которые применил:</p>
+          <p>
+            - UI/UX-дизайн и компоненты: Tailwind CSS, адаптивная верстка,
+            анимации и интерактивные элементы.
+          </p>
+          <p>
+            - Frontend: HTML5, CSS3, JavaScript, интеграция с Ruby on Rails.
+          </p>
+          <p>
+            - Оптимизация: SEO-настройка (метатеги), оптимизация скорости
+            загрузки и производительности.
+          </p>
+          <p>- Мультиязычность: поддержка двух языков (RU/EN).</p>
+          <p>- Контроль версий: GitLab.</p>
+        </div>
+        <div class="flex items-center justify-between">
+          <div class="flex md:flex-row flex-col space-y-5 md:space-y-0">
+            <a
+              class="flex select-none cursor-not-allowed mx-2 border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
+            >
+              GitLab (Private)
+              <svg
+                class="w-4 h-4 ml-2 text-white"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </a>
+            <div
+              class="flex flex-wrap gap-2 text-xs text-gray-200 items-center mx-5"
+            >
+              <span class="bg-blue-600/60 rounded px-2 py-1"
+                >Ruby on Rails</span
+              >
+              <span class="bg-blue-600/60 rounded px-2 py-1">Tailwind CSS</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">HTML5</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">CSS3</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">JavaScript</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">GitLab</span>
+            </div>
+          </div>
+          <div class="text-white-200 mt-3 mr-2" id="Aliot">06.25 – 08.25</div>
+        </div>
+      </div>
+      <div class="bg-white/20 rounded-lg p-4 text-white text-sm">
+        <div class="text-base font-bold mb-1">Frontend Developer в Aliot</div>
+        <div class="mb-2">
+          <p>
+            Aliot (проект по разработке веб-интерфейса для умной аквариумной
+            лампы)
+          </p>
+          <p>
+            - Разработал и реализовал адаптивный веб-интерфейс для управления
+            светодиодной лампой через встроенный сайт (доступ по IP).
+          </p>
+          <p>
+            - Создал дизайн макетов в Figma и Photoshop на основе анализа
+            аналогичных решений.
+          </p>
+          <p>- Реализована верстка на React с использованием Tailwind CSS.</p>
+          <p>
+            - Реализовал адаптивный интерфейс, форм, графиков с использованием
+            анимаций.
+          </p>
+          <p>
+            - Разработал на сайте функцию темной темы а также кроссбраузерную
+            оптимизацию.
+          </p>
+          <p>
+            - Настроил Zustand для глобального состояния приложения (сохранение
+            параметров настроек, выбранной темы).
+          </p>
+          <br />
+          <p>Навыки, которые применил:</p>
+          <p>- UI/UX-дизайн: Figma, Photoshop.</p>
+          <p>
+            - Верстка и стилизация: Tailwind CSS, адаптивная верстка,
+            кроссбраузерная оптимизация.
+          </p>
+          <p>- Frontend-разработка: React, JavaScript , Zustand.</p>
+          <p>
+            - Интеграция с сервером: настройка взаимодействия с backend
+            (отправка форм, обработка данных).
+          </p>
+          <p>
+            - Интерактивность: анимации (иконки, плавные переходы, динамика
+            интерфейсов).
+          </p>
+          <p>
+            - Тестирование и оптимизация: проверка работы интерфейса на разных
+            устройствах и разрешениях.
+          </p>
+          <br />
+          <p>Если кратко и своими словами как это работает:</p>
+          <p>
+            Ты покупаешь аквариумную лампу с нашей прошивкой, подключаешься к
+            ней по Wi‑Fi и заходишь на её встроенный веб‑сайт по IP‑адресу. На
+            этом сайте можно менять цвета и режимы освещения, а моя задача была
+            сделать удобный и адаптивный интерфейс для управления всеми
+            функциями лампы.
+          </p>
+        </div>
+        <div class="flex items-center justify-between">
+          <div class="flex md:flex-row flex-col space-y-5 md:space-y-0">
+            <a
+              class="flex select-none cursor-not-allowed mx-2 border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
+            >
+              GitLab (Private)
+              <svg
+                class="w-4 h-4 ml-2 text-white"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </a>
+            <div
+              class="flex flex-wrap gap-2 text-xs text-gray-200 items-center mx-5"
+            >
+              <span class="bg-blue-600/60 rounded px-2 py-1">React</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">Tailwind CSS</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">HTML5</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">CSS3</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">JavaScript</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">GitLab</span>
+            </div>
+          </div>
+          <div class="text-white-200 mt-3 mr-2">10.24 – 04.25</div>
+        </div>
+      </div>
+      <div class="bg-white/20 rounded-lg p-4 text-white text-sm my-6" id="soft">
+        <div class="text-base font-bold mb-1">
+          Frontend Developer в Софт‑онлайн
+        </div>
+        <div class="mb-2">
+          <p>Сервисный центр "Софт-онлайн" - партнёр СКБ Контур</p>
+          <p>- Подготовил и согласовал техническое задание с заказчиком.</p>
+          <p>
+            - Проанализировал и спроектировал макеты и дизайн в Figma, включая
+            логотип в векторном виде.
+          </p>
+          <p>
+            - Реализовал адаптивный сайт на Bootstrap 5.3 с поддержкой
+            тёмной/светлой темы.
+          </p>
+          <p>- Интегрировал форму обратной связи через Node.js и PostgreSQL.</p>
+          <p>- Создал админ-панель с авторизацией для работы с заявками.</p>
+          <p>- Настроил метатеги и оптимизировал сайт под SEO.</p>
+          <p>- Вёл проект в Git, используя Fork для публикации изменений.</p>
+          <br />
+          <p>Навыки, которые применил:</p>
+          <p>- UI/UX-дизайн: Figma, Photoshop.</p>
+          <p>
+            - Верстка и стилизация: HTML5, CSS3, JavaScript (ES6+), Bootstrap
+            5.3, адаптивная верстка, поддержка светлой и тёмной темы.
+          </p>
+          <p>
+            - База данных и сервер: Node.js, PostgreSQL (работа через DBeaver,
+            написание SQL-запросов), интеграция форм.
+          </p>
+          <p>- Контроль версий: Git, Fork.</p>
+        </div>
+        <div class="flex justify-between">
+          <div class="flex md:flex-row flex-col space-y-5 md:space-y-0">
+            <a
+              class="flex select-none cursor-not-allowed mx-2 border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
+            >
+              GitLab (Private)
+              <svg
+                class="w-4 h-4 ml-2 text-white"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </a>
+            <div
+              class="flex flex-wrap gap-2 text-xs text-gray-200 items-center mx-5"
+            >
+              <span class="bg-blue-600/60 rounded px-2 py-1">HTML5</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">CSS3</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">Bootstrap</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">Node.js</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">PostgreSQL</span>
+              <span class="bg-blue-600/60 rounded px-2 py-1">Git</span>
+            </div>
+          </div>
+          <div class="text-white-200 mt-3 mr-2">12.23 – 02.24</div>
+        </div>
+      </div>
+      <div class="text-gray-200 text-end">
+        Приватные репозитории и свой вклад могу показать и объяснить на
+        собеседовании.
+      </div>
+    </section>
+
+    <footer class="w-full max-w-4xl mt-12 mb-4">
+      <div
+        class="bg-white/10 rounded-lg border border-white/10 px-6 py-10 flex flex-col items-center"
+      >
+        <div
+          class="text-white text-[35px] font-bold tracking-wide mb-8"
+          id="contacts"
+        >
+          Контакты
+        </div>
+        <div
+          class="flex flex-col md:flex-row items-start justify-center gap-10 md:gap-20 text-lg mb-2"
+        >
+          <a
+            href="mailto:deazinew@mail.ru"
+            class="flex flex-col items-center w-32 group"
+            target="_blank"
+            aria-label="Отправить email Mikhail Russkikh"
+            style="text-decoration: none"
+          >
+            <div
+              class="flex flex-col items-center justify-center w-full h-24 border border-white/20 hover:border-blue-400 rounded-xl mb-1 shadow-lg"
+            >
+              <svg
+                class="w-8 h-8 text-white mb-2"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="2"
+                  d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
+                />
+              </svg>
+              <span class="text-white font-semibold text-base">Email</span>
+            </div>
+            <span
+              class="text-blue-200 font-semibold group-hover:text-blue-400 mt-1 text-center"
+              >deazinew@mail.ru</span
+            >
+          </a>
+          <a
+            href="https://t.me/mikhail_russkikh"
+            class="flex flex-col items-center w-32 group"
+            target="_blank"
+            aria-label="Открыть Telegram Mikhail Russkikh"
+            style="text-decoration: none"
+          >
+            <div
+              class="flex flex-col items-center justify-center w-full h-24 border border-white/20 hover:border-blue-400 rounded-xl mb-1 shadow-lg"
+            >
+              <svg
+                class="w-8 h-8 text-white mb-2"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m17.09 13.37 1.14 1.14c.17.15.31.33.41.53.1.21.15.43.15.66 0 .23-.05.45-.15.66-.1.21-.47.63-.65.77-3.12 3.12-6.77 1.71-9.9-1.43-3.13-3.13-4.54-6.79-1.41-9.9.63-.62 1.71-1.14 2.62-.24l1.19 1.19c1.19 1.19.36 1.94-.49 2.8-.92.92-.66 1.73 0 2.38l1.87 1.87c.32.32.74.49 1.19.49.45 0 .88-.18 1.19-.49.86-.83 1.7-1.6 2.84-.46ZM14 8.98l5.02-4.98m0 0L15.99 4m3.03 0v2.98"
+                />
+              </svg>
+              <span class="text-white font-semibold text-base">Telegram</span>
+            </div>
+            <span
+              class="text-blue-200 font-semibold group-hover:text-blue-400 mt-1 text-center"
+              >@mikhail_russkikh</span
+            >
+          </a>
+          <a
+            href="https://github.com/SuperDeaziNew"
+            class="flex flex-col items-center w-32 group"
+            target="_blank"
+            aria-label="Открыть GitHub SuperDeaziNew"
+            style="text-decoration: none"
+          >
+            <div
+              class="flex flex-col items-center justify-center w-full h-24 border border-white/20 hover:border-blue-400 rounded-xl mb-1 shadow-lg"
+            >
+              <svg
+                class="w-8 h-8 text-white mb-2"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span class="text-white font-semibold text-base">GitHub</span>
+            </div>
+            <span
+              class="text-blue-200 font-semibold group-hover:text-blue-400 mt-1 text-center"
+              >SuperDeaziNew</span
+            >
+          </a>
+        </div>
+      </div>
+      <section>
+        <div class="max-w-3xl mx-auto p-6 text-center text-gray-300">
+          <p class="text-base">
+            Сайт разработан с использованием Vite и Tailwind CSS.
+          </p>
+          <p>Хостинг проекта опубликован на GitLab Pages.</p>
+        </div>
+      </section>
+    </footer>
+
+    <div
+      id="lightbox"
+      class="fixed inset-0 bg-black/80 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-50"
+    >
+      <img
+        id="lightbox-img"
+        class="max-w-full max-h-full rounded-lg shadow-lg"
+      />
+    </div>
+
+    <script>
+      function openLightbox(projectClass) {
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+
+        const projectDiv = document.querySelector(`.${projectClass}`);
+        const bg =
+          projectDiv.style.backgroundImage ||
+          getComputedStyle(projectDiv).backgroundImage;
+
+        lightboxImg.src = bg.slice(5, -2);
+
+        lightbox.classList.remove("opacity-0", "pointer-events-none");
+        lightbox.classList.add("opacity-100", "pointer-events-auto");
+
+        lightbox.onclick = () => {
+          lightbox.classList.remove("opacity-100", "pointer-events-auto");
+          lightbox.classList.add("opacity-0", "pointer-events-none");
+        };
+      }
+    </script>
+  </body>
+</html>
