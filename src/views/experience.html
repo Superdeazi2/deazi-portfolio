@@ -63,6 +63,96 @@
       class="w-full max-w-4xl bg-white/10 border rounded-lg border-white/10 p-6 md:p-10"
       id="experience"
     >
+      <h2 class="text-3xl md:text-4xl font-bold text-white text-center">
+        Мои работы
+      </h2>
+      <h3 class="text-3xl md:text-2xl text-white text-left my-5">Figma</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <a
+          onclick="openLightbox('project1')"
+          target="_blank"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project1 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">Софт‐онлайн</div>
+        </a>
+        <a
+          target="_blank"
+          onclick="openLightbox('project2')"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project2 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">Elevator Protocol</div>
+        </a>
+        <a
+          onclick="openLightbox('project3')"
+          target="_blank"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project3 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">
+            Aliot
+            <span class="text-sm text-gray-300">не финальная верстка</span>
+          </div>
+        </a>
+      </div>
+
+      <h3 class="text-3xl md:text-2xl text-white text-left my-5">
+        Готовые работы
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <a
+          onclick="openLightbox('project4')"
+          target="_blank"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project4 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">Aagency</div>
+        </a>
+        <a
+          onclick="openLightbox('project5')"
+          target="_blank"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project5 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">Aagency</div>
+        </a>
+
+        <a
+          onclick="openLightbox('project6')"
+          target="_blank"
+          class="overflow-hidden rounded-xl shadow-lg group"
+        >
+          <div
+            class="project6 h-60 transition-transform duration-500 group-hover:scale-110 rounded-xl"
+          ></div>
+          <div class="my-3 mx-2 text-center">WebSocketNodeJs</div>
+        </a>
+      </div>
+      <h3 class="text-3xl md:text-2xl text-white text-left my-5">Сайты:</h3>
+      <a
+        href="https://aagency.agency/"
+        target="_blank"
+        class="text-blue-300 underline"
+      >
+        aagency
+      </a>
+    </section>
+
+    <section
+      class="w-full max-w-4xl bg-white/10 border rounded-lg border-white/10 p-6 md:p-10"
+      id="experience"
+    >
       <h2 class="text-white text-lg font-bold mb-3" id="Aagency">
         Опыт работы:
       </h2>
@@ -420,5 +510,37 @@
         </div>
       </section>
     </footer>
+
+    <div
+      id="lightbox"
+      class="fixed inset-0 bg-black/80 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-50"
+    >
+      <img
+        id="lightbox-img"
+        class="max-w-full max-h-full rounded-lg shadow-lg"
+      />
+    </div>
+
+    <script>
+      function openLightbox(projectClass) {
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+
+        const projectDiv = document.querySelector(`.${projectClass}`);
+        const bg =
+          projectDiv.style.backgroundImage ||
+          getComputedStyle(projectDiv).backgroundImage;
+
+        lightboxImg.src = bg.slice(5, -2);
+
+        lightbox.classList.remove("opacity-0", "pointer-events-none");
+        lightbox.classList.add("opacity-100", "pointer-events-auto");
+
+        lightbox.onclick = () => {
+          lightbox.classList.remove("opacity-100", "pointer-events-auto");
+          lightbox.classList.add("opacity-0", "pointer-events-none");
+        };
+      }
+    </script>
   </body>
 </html>

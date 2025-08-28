@@ -31,7 +31,7 @@ body {
 }
 @media (min-width: 1800px) {
   .bg {
-    background-size: 260%;
+    background-size: 500%;
   }
 }
 
@@ -42,6 +42,46 @@ body {
   background-size: cover;
   background-size: 110%;
   z-index: 30;
+}
+
+.project1 {
+  background-image: url("../assets/figma1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.project2 {
+  background-image: url("../assets/project5.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.project3 {
+  background-image: url("../assets/project7.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.project4 {
+  background-image: url("../assets/project2.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.project5 {
+  background-image: url("../assets/project3.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.project6 {
+  background-image: url("../assets/project4.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .avatar-zoom {
