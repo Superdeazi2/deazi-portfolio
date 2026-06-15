@@ -1,424 +1,255 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mikhail Russkikh | Frontend Developer</title>
-    <meta
-      name="description"
-      content="Портфолио Mikhail Russkikh — Frontend Developer."
-    />
-    <link rel="icon" type="image/svg+xml" href="/src/assets/logo.svg" />
-    <link rel="stylesheet" crossorigin href="/assets/style-E4FGEom2.css">
+    <meta name="description" content="Портфолио Mikhail Russkikh — Frontend Developer." />
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg" />
+    <link rel="stylesheet" crossorigin href="/css/style.css">
+    <script type="module" crossorigin src="/js/app.js"></script>
   </head>
-  <body class="bg min-h-screen flex flex-col items-center p-2" id="about">
-    <nav
-      class="fixed top-0 left-0 w-full flex justify-between items-center backdrop-blur border-b border-white/20 py-3 px-6 z-50"
-    >
-      <ul class="flex space-x-6 text-white font-semibold text-base">
-        <li>
-          <a
-            href="./index.html"
-            class="text-white font-bold mb-8 underline decoration-gray-300 decoration-1 underline-offset-4"
-            >Главная</a
-          >
-        </li>
-        <li>
-          <a href="./about.html" class="hover:text-blue-400 transition"
-            >Обо мне
-          </a>
-        </li>
-        <li>
-          <a href="./experience.html" class="hover:text-blue-400 transition"
-            >Опыт работы</a
-          >
-        </li>
-      </ul>
+  <body class="bg min-h-screen flex flex-col items-center p-2" data-page="index">
+    <nav class="fixed left-0 top-0 z-50 w-full border-b border-white/20 bg-black/10 px-4 py-3 backdrop-blur">
+      <div class="mx-auto flex max-w-5xl items-center justify-between gap-4">
+        <a href="./index.html" class="text-sm font-semibold text-white">Mikhail Russkikh</a>
+        <ul class="flex flex-wrap items-center justify-end gap-4 text-sm font-semibold md:gap-6 md:text-base">
+          <li><a href="./index.html" class="font-bold text-white underline decoration-gray-300 decoration-1 underline-offset-4">Главная</a></li>
+          <li><a href="./about.html" class="text-blue-100 transition duration-300 hover:text-white">Обо мне</a></li>
+          <li><a href="./experience.html" class="text-blue-100 transition duration-300 hover:text-white">Опыт работы</a></li>
+        </ul>
+      </div>
     </nav>
-    <div class="h-16"></div>
 
-    <div
-      class="px-5 py-2 bg-black/20 rounded-lg text-center shadow-lg max-w-xl w-full mb-6 mt-2"
-    >
-      <div
-        class="text-2xl md:text-3xl font-bold text-white border-b border-white/20"
-      >
-        Mikhail Russkikh
-      </div>
-      <div
-        class="cust_font text-base md:text-lg text-gray-300 font-medium mt-1"
-      >
-        Middle Frontend Developer
-      </div>
-    </div>
-    <div class="w-full max-w-4xl rounded-2xl flex flex-col md:flex-row">
-      <section
-        class="flex flex-col justify-start gap-6 flex-1 p-6 md:p-8 bg-white/10 rounded-lg border border-white/10"
-      >
-        <div class="flex justify-center">
-          <div
-            class="flex flex-col justify-center items-center mx-8 py-6 avatar-zoom rounded-lg z-0"
-          >
-            <div
-              alt="Photo of Mikhail Russkikh"
-              class="avatar w-28 h-28 md:w-60 md:h-60 rounded-full object-cover border-4 border-white/30 shadow-xl"
-            ></div>
-          </div>
+    <main class="w-full max-w-5xl px-3 pt-20 md:px-6">
+      <section class="grid items-start gap-6 md:grid-cols-[minmax(280px,360px)_1fr]">
+        <div class="rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
+          <section class="profile-gallery rounded-lg border border-white/10 bg-white/10 p-3">
+            <div class="profile-gallery-main group relative mx-auto aspect-square w-full max-w-72 overflow-hidden rounded-lg border border-white/10 bg-black/20">
+              <button type="button" class="group block h-full w-full" data-photo-open aria-label="Открыть фото">
+                <img
+                  src="/images/photo_2026-06-15_22-33-31.jpg"
+                  alt="Фото Михаила"
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  data-main-photo
+                />
+              </button>
+              <button type="button" class="absolute left-2 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/30 text-blue-100 opacity-0 transition duration-300 group-hover:opacity-100 hover:bg-black/0 hover:border-blue-200/40 hover:text-white focus:opacity-100" data-photo-inline-prev aria-label="Предыдущее фото">
+                <svg class="block h-6 w-6 -translate-y-px" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M15 18 9 12l6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <button type="button" class="absolute right-2 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/30 text-blue-100 opacity-0 transition duration-300 group-hover:opacity-100 hover:bg-black/0 hover:border-blue-200/40 hover:text-white focus:opacity-100" data-photo-inline-next aria-label="Следующее фото">
+                <svg class="block h-6 w-6 -translate-y-px" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </section>
         </div>
 
-        <div>
-          <h2 class="text-white text-lg font-bold mb-3">
-            Языки программирования:
-          </h2>
-          <div
-            class="cust_font grid grid-cols-3 gap-2 bg-white/20 rounded-lg p-3 text-white text-center text-sm font-medium"
-          >
-            <div>React</div>
-            <div>TypeScript</div>
-            <div>HTML</div>
-            <div>CSS</div>
-            <div>Ruby on Rails</div>
-            <div>Vite</div>
-          </div>
-        </div>
-        <div>
-          <div
-            class="cust_font grid grid-cols-3 gap-2 bg-white/10 rounded-lg p-3 text-gray-100 text-center text-sm font-medium"
-          >
-            <div>Figma</div>
-            <div>Next.js</div>
-            <div>Webpack</div>
-            <div>Bootstrap</div>
-            <div>Prettier</div>
-            <div>Tailwind</div>
+        <div class="rounded-lg border border-white/10 bg-white/10 p-6 md:self-start md:p-8">
+          <p class="cust_font text-base font-medium text-gray-300">Frontend Developer</p>
+          <h1 class="mt-2 text-3xl font-bold text-white md:text-5xl">Mikhail Russkikh</h1>
+          <p class="mt-4 text-lg font-semibold text-gray-100">React / JavaScript / TypeScript / Tailwind CSS</p>
+          <p class="mt-5 max-w-2xl text-base leading-7 text-gray-200">
+            Frontend-разработчик. Работаю с сайтами, админками и веб-интерфейсами. Верстаю адаптивные страницы по Figma, делаю компоненты, формы и подключаю frontend к backend.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="https://t.me/SuperDeazi" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center rounded-lg border border-blue-200/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-blue-100 transition duration-300 hover:-translate-y-0.5 hover:bg-white/20 hover:border-blue-200/60 hover:text-white">Написать в Telegram</a>
+            <a href="https://github.com/Superdeazi2" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center rounded-lg border border-blue-200/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-blue-100 transition duration-300 hover:-translate-y-0.5 hover:bg-white/20 hover:border-blue-200/60 hover:text-white">Смотреть GitHub</a>
+            <a href="https://hh.ru/resume/a0a1eac0ff0f3cb0490039ed1f50774c6f6157" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center rounded-lg border border-blue-200/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-blue-100 transition duration-300 hover:-translate-y-0.5 hover:bg-white/20 hover:border-blue-200/60 hover:text-white">Резюме HH</a>
+            <a href="../assets/resume-project.txt" download data-resume-link class="inline-flex items-center justify-center rounded-lg border border-blue-200/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-blue-100 transition duration-300 hover:-translate-y-0.5 hover:bg-white/20 hover:border-blue-200/60 hover:text-white">Скачать проект резюме</a>
           </div>
         </div>
       </section>
-      <div
-        class="flex flex-col flex-1 p-6 md:p-8 bg-white/10 border rounded-lg border-white/10"
-      >
-        <div class="flex items-center justify-between mb-3">
-          <div class="text-white text-lg font-bold">О себе</div>
-          <a
-            href="./about.html"
-            class="flex border select-none py-1 px-5 border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 transition text-base font-medium"
-          >
-            Подробнее
-          </a>
+
+      <section class="stack-carousel mt-8 rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h2 class="text-2xl font-bold text-white">Стек</h2>
+          <button type="button" class="rounded-lg border border-blue-200/30 bg-white/10 px-4 py-2 text-sm font-semibold text-blue-100 transition duration-300 hover:bg-white/20 hover:border-blue-200/60 hover:text-white" data-stack-toggle>
+            Показать весь стек
+          </button>
         </div>
 
-        <div class="bg-white/15 rounded-lg p-4 text-white text-base space-y-2">
-          <div>
-            Меня зовут Русских Михаил -<br />
-            фронтенд-разработчик.
+        <div class="stack-carousel-window mt-5 overflow-hidden">
+          <div class="stack-carousel-track flex w-max gap-3">
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">React</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">JavaScript</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">TypeScript</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">HTML</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">CSS</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Tailwind CSS</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Zustand</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Vite</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Git</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Figma</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Ruby on Rails</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">PostgreSQL</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">React</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">JavaScript</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">TypeScript</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">HTML</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">CSS</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Tailwind CSS</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Zustand</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Vite</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Git</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Figma</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Ruby on Rails</span>
+            <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">PostgreSQL</span>
           </div>
-          <div>
-            <span class="cust_font">Люблю</span> превращать макеты в живые,
-            адаптивные и удобные страницы.<br />
-            А ещё больше мне нравится, когда есть готовый дизайн - можно
-            сосредоточиться на чистом коде и
-            <span class="cust_font"
-              >получать удовольствие от процесса создания</span
-            >.
-          </div>
-          <div>Сейчас сосредоточен на создании веб-сайтов и интерфейсов.</div>
         </div>
 
-        <div class="space-y-2 my-auto">
-          <a
-            href="https://t.me/SuperDeazi"
-            class="flex items-center gap-2 text-[18px] text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
-            target="_blank"
-          >
-            <svg class="w-7 h-7 text-gray-100" fill="none" viewBox="0 0 24 24">
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m17.09 13.37 1.14 1.14c.17.15.31.33.41.53.1.21.15.43.15.66 0 .23-.05.45-.15.66-.1.21-.47.63-.65.77-3.12 3.12-6.77 1.71-9.9-1.43-3.13-3.13-4.54-6.79-1.41-9.9.63-.62 1.71-1.14 2.62-.24l1.19 1.19c1.19 1.19.36 1.94-.49 2.8-.92.92-.66 1.73 0 2.38l1.87 1.87c.32.32.74.49 1.19.49.45 0 .88-.18 1.19-.49.86-.83 1.7-1.6 2.84-.46ZM14 8.98l5.02-4.98m0 0L15.99 4m3.03 0v2.98"
-              />
-            </svg>
-            Telegram
-          </a>
-          <a
-            href="https://perm.hh.ru/resume/59a52d39ff0f36147d0039ed1f62787635706f"
-            class="flex items-center gap-2 text-[18px] underline underline-offset-5 hover:text-blue-400 hover:underline"
-            target="_blank"
-          >
-            <svg
-              class="w-7 h-7"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill="currentColor"
-                d="M10.8 9.5v5h5v-5h2.4v13h-2.4v-5.5h-5v5.5H8.4v-13h2.4zM20.9 9.5c3 0 4.5 1.8 4.5 4.6v3.8c0 2.8-1.5 4.6-4.5 4.6-3 0-4.5-1.8-4.5-4.6v-3.8c0-2.8 1.5-4.6 4.5-4.6zm0 2.2c-1.3 0-2 0.8-2 2.3v3.6c0 1.5 0.7 2.3 2 2.3 1.3 0 2-0.8 2-2.3v-3.6c0-1.5-0.7-2.3-2-2.3z"
-              />
-            </svg>
-            Резюме - hh.ru
-          </a>
+        <div class="stack-full-list mt-5 hidden flex-wrap gap-3">
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">React</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">JavaScript</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">TypeScript</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">HTML</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">CSS</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Tailwind CSS</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Zustand</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Vite</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Git</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Figma</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">Ruby on Rails</span>
+          <span class="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-gray-100">PostgreSQL</span>
+        </div>
+      </section>
 
-          <a
-            href="mailto:deazinew@mail.ru"
-            class="flex items-center gap-2 text-[18px] text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
-          >
-            <svg class="w-7 h-7 text-gray-100" fill="none" viewBox="0 0 24 24">
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-width="2"
-                d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
-              />
-            </svg>
-            deazinew@mail.ru
-          </a>
-          <a
-            href="https://github.com/SuperDeaziNew"
-            class="flex items-center gap-2 text-[18px] text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
-            target="_blank"
-          >
-            <svg
-              class="w-7 h-7 text-gray-100"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            GitHub
-          </a>
-          <a
-            href="https://gitlab.com/Deazi"
-            class="flex items-center gap-2 text-[18px] text-gray-100 underline underline-offset-5 hover:text-blue-400 hover:underline"
-            target="_blank"
-          >
-            <svg
-              class="w-7 h-7 text-gray-100"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M22.74 9.42l-.02-.06-2.14-6.58a.85.85 0 0 0-1.63-.05l-1.45 4.45H6.5L5.05 2.73a.85.85 0 0 0-1.63.05L1.28 9.36l-.02.06a3.66 3.66 0 0 0 1.27 4.1l9.45 7.12 9.45-7.12a3.66 3.66 0 0 0 1.27-4.1z"
-              />
-            </svg>
-            GitLab
-          </a>
+      <section class="mt-8 rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
+        <div class="mb-5">
+          <h2 class="text-2xl font-bold text-white md:text-3xl">Кратко</h2>
         </div>
-      </div>
-    </div>
-    <section
-      class="w-full max-w-4xl mt-8 bg-white/10 border rounded-lg border-white/10 p-6 md:p-10"
-      id="experience"
-    >
-      <h2 class="text-white text-lg font-bold mb-3">Опыт работы:</h2>
-      <div class="bg-white/20 rounded-lg p-4 text-white text-sm mb-6">
-        <div class="text-base font-bold mb-1">Frontend Developer в Aagency</div>
-        <div class="mb-2">
-          Разработал адаптивный сайт на Ruby on Rails с анимациями, слайдерами и
-          мультиязычной поддержкой. Оптимизировал загрузку, настроил SEO и
-          обеспечил удобный UI/UX.
-        </div>
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <div class="flex flex-wrap md:flex-row flex-col gap-3">
-            <a
-              href="./experience.html#Aagency"
-              class="flex border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
-            >
-              Подробнее
-            </a>
-            <div
-              class="flex flex-wrap gap-2 text-xs text-gray-200 items-center mx-5"
-            >
-              <span class="bg-blue-600/60 rounded px-2 py-1"
-                >Ruby on Rails</span
-              >
-              <span class="bg-blue-600/60 rounded px-2 py-1">Tailwind CSS</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">HTML5</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">CSS</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">JavaScript</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">GitLab</span>
-            </div>
+        <div class="grid gap-4 md:grid-cols-3">
+          <div class="rounded-lg border border-white/10 bg-white/10 p-5 transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-white/30">
+            <div class="text-2xl font-bold text-white">1+ год</div>
+            <div class="mt-2 text-sm text-gray-200">коммерческого frontend-опыта</div>
           </div>
-          <div class="text-gray-200 text-sm">06.25 – 08.25</div>
-        </div>
-      </div>
-      <div class="bg-white/20 rounded-lg p-4 text-white text-sm mb-6">
-        <div class="text-base font-bold mb-1">Frontend Developer в Aliot</div>
-        <div class="mb-2">
-          Разработал веб-интерфейс для умной аквариумной лампы с возможностью
-          управления по Wi‑Fi. Создал адаптивный дизайн, реализовал темы,
-          графики и анимации, обеспечил удобное управление и интеграцию с
-          backend.
-        </div>
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <div class="flex flex-wrap md:flex-row flex-col gap-3">
-            <a
-              href="./experience.html#Aliot"
-              class="flex border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
-            >
-              Подробнее
-            </a>
-            <div
-              class="flex flex-wrap gap-2 text-xs text-gray-200 items-center mx-5"
-            >
-              <span class="bg-blue-600/60 rounded px-2 py-1">React</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">Tailwind CSS</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">HTML5</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">CSS</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">JavaScript</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">GitLab</span>
-            </div>
+          <div class="rounded-lg border border-white/10 bg-white/10 p-5 transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-white/30">
+            <div class="text-2xl font-bold text-white">4 проекта</div>
+            <div class="mt-2 text-sm text-gray-200">в коммерческой разработке</div>
           </div>
-          <div class="text-gray-200 text-sm">10.24 – 04.25</div>
-        </div>
-      </div>
-      <div class="bg-white/20 rounded-lg p-4 text-white text-sm mb-6">
-        <div class="text-base font-bold mb-1">
-          Frontend Developer в Софт-онлайн
-        </div>
-        <div class="mb-2">
-          Разработал адаптивный сайт на Bootstrap с поддержкой светлой/тёмной
-          темы, формой обратной связи и админ‑панелью. Оптимизировал под SEO и
-          настроил базу данных PostgreSQL.
-        </div>
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <div class="flex flex-wrap md:flex-row flex-col gap-3">
-            <a
-              href="./experience.html#soft"
-              class="flex border py-1 px-5 justify-center border-white/20 rounded-xl shadow-lg hover:border-blue-400 hover:text-gray-200 items-center"
-            >
-              Подробнее
-            </a>
-            <div
-              class="flex flex-wrap gap-2 text-xs text-gray-200 items-center mx-5"
-            >
-              <span class="bg-blue-600/60 rounded px-2 py-1">HTML5</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">CSS</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">Bootstrap</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">Node.js</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">PostgreSQL</span>
-              <span class="bg-blue-600/60 rounded px-2 py-1">Git</span>
-            </div>
+          <div class="rounded-lg border border-white/10 bg-white/10 p-5 transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-white/30">
+            <div class="text-2xl font-bold text-white">React / Tailwind</div>
+            <div class="mt-2 text-sm text-gray-200">основной frontend-стек</div>
           </div>
-          <div class="text-gray-200 text-sm">12.23 – 02.24</div>
         </div>
-      </div>
-    </section>
-    <footer class="w-full max-w-4xl mt-12 mb-4">
-      <div
-        class="bg-white/10 rounded-lg border border-white/10 px-6 py-10 flex flex-col items-center"
-      >
-        <div
-          class="text-white text-[35px] font-bold tracking-wide mb-8"
-          id="contacts"
-        >
-          Контакты
+      </section>
+
+      <section class="mt-8 rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
+        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div class="mb-5">
+            <h2 class="text-2xl font-bold text-white md:text-3xl">О себе</h2>
+          </div>
+          <a href="./about.html" class="inline-flex items-center justify-center rounded-lg border border-blue-200/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-blue-100 transition duration-300 hover:-translate-y-0.5 hover:bg-white/20 hover:border-blue-200/60 hover:text-white">Подробнее</a>
         </div>
-        <div
-          class="flex flex-col md:flex-row items-start justify-center gap-10 md:gap-20 text-lg mb-2"
-        >
-          <a
-            href="mailto:deazinew@mail.ru"
-            class="flex flex-col items-center w-32 group"
-            target="_blank"
-            aria-label="Отправить email Mikhail Russkikh"
-            style="text-decoration: none"
-          >
-            <div
-              class="flex flex-col items-center justify-center w-full h-24 border border-white/20 hover:border-blue-400 rounded-xl mb-1 shadow-lg"
-            >
-              <svg
-                class="w-8 h-8 text-white mb-2"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-width="2"
-                  d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
-                />
-              </svg>
-              <span class="text-white font-semibold text-base">Email</span>
-            </div>
-            <span
-              class="text-blue-200 font-semibold group-hover:text-blue-400 mt-1 text-center"
-              >deazinew@mail.ru</span
-            >
+        <div class="space-y-3 rounded-lg bg-white/10 p-4 text-base leading-7 text-gray-200">
+          <p>Меня зовут Михаил Русских, я frontend-разработчик.</p>
+          <p>Работал над коммерческими сайтами, админками и веб-интерфейсами. Больше всего мне нравится делать понятные и аккуратные страницы: сверстать макет, адаптировать под разные экраны, подключить данные и довести интерфейс до рабочего состояния.</p>
+          <p>Сейчас ищу frontend-работу и хочу развиваться в команде, где можно делать реальные проекты и расти как разработчик.</p>
+        </div>
+      </section>
+
+      <section class="mt-8 rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
+        <div class="mb-5">
+          <h2 class="text-2xl font-bold text-white md:text-3xl">Что могу делать</h2>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-lg border border-white/10 bg-white/10 p-5 text-gray-100 transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-white/30">сверстать страницу по макету Figma</div>
+          <div class="rounded-lg border border-white/10 bg-white/10 p-5 text-gray-100 transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-white/30">сделать адаптив под телефон, планшет и ПК</div>
+          <div class="rounded-lg border border-white/10 bg-white/10 p-5 text-gray-100 transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-white/30">собрать форму, карточки, слайдер или галерею</div>
+          <div class="rounded-lg border border-white/10 bg-white/10 p-5 text-gray-100 transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-white/30">подключить данные с backend через API</div>
+          <div class="rounded-lg border border-white/10 bg-white/10 p-5 text-gray-100 transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-white/30">поправить существующий интерфейс и визуальные баги</div>
+          <div class="rounded-lg border border-white/10 bg-white/10 p-5 text-gray-100 transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-white/30">привести страницу к аккуратному виду</div>
+        </div>
+      </section>
+
+      <section class="mt-8 rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
+        <div class="mb-5">
+          <h2 class="text-2xl font-bold text-white md:text-3xl">Опыт работы</h2>
+          <p class="mt-2 max-w-2xl text-sm text-gray-200 md:text-base">Коммерческие проекты, где я занимался версткой, интерфейсами, формами, данными и админками.</p>
+        </div>
+        <div class="grid gap-5" data-experience-list="preview"></div>
+      </section>
+    </main>
+
+    <footer class="w-full max-w-5xl px-3 pb-6 pt-8 md:px-6">
+      <section class="rounded-lg border border-white/10 bg-white/10 px-5 py-7">
+        <h2 class="text-2xl font-bold text-white" id="contacts">Контакты</h2>
+        <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <a href="mailto:deazinew@mail.ru" class="group flex min-h-24 flex-col justify-between rounded-lg border border-white/10 bg-white/10 p-4 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-blue-200/50">
+            <span class="text-sm font-semibold text-gray-300">Email</span>
+            <span class="mt-3 break-words text-base font-semibold text-blue-200 underline decoration-blue-200/40 underline-offset-4 group-hover:text-white">deazinew@mail.ru</span>
           </a>
-          <a
-            href="https://t.me/mikhail_russkikh"
-            class="flex flex-col items-center w-32 group"
-            target="_blank"
-            aria-label="Открыть Telegram Mikhail Russkikh"
-            style="text-decoration: none"
-          >
-            <div
-              class="flex flex-col items-center justify-center w-full h-24 border border-white/20 hover:border-blue-400 rounded-xl mb-1 shadow-lg"
-            >
-              <svg
-                class="w-8 h-8 text-white mb-2"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m17.09 13.37 1.14 1.14c.17.15.31.33.41.53.1.21.15.43.15.66 0 .23-.05.45-.15.66-.1.21-.47.63-.65.77-3.12 3.12-6.77 1.71-9.9-1.43-3.13-3.13-4.54-6.79-1.41-9.9.63-.62 1.71-1.14 2.62-.24l1.19 1.19c1.19 1.19.36 1.94-.49 2.8-.92.92-.66 1.73 0 2.38l1.87 1.87c.32.32.74.49 1.19.49.45 0 .88-.18 1.19-.49.86-.83 1.7-1.6 2.84-.46ZM14 8.98l5.02-4.98m0 0L15.99 4m3.03 0v2.98"
-                />
-              </svg>
-              <span class="text-white font-semibold text-base">Telegram</span>
-            </div>
-            <span
-              class="text-blue-200 font-semibold group-hover:text-blue-400 mt-1 text-center"
-              >@mikhail_russkikh</span
-            >
+          <a href="https://t.me/SuperDeazi" target="_blank" rel="noreferrer" class="group flex min-h-24 flex-col justify-between rounded-lg border border-white/10 bg-white/10 p-4 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-blue-200/50">
+            <span class="text-sm font-semibold text-gray-300">Telegram</span>
+            <span class="mt-3 break-words text-base font-semibold text-blue-200 underline decoration-blue-200/40 underline-offset-4 group-hover:text-white">@SuperDeazi</span>
           </a>
-          <a
-            href="https://github.com/SuperDeaziNew"
-            class="flex flex-col items-center w-32 group"
-            target="_blank"
-            aria-label="Открыть GitHub SuperDeaziNew"
-            style="text-decoration: none"
-          >
-            <div
-              class="flex flex-col items-center justify-center w-full h-24 border border-white/20 hover:border-blue-400 rounded-xl mb-1 shadow-lg"
-            >
-              <svg
-                class="w-8 h-8 text-white mb-2"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span class="text-white font-semibold text-base">GitHub</span>
-            </div>
-            <span
-              class="text-blue-200 font-semibold group-hover:text-blue-400 mt-1 text-center"
-              >SuperDeaziNew</span
-            >
+          <a href="https://github.com/Superdeazi2" target="_blank" rel="noreferrer" class="group flex min-h-24 flex-col justify-between rounded-lg border border-white/10 bg-white/10 p-4 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-blue-200/50">
+            <span class="text-sm font-semibold text-gray-300">GitHub</span>
+            <span class="mt-3 break-words text-base font-semibold text-blue-200 underline decoration-blue-200/40 underline-offset-4 group-hover:text-white">Superdeazi2</span>
+          </a>
+          <a href="https://gitlab.com/Deazi" target="_blank" rel="noreferrer" class="group flex min-h-24 flex-col justify-between rounded-lg border border-white/10 bg-white/10 p-4 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-blue-200/50">
+            <span class="text-sm font-semibold text-gray-300">GitLab</span>
+            <span class="mt-3 break-words text-base font-semibold text-blue-200 underline decoration-blue-200/40 underline-offset-4 group-hover:text-white">Deazi</span>
+          </a>
+          <a href="https://hh.ru/resume/a0a1eac0ff0f3cb0490039ed1f50774c6f6157" target="_blank" rel="noreferrer" class="group flex min-h-24 flex-col justify-between rounded-lg border border-white/10 bg-white/10 p-4 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-blue-200/50">
+            <span class="text-sm font-semibold text-gray-300">HH</span>
+            <span class="mt-3 break-words text-base font-semibold text-blue-200 underline decoration-blue-200/40 underline-offset-4 group-hover:text-white">Резюме</span>
           </a>
         </div>
-      </div>
-      <section>
-        <div class="max-w-3xl mx-auto p-6 text-center text-gray-300">
-          <p class="text-base">
-            Сайт разработан с использованием Vite и Tailwind CSS.
-          </p>
-          <p>Хостинг проекта опубликован на GitLab Pages.</p>
-        </div>
+      </section>
+      <section class="mx-auto max-w-3xl p-4 text-center text-gray-300">
+        <p>Сайт разработан на React, TypeScript, Vite и Tailwind CSS.</p>
+        <p>Опубликован через GitLab Pages.</p>
       </section>
     </footer>
+
+    <template id="experience-card-template">
+      <article class="rounded-lg border border-white/10 bg-white/10 p-5 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/20 hover:border-white/30">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p class="text-sm text-gray-300" data-role></p>
+            <h3 class="text-xl font-bold" data-title></h3>
+          </div>
+          <div class="rounded border border-white/10 bg-black/10 px-3 py-1 text-sm text-gray-200" data-period></div>
+        </div>
+        <p class="mt-4 text-sm font-semibold text-gray-100" data-short></p>
+        <p class="mt-2 text-sm leading-6 text-gray-200" data-description></p>
+        <div class="mt-4 hidden" data-responsibilities-block>
+          <div class="mb-2 text-sm font-semibold text-gray-100">Что делал:</div>
+          <ul class="space-y-1.5 text-sm text-gray-200" data-responsibilities></ul>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-2" data-stack></div>
+        <div class="mt-5 flex flex-wrap items-center gap-3" data-actions></div>
+        <div class="mt-4 hidden text-xs text-gray-300" data-private-repository>Репозиторий приватный, могу показать на собеседовании</div>
+      </article>
+    </template>
+    <template id="skill-tag-template">
+      <span class="inline-flex rounded px-2.5 py-1 text-xs font-medium text-gray-100 bg-white/15 border border-white/10 transition duration-300 hover:bg-white/20 hover:border-white/30"></span>
+    </template>
+    <template id="action-link-template">
+      <a class="inline-flex items-center justify-center rounded-lg border border-blue-200/30 bg-white/10 px-4 py-2 text-sm font-medium text-blue-100 transition duration-300 hover:bg-white/20 hover:border-blue-200/60 hover:text-white"></a>
+    </template>
+
+    <div id="photo-modal" class="pointer-events-none fixed inset-0 z-[70] flex items-center justify-center bg-black/85 px-4 opacity-0 transition-opacity duration-300">
+      <button type="button" class="absolute right-4 top-4 z-30 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/30 text-2xl leading-none text-blue-100 transition duration-300 hover:bg-black/0 hover:border-blue-200/40 hover:text-white" data-photo-close aria-label="Закрыть фото">×</button>
+      <div id="photo-counter" class="absolute left-1/2 top-4 z-30 -translate-x-1/2 rounded-full border border-white/10 bg-black/25 px-3 py-1 text-sm text-gray-200"></div>
+      <button type="button" class="absolute inset-y-0 left-0 z-10 flex w-1/2 items-center justify-start px-5 text-blue-100/70 opacity-0 transition duration-300 hover:bg-black/0 hover:opacity-100 hover:text-blue-100 focus:opacity-100" data-photo-prev aria-label="Предыдущее фото">
+        <svg class="block h-6 w-6 -translate-y-px" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 18 9 12l6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button type="button" class="absolute inset-y-0 right-0 z-10 flex w-1/2 items-center justify-end px-5 text-blue-100/70 opacity-0 transition duration-300 hover:bg-black/0 hover:opacity-100 hover:text-blue-100 focus:opacity-100" data-photo-next aria-label="Следующее фото">
+        <svg class="block h-6 w-6 -translate-y-px" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button type="button" class="relative z-20" data-photo-image aria-label="Закрыть фото">
+        <img id="photo-modal-img" src="/images/photo_2026-06-15_22-33-31.jpg" alt="Фото Михаила" class="max-h-[86vh] max-w-full rounded-lg border border-white/10 object-contain shadow-2xl" />
+      </button>
+    </div>
+
   </body>
 </html>

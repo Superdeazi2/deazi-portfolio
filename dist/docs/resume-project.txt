@@ -1,0 +1,11 @@
+Mikhail Russkikh
+Frontend Developer
+
+Стек: React, JavaScript, TypeScript, HTML, CSS, Tailwind CSS, Zustand, Vite, Git, Figma, Ruby on Rails, PostgreSQL.
+
+Контакты:
+Email: deazinew@mail.ru
+Telegram: @SuperDeazi
+GitHub: https://github.com/Superdeazi2
+GitLab: https://gitlab.com/Deazi
+HH: https://hh.ru/resume/a0a1eac0ff0f3cb0490039ed1f50774c6f6157
