@@ -100,17 +100,17 @@ const experienceItems = [
     ]
   }
 ];
-const avatarUrl = "/images/avatar.png";
-const photo2026JanuaryUrl = "/images/photo_2026-01-13_13-58-41.jpg";
-const photo2026MarchFirstUrl = "/images/photo_2026-03-27_13-03-46.jpg";
-const photo2026MarchSecondUrl = "/images/photo_2026-03-27_13-04-32.jpg";
-const photo2026JuneFirstUrl = "/images/photo_2026-06-15_22-31-08.jpg";
-const photo2026JuneMainUrl = "/images/photo_2026-06-15_22-33-31.jpg";
-const photoMe1Url = "/images/photo_me1.png";
-const photoMe2Url = "/images/photo_me2.png";
-const photoMe3Url = "/images/photo_me3.png";
-const photoMe4Url = "/images/photo_me4.png";
-const resumeProjectUrl = "/docs/resume-project.txt";
+const avatarUrl = "" + new URL("../images/avatar.png", import.meta.url).href;
+const photo2026JanuaryUrl = "" + new URL("../images/photo_2026-01-13_13-58-41.jpg", import.meta.url).href;
+const photo2026MarchFirstUrl = "" + new URL("../images/photo_2026-03-27_13-03-46.jpg", import.meta.url).href;
+const photo2026MarchSecondUrl = "" + new URL("../images/photo_2026-03-27_13-04-32.jpg", import.meta.url).href;
+const photo2026JuneFirstUrl = "" + new URL("../images/photo_2026-06-15_22-31-08.jpg", import.meta.url).href;
+const photo2026JuneMainUrl = "" + new URL("../images/photo_2026-06-15_22-33-31.jpg", import.meta.url).href;
+const photoMe1Url = "" + new URL("../images/photo_me1.png", import.meta.url).href;
+const photoMe2Url = "" + new URL("../images/photo_me2.png", import.meta.url).href;
+const photoMe3Url = "" + new URL("../images/photo_me3.png", import.meta.url).href;
+const photoMe4Url = "" + new URL("../images/photo_me4.png", import.meta.url).href;
+const resumeProjectUrl = "" + new URL("../docs/resume-project.txt", import.meta.url).href;
 const profileLinks = {
   resumeProjectUrl
 };
@@ -166,11 +166,11 @@ const profilePhotos = [
     src: photoMe4Url
   }
 ];
-const figma1Url = "/images/figma1.jpg";
-const project2Url = "/images/project2.jpg";
-const project3Url = "/images/project3.jpg";
-const project4Url = "/images/project4.jpg";
-const project5Url = "/images/project5.jpg";
+const figma1Url = "" + new URL("../images/figma1.jpg", import.meta.url).href;
+const project2Url = "" + new URL("../images/project2.jpg", import.meta.url).href;
+const project3Url = "" + new URL("../images/project3.jpg", import.meta.url).href;
+const project4Url = "" + new URL("../images/project4.jpg", import.meta.url).href;
+const project5Url = "" + new URL("../images/project5.jpg", import.meta.url).href;
 const projectImageUrls = {
   figma1: figma1Url,
   project2: project2Url,

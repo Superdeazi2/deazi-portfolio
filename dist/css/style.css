@@ -1063,7 +1063,7 @@ button,input:where([type=button],[type=reset],[type=submit]){
 }
 @font-face{
   font-family:Kyiv_Machine_Font;
-  src:url(/fonts/KyivMachine-nR0aM.ttf)format("truetype");
+  src:url(../fonts/KyivMachine-nR0aM.ttf)format("truetype");
   font-weight:400;
   font-style:normal
 }
@@ -1099,11 +1099,11 @@ body{
   inset:0
 }
 .bg:before{
-  background-image:url(/images/bg-light.png)
+  background-image:url(../images/bg-light.png)
 }
 .bg:after{
   opacity:0;
-  background-image:url(/images/bg-dark.png);
+  background-image:url(../images/bg-dark.png);
   animation:linear forwards changeBg;
   animation-timeline:scroll()
 }
@@ -1175,7 +1175,7 @@ to{
   --sprite-end-position:-640px;
   --sprite-duration:.9s;
   left:var(--sprite-side);
-  background-image:url(/images/1.png);
+  background-image:url(../images/1.png);
   background-size:var(--sprite-sheet-width)var(--sprite-size)
 }
 .page-sprite--v2{
@@ -1184,7 +1184,7 @@ to{
   --sprite-end-position:-768px;
   --sprite-duration:1.08s;
   right:var(--sprite-side);
-  background-image:url(/images/2.png);
+  background-image:url(../images/2.png);
   background-size:var(--sprite-sheet-width)var(--sprite-size)
 }
 @media (max-width:520px){

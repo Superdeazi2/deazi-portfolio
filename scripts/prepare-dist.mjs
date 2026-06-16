@@ -33,17 +33,22 @@ async function normalizeJavaScript() {
 
 async function normalizeHtmlScripts() {
   const htmlFiles = (await readdir(distDir)).filter((fileName) => fileName.endsWith(".html"));
-  const scripts = '    <script type="module" crossorigin src="/js/app.js"></script>';
+  const scripts = '    <script type="module" crossorigin src="./js/app.js"></script>';
 
   await Promise.all(
     htmlFiles.map(async (fileName) => {
       const filePath = new URL(fileName, distDir);
       const html = await readFile(filePath, "utf8");
       const withoutScripts = html.replace(
-        /\s*<script type="module" crossorigin src="\/js\/[^"]+"><\/script>/g,
+        /\s*<script type="module" crossorigin src="(?:\.\/)?js\/[^"]+"><\/script>/g,
         "",
       );
-      const nextHtml = withoutScripts.replace(/\s*<\/head>/, `\n${scripts}\n  </head>`);
+      const nextHtml = withoutScripts
+        .replace(/href="\/logo\.svg"/g, 'href="./logo.svg"')
+        .replace(/href="\/css\//g, 'href="./css/')
+        .replace(/href="\/images\//g, 'href="./images/')
+        .replace(/src="\/images\//g, 'src="./images/')
+        .replace(/\s*<\/head>/, `\n${scripts}\n  </head>`);
 
       await writeFile(filePath, nextHtml);
     }),
@@ -57,9 +62,15 @@ async function formatCss() {
     cssFiles.map(async (fileName) => {
       const filePath = join(cssDir.pathname, fileName);
       const css = await readFile(filePath, "utf8");
-      await writeFile(filePath, prettifyCss(css));
+      await writeFile(filePath, prettifyCss(normalizeCssUrls(css)));
     }),
   );
+}
+
+function normalizeCssUrls(css) {
+  return css
+    .replace(/url\((["']?)\/images\//g, "url($1../images/")
+    .replace(/url\((["']?)\/fonts\//g, "url($1../fonts/");
 }
 
 function prettifyCss(css) {

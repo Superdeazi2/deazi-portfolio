@@ -32,7 +32,7 @@ export const profileLinks = {
   githubLabel: "Superdeazi2",
   gitlabUrl: "https://gitlab.com/Deazi",
   gitlabLabel: "Deazi",
-  hhUrl: "https://hh.ru/resume/a0a1eac0ff0f3cb0490039ed1f50774c6f6157",
+  hhUrl: "https://perm.hh.ru/resume/a4721098ff10a7855d0039ed1f4b38437a4746",
   portfolioUrl: "https://deazi-c87e25.gitlab.io",
   resumeProjectUrl,
 };
