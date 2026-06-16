@@ -884,6 +884,11 @@ button,input:where([type=button],[type=reset],[type=submit]){
   --tw-duration:.5s;
   transition-duration:.5s
 }
+.select-none{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  user-select:none
+}
 @media (hover:hover){
   .group-hover\:scale-105:is(:where(.group):hover *){
   --tw-scale-x:105%;
@@ -1067,28 +1072,168 @@ body{
   z-index:0;
   position:relative
 }
-html,body{
-  background-color:#43523d
+html{
+  background-color:#f5f5f5
+}
+body{
+  background-color:#0000
 }
 .cust_font{
   font-family:Kyiv_Machine_Font,monospace
 }
 .bg{
+  color:#111;
+  isolation:isolate;
   z-index:30;
-  background-image:url(/images/bg.png);
+  animation:linear forwards darkTheme;
+  animation-timeline:scroll()
+}
+.bg:before,.bg:after{
+  content:"";
+  z-index:-1;
+  pointer-events:none;
   background-position:50%;
   background-repeat:no-repeat;
-  background-size:480%
+  background-size:480%;
+  position:fixed;
+  inset:0
+}
+.bg:before{
+  background-image:url(/images/bg-light.png)
+}
+.bg:after{
+  opacity:0;
+  background-image:url(/images/bg-dark.png);
+  animation:linear forwards changeBg;
+  animation-timeline:scroll()
 }
 @media (max-width:1200px){
-  .bg{
+  .bg:before,.bg:after{
   background-size:4800%
 }
 
 }
 @media (min-width:1800px){
-  .bg{
+  .bg:before,.bg:after{
   background-size:600%
+}
+
+}
+@supports not (animation-timeline:scroll()){
+  .bg{
+  color:#fff
+}
+.bg:after{
+  opacity:1
+}
+
+}
+@keyframes darkTheme{
+  0%{
+  color:#111
+}
+to{
+  color:#fff
+}
+
+}
+@keyframes changeBg{
+  0%{
+  opacity:0
+}
+to{
+  opacity:1
+}
+
+}
+.page-sprite{
+  --sprite-size:64px;
+  --sprite-bottom:clamp(12px,2.4vw,24px);
+  --sprite-side:clamp(8px,2.4vw,24px);
+  bottom:var(--sprite-bottom);
+  z-index:40;
+  width:var(--sprite-size);
+  height:var(--sprite-size);
+  opacity:0;
+  cursor:pointer;
+  image-rendering:pixelated;
+  animation:showPageSprite linear forwards,playPageSprite var(--sprite-duration)steps(var(--sprite-frames))infinite;
+  background-color:#0000;
+  background-repeat:no-repeat;
+  border:0;
+  padding:0;
+  animation-timeline:scroll(),auto;
+  position:fixed
+}
+.page-sprite:focus-visible{
+  outline-offset:4px;
+  outline:2px solid #bfdbfecc
+}
+.page-sprite--v1{
+  --sprite-frames:10;
+  --sprite-sheet-width:640px;
+  --sprite-end-position:-640px;
+  --sprite-duration:.9s;
+  left:var(--sprite-side);
+  background-image:url(/images/1.png);
+  background-size:var(--sprite-sheet-width)var(--sprite-size)
+}
+.page-sprite--v2{
+  --sprite-frames:12;
+  --sprite-sheet-width:768px;
+  --sprite-end-position:-768px;
+  --sprite-duration:1.08s;
+  right:var(--sprite-side);
+  background-image:url(/images/2.png);
+  background-size:var(--sprite-sheet-width)var(--sprite-size)
+}
+@media (max-width:520px){
+  .page-sprite{
+  --sprite-size:48px;
+  --sprite-bottom:10px;
+  --sprite-side:8px
+}
+.page-sprite--v1{
+  --sprite-sheet-width:480px;
+  --sprite-end-position:-480px
+}
+.page-sprite--v2{
+  --sprite-sheet-width:576px;
+  --sprite-end-position:-576px;
+  display:none
+}
+
+}
+@media (min-width:521px) and (max-width:767px){
+  .page-sprite--v2{
+  display:none
+}
+
+}
+@supports not (animation-timeline:scroll()){
+  .page-sprite{
+  opacity:1;
+  transform:translateY(0)
+}
+
+}
+@keyframes showPageSprite{
+  0%{
+  opacity:0;
+  transform:translateY(12px)
+}
+to{
+  opacity:1;
+  transform:translateY(0)
+}
+
+}
+@keyframes playPageSprite{
+  0%{
+  background-position:0 0
+}
+to{
+  background-position:var(--sprite-end-position)0
 }
 
 }

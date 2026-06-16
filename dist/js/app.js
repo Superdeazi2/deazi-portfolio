@@ -1,7 +1,7 @@
 const experienceItems = [
   {
     id: "keylink",
-    title: "KeyLink Agency",
+    title: "keylink",
     role: "Frontend Developer",
     period: "10.25 – 01.26",
     siteUrl: "https://keylink.events/",
@@ -48,7 +48,7 @@ const experienceItems = [
   },
   {
     id: "aliot",
-    title: "Aliot / EcoReef",
+    title: "Aliot",
     role: "Frontend Developer",
     period: "10.24 – 04.25",
     siteUrl: null,
@@ -166,7 +166,22 @@ const profilePhotos = [
     src: photoMe4Url
   }
 ];
+const figma1Url = "/images/figma1.jpg";
+const project2Url = "/images/project2.jpg";
+const project3Url = "/images/project3.jpg";
+const project4Url = "/images/project4.jpg";
+const project5Url = "/images/project5.jpg";
+const projectImageUrls = {
+  figma1: figma1Url,
+  project2: project2Url,
+  project3: project3Url,
+  project4: project4Url,
+  project5: project5Url
+};
 setResumeLinks();
+setProfilePhotos();
+setProjectImages();
+initScrollTopButtons();
 renderExperienceLists();
 initStackCarousel();
 initPhotoGallery();
@@ -174,6 +189,34 @@ initProjectLightbox();
 function setResumeLinks() {
   document.querySelectorAll("[data-resume-link]").forEach((link) => {
     link.href = profileLinks.resumeProjectUrl;
+  });
+}
+function setProfilePhotos() {
+  const mainPhoto = profilePhotos[0];
+  if (!mainPhoto) {
+    return;
+  }
+  document.querySelectorAll("[data-profile-photo]").forEach((image) => {
+    image.src = mainPhoto.src;
+  });
+}
+function setProjectImages() {
+  document.querySelectorAll("[data-project-image]").forEach((image) => {
+    const imageKey = image.dataset.projectImage;
+    const imageUrl = projectImageUrls[imageKey];
+    if (imageUrl) {
+      image.src = imageUrl;
+    }
+  });
+}
+function initScrollTopButtons() {
+  document.querySelectorAll("[data-scroll-top]").forEach((button) => {
+    button.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
   });
 }
 function renderExperienceLists() {

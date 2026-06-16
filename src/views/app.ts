@@ -1,7 +1,23 @@
 import { experienceItems, type ExperienceItem } from "/data/experience";
 import { profileLinks, profilePhotos } from "/data/profile";
+import figma1Url from "/assets/figma1.jpg";
+import project2Url from "/assets/project2.jpg";
+import project3Url from "/assets/project3.jpg";
+import project4Url from "/assets/project4.jpg";
+import project5Url from "/assets/project5.jpg";
+
+const projectImageUrls = {
+  figma1: figma1Url,
+  project2: project2Url,
+  project3: project3Url,
+  project4: project4Url,
+  project5: project5Url,
+};
 
 setResumeLinks();
+setProfilePhotos();
+setProjectImages();
+initScrollTopButtons();
 renderExperienceLists();
 initStackCarousel();
 initPhotoGallery();
@@ -10,6 +26,40 @@ initProjectLightbox();
 function setResumeLinks() {
   document.querySelectorAll<HTMLAnchorElement>("[data-resume-link]").forEach((link) => {
     link.href = profileLinks.resumeProjectUrl;
+  });
+}
+
+function setProfilePhotos() {
+  const mainPhoto = profilePhotos[0];
+
+  if (!mainPhoto) {
+    return;
+  }
+
+  document.querySelectorAll<HTMLImageElement>("[data-profile-photo]").forEach((image) => {
+    image.src = mainPhoto.src;
+  });
+}
+
+function setProjectImages() {
+  document.querySelectorAll<HTMLImageElement>("[data-project-image]").forEach((image) => {
+    const imageKey = image.dataset.projectImage as keyof typeof projectImageUrls;
+    const imageUrl = projectImageUrls[imageKey];
+
+    if (imageUrl) {
+      image.src = imageUrl;
+    }
+  });
+}
+
+function initScrollTopButtons() {
+  document.querySelectorAll<HTMLButtonElement>("[data-scroll-top]").forEach((button) => {
+    button.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
   });
 }
 

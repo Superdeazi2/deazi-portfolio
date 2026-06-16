@@ -16,7 +16,7 @@ export type ExperienceItem = {
 export const experienceItems: ExperienceItem[] = [
   {
     id: "keylink",
-    title: "KeyLink Agency",
+    title: "keylink",
     role: "Frontend Developer",
     period: "10.25 – 01.26",
     siteUrl: "https://keylink.events/",
@@ -66,7 +66,7 @@ export const experienceItems: ExperienceItem[] = [
   },
   {
     id: "aliot",
-    title: "Aliot / EcoReef",
+    title: "Aliot",
     role: "Frontend Developer",
     period: "10.24 – 04.25",
     siteUrl: null,
