@@ -1,13 +1,13 @@
 import avatarUrl from "/assets/avatar.png";
-import photo2026JanuaryUrl from "/assets/photo_2026-01-13_13-58-41.jpg";
-import photo2026MarchFirstUrl from "/assets/photo_2026-03-27_13-03-46.jpg";
-import photo2026MarchSecondUrl from "/assets/photo_2026-03-27_13-04-32.jpg";
-import photo2026JuneFirstUrl from "/assets/photo_2026-06-15_22-31-08.jpg";
-import photo2026JuneMainUrl from "/assets/photo_2026-06-15_22-33-31.jpg";
 import photoMe1Url from "/assets/photo_me1.png";
 import photoMe2Url from "/assets/photo_me2.png";
 import photoMe3Url from "/assets/photo_me3.png";
 import photoMe4Url from "/assets/photo_me4.png";
+import photoMe5Url from "/assets/photo_me5.jpg";
+import photoMe6Url from "/assets/photo_me6.jpg";
+import photoMe7Url from "/assets/photo_me7.jpg";
+import photoMe8Url from "/assets/photo_me8.jpg";
+import photoMe9Url from "/assets/photo_me9.jpg";
 import resumeProjectUrl from "/assets/resume-project.txt?url";
 
 export const profile = {
@@ -84,34 +84,9 @@ export type ProfilePhoto = {
 
 export const profilePhotos: ProfilePhoto[] = [
   {
-    id: "photo-2026-06-15-main",
+    id: "photo-me-9",
     title: "",
-    src: photo2026JuneMainUrl,
-  },
-  {
-    id: "avatar",
-    title: "",
-    src: avatarUrl,
-  },
-  {
-    id: "photo-2026-06-15",
-    title: "",
-    src: photo2026JuneFirstUrl,
-  },
-  {
-    id: "photo-2026-03-27-1",
-    title: "",
-    src: photo2026MarchFirstUrl,
-  },
-  {
-    id: "photo-2026-03-27-2",
-    title: "",
-    src: photo2026MarchSecondUrl,
-  },
-  {
-    id: "photo-2026-01-13",
-    title: "",
-    src: photo2026JanuaryUrl,
+    src: photoMe9Url,
   },
   {
     id: "photo-me-1",
@@ -132,5 +107,30 @@ export const profilePhotos: ProfilePhoto[] = [
     id: "photo-me-4",
     title: "",
     src: photoMe4Url,
+  },
+  {
+    id: "photo-me-5",
+    title: "",
+    src: photoMe5Url,
+  },
+  {
+    id: "photo-me-6",
+    title: "",
+    src: photoMe6Url,
+  },
+  {
+    id: "photo-me-7",
+    title: "",
+    src: photoMe7Url,
+  },
+  {
+    id: "photo-me-8",
+    title: "",
+    src: photoMe8Url,
+  },
+  {
+    id: "avatar",
+    title: "",
+    src: avatarUrl,
   },
 ];

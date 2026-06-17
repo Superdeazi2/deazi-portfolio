@@ -5,6 +5,7 @@ import project2Url from "/assets/project2.jpg";
 import project3Url from "/assets/project3.jpg";
 import project4Url from "/assets/project4.jpg";
 import project5Url from "/assets/project5.jpg";
+import project7Url from "/assets/project7.jpg";
 
 const projectImageUrls = {
   figma1: figma1Url,
@@ -12,6 +13,7 @@ const projectImageUrls = {
   project3: project3Url,
   project4: project4Url,
   project5: project5Url,
+  project7: project7Url,
 };
 
 setResumeLinks();
@@ -30,7 +32,10 @@ function setResumeLinks() {
 }
 
 function setProfilePhotos() {
-  const mainPhoto = profilePhotos[0];
+  const mainPhoto =
+    document.body.dataset.page === "about"
+      ? profilePhotos.find((photo) => photo.id === "photo-me-4")
+      : profilePhotos[0];
 
   if (!mainPhoto) {
     return;
