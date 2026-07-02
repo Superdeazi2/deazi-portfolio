@@ -1,3 +1,49 @@
+const __vite_glob_0_0 = "" + new URL("../images/cat_01.png", import.meta.url).href;
+const __vite_glob_0_1 = "" + new URL("../images/cat_02.png", import.meta.url).href;
+const __vite_glob_0_2 = "" + new URL("../images/cat_03.png", import.meta.url).href;
+const __vite_glob_0_3 = "" + new URL("../images/cat_04.png", import.meta.url).href;
+const __vite_glob_0_4 = "" + new URL("../images/cat_05.png", import.meta.url).href;
+const __vite_glob_0_5 = "" + new URL("../images/cat_06.png", import.meta.url).href;
+const __vite_glob_0_6 = "" + new URL("../images/cat_07.png", import.meta.url).href;
+const __vite_glob_0_7 = "" + new URL("../images/cat_08.png", import.meta.url).href;
+const __vite_glob_0_8 = "" + new URL("../images/cat_hover_01.png", import.meta.url).href;
+const __vite_glob_0_9 = "" + new URL("../images/cat_hover_02.png", import.meta.url).href;
+const __vite_glob_0_10 = "" + new URL("../images/cat_hover_03.png", import.meta.url).href;
+const __vite_glob_0_11 = "" + new URL("../images/cat_hover_04.png", import.meta.url).href;
+const __vite_glob_0_12 = "" + new URL("../images/cat_hover_05.png", import.meta.url).href;
+const __vite_glob_0_13 = "" + new URL("../images/cat_hover_06.png", import.meta.url).href;
+const __vite_glob_0_14 = "" + new URL("../images/cat_hover_07.png", import.meta.url).href;
+const __vite_glob_0_15 = "" + new URL("../images/cat_hover_08.png", import.meta.url).href;
+const __vite_glob_0_16 = "" + new URL("../images/fox_01.png", import.meta.url).href;
+const __vite_glob_0_17 = "" + new URL("../images/fox_02.png", import.meta.url).href;
+const __vite_glob_0_18 = "" + new URL("../images/fox_03.png", import.meta.url).href;
+const __vite_glob_0_19 = "" + new URL("../images/fox_04.png", import.meta.url).href;
+const __vite_glob_0_20 = "" + new URL("../images/fox_05.png", import.meta.url).href;
+const __vite_glob_0_21 = "" + new URL("../images/fox_06.png", import.meta.url).href;
+const __vite_glob_0_22 = "" + new URL("../images/fox_07.png", import.meta.url).href;
+const __vite_glob_0_23 = "" + new URL("../images/fox_08.png", import.meta.url).href;
+const __vite_glob_0_24 = "" + new URL("../images/page_icon_1_01.png", import.meta.url).href;
+const __vite_glob_0_25 = "" + new URL("../images/page_icon_1_02.png", import.meta.url).href;
+const __vite_glob_0_26 = "" + new URL("../images/page_icon_1_03.png", import.meta.url).href;
+const __vite_glob_0_27 = "" + new URL("../images/page_icon_1_04.png", import.meta.url).href;
+const __vite_glob_0_28 = "" + new URL("../images/page_icon_1_05.png", import.meta.url).href;
+const __vite_glob_0_29 = "" + new URL("../images/page_icon_1_06.png", import.meta.url).href;
+const __vite_glob_0_30 = "" + new URL("../images/page_icon_1_07.png", import.meta.url).href;
+const __vite_glob_0_31 = "" + new URL("../images/page_icon_1_08.png", import.meta.url).href;
+const __vite_glob_0_32 = "" + new URL("../images/page_icon_1_09.png", import.meta.url).href;
+const __vite_glob_0_33 = "" + new URL("../images/page_icon_1_10.png", import.meta.url).href;
+const __vite_glob_0_34 = "" + new URL("../images/page_icon_2_01.png", import.meta.url).href;
+const __vite_glob_0_35 = "" + new URL("../images/page_icon_2_02.png", import.meta.url).href;
+const __vite_glob_0_36 = "" + new URL("../images/page_icon_2_03.png", import.meta.url).href;
+const __vite_glob_0_37 = "" + new URL("../images/page_icon_2_04.png", import.meta.url).href;
+const __vite_glob_0_38 = "" + new URL("../images/page_icon_2_05.png", import.meta.url).href;
+const __vite_glob_0_39 = "" + new URL("../images/page_icon_2_06.png", import.meta.url).href;
+const __vite_glob_0_40 = "" + new URL("../images/page_icon_2_07.png", import.meta.url).href;
+const __vite_glob_0_41 = "" + new URL("../images/page_icon_2_08.png", import.meta.url).href;
+const __vite_glob_0_42 = "" + new URL("../images/page_icon_2_09.png", import.meta.url).href;
+const __vite_glob_0_43 = "" + new URL("../images/page_icon_2_10.png", import.meta.url).href;
+const __vite_glob_0_44 = "" + new URL("../images/page_icon_2_11.png", import.meta.url).href;
+const __vite_glob_0_45 = "" + new URL("../images/page_icon_2_12.png", import.meta.url).href;
 const experienceItems = [
   {
     id: "keylink",
@@ -172,6 +218,55 @@ const project3Url = "" + new URL("../images/project3.jpg", import.meta.url).href
 const project4Url = "" + new URL("../images/project4.jpg", import.meta.url).href;
 const project5Url = "" + new URL("../images/project5.jpg", import.meta.url).href;
 const project7Url = "" + new URL("../images/project7.jpg", import.meta.url).href;
+const headerFoxUrl = "" + new URL("../images/fox_01.png", import.meta.url).href;
+const animationFrameUrls = /* @__PURE__ */ Object.assign({
+  "../animations/cat/cat_01.png": __vite_glob_0_0,
+  "../animations/cat/cat_02.png": __vite_glob_0_1,
+  "../animations/cat/cat_03.png": __vite_glob_0_2,
+  "../animations/cat/cat_04.png": __vite_glob_0_3,
+  "../animations/cat/cat_05.png": __vite_glob_0_4,
+  "../animations/cat/cat_06.png": __vite_glob_0_5,
+  "../animations/cat/cat_07.png": __vite_glob_0_6,
+  "../animations/cat/cat_08.png": __vite_glob_0_7,
+  "../animations/cat/hover/cat_hover_01.png": __vite_glob_0_8,
+  "../animations/cat/hover/cat_hover_02.png": __vite_glob_0_9,
+  "../animations/cat/hover/cat_hover_03.png": __vite_glob_0_10,
+  "../animations/cat/hover/cat_hover_04.png": __vite_glob_0_11,
+  "../animations/cat/hover/cat_hover_05.png": __vite_glob_0_12,
+  "../animations/cat/hover/cat_hover_06.png": __vite_glob_0_13,
+  "../animations/cat/hover/cat_hover_07.png": __vite_glob_0_14,
+  "../animations/cat/hover/cat_hover_08.png": __vite_glob_0_15,
+  "../animations/fox/fox_01.png": __vite_glob_0_16,
+  "../animations/fox/fox_02.png": __vite_glob_0_17,
+  "../animations/fox/fox_03.png": __vite_glob_0_18,
+  "../animations/fox/fox_04.png": __vite_glob_0_19,
+  "../animations/fox/fox_05.png": __vite_glob_0_20,
+  "../animations/fox/fox_06.png": __vite_glob_0_21,
+  "../animations/fox/fox_07.png": __vite_glob_0_22,
+  "../animations/fox/fox_08.png": __vite_glob_0_23,
+  "../animations/page_icon_1/page_icon_1_01.png": __vite_glob_0_24,
+  "../animations/page_icon_1/page_icon_1_02.png": __vite_glob_0_25,
+  "../animations/page_icon_1/page_icon_1_03.png": __vite_glob_0_26,
+  "../animations/page_icon_1/page_icon_1_04.png": __vite_glob_0_27,
+  "../animations/page_icon_1/page_icon_1_05.png": __vite_glob_0_28,
+  "../animations/page_icon_1/page_icon_1_06.png": __vite_glob_0_29,
+  "../animations/page_icon_1/page_icon_1_07.png": __vite_glob_0_30,
+  "../animations/page_icon_1/page_icon_1_08.png": __vite_glob_0_31,
+  "../animations/page_icon_1/page_icon_1_09.png": __vite_glob_0_32,
+  "../animations/page_icon_1/page_icon_1_10.png": __vite_glob_0_33,
+  "../animations/page_icon_2/page_icon_2_01.png": __vite_glob_0_34,
+  "../animations/page_icon_2/page_icon_2_02.png": __vite_glob_0_35,
+  "../animations/page_icon_2/page_icon_2_03.png": __vite_glob_0_36,
+  "../animations/page_icon_2/page_icon_2_04.png": __vite_glob_0_37,
+  "../animations/page_icon_2/page_icon_2_05.png": __vite_glob_0_38,
+  "../animations/page_icon_2/page_icon_2_06.png": __vite_glob_0_39,
+  "../animations/page_icon_2/page_icon_2_07.png": __vite_glob_0_40,
+  "../animations/page_icon_2/page_icon_2_08.png": __vite_glob_0_41,
+  "../animations/page_icon_2/page_icon_2_09.png": __vite_glob_0_42,
+  "../animations/page_icon_2/page_icon_2_10.png": __vite_glob_0_43,
+  "../animations/page_icon_2/page_icon_2_11.png": __vite_glob_0_44,
+  "../animations/page_icon_2/page_icon_2_12.png": __vite_glob_0_45
+});
 const projectImageUrls = {
   figma1: figma1Url,
   project2: project2Url,
@@ -180,6 +275,10 @@ const projectImageUrls = {
   project5: project5Url,
   project7: project7Url
 };
+initFoxLoader();
+initPageIcons();
+initCat();
+setHeaderFox();
 setResumeLinks();
 setProfilePhotos();
 setProjectImages();
@@ -188,6 +287,99 @@ renderExperienceLists();
 initStackCarousel();
 initPhotoGallery();
 initProjectLightbox();
+function setHeaderFox() {
+  document.querySelectorAll("[data-header-fox]").forEach((image) => {
+    image.src = headerFoxUrl;
+  });
+}
+function getAnimationFrames(folder) {
+  return Object.entries(animationFrameUrls).filter(([path]) => path.slice(0, path.lastIndexOf("/")).endsWith(`/animations/${folder}`)).sort(
+    ([firstPath], [secondPath]) => firstPath.localeCompare(secondPath, void 0, { numeric: true })
+  ).map(([, url]) => url);
+}
+function preloadFrames(frames) {
+  return Promise.all(
+    frames.map(
+      (url) => new Promise((resolve) => {
+        const image = new Image();
+        image.onload = image.onerror = () => resolve();
+        image.src = url;
+      })
+    )
+  );
+}
+function startFrameLoop(showFrame, initialFrames, delay = 110) {
+  let frames = initialFrames;
+  let frameIndex = 0;
+  const render = () => showFrame(frames[frameIndex]);
+  const setFrames = (nextFrames) => {
+    frames = nextFrames;
+    frameIndex = 0;
+    render();
+  };
+  render();
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    window.setInterval(() => {
+      frameIndex = (frameIndex + 1) % frames.length;
+      render();
+    }, delay);
+  }
+  return setFrames;
+}
+function initFoxLoader() {
+  if (document.body.dataset.page !== "index") return;
+  const frames = getAnimationFrames("fox");
+  if (!frames.length) return;
+  const loader = document.createElement("div");
+  const image = document.createElement("img");
+  loader.className = "fox-loader";
+  loader.setAttribute("role", "img");
+  loader.setAttribute("aria-label", "Загрузка страницы");
+  image.alt = "";
+  image.src = frames[0];
+  loader.append(image);
+  document.body.append(loader);
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let frameIndex = reducedMotion ? frames.length - 1 : 0;
+  image.src = frames[frameIndex];
+  void preloadFrames(frames).then(() => {
+    const timer = window.setInterval(() => {
+      frameIndex += 1;
+      if (frameIndex < frames.length) {
+        image.src = frames[frameIndex];
+        return;
+      }
+      window.clearInterval(timer);
+      loader.classList.add("is-hiding");
+      window.setTimeout(() => loader.remove(), 500);
+    }, reducedMotion ? 80 : 120);
+  });
+}
+function initPageIcons() {
+  document.querySelectorAll("[data-page-icon]").forEach((icon) => {
+    const folder = icon.dataset.pageIcon;
+    if (!folder) return;
+    const frames = getAnimationFrames(folder);
+    if (frames.length) {
+      startFrameLoop((url) => icon.style.backgroundImage = `url("${url}")`, frames, 90);
+    }
+  });
+}
+function initCat() {
+  const container = document.querySelector("[data-cat-animation]");
+  const defaultFrames = getAnimationFrames("cat");
+  const hoverFrames = getAnimationFrames("cat/hover");
+  if (!container || !defaultFrames.length || !hoverFrames.length) return;
+  const image = document.createElement("img");
+  image.className = "easter-egg-cat";
+  image.alt = "Анимированный кот";
+  image.draggable = false;
+  container.append(image);
+  void preloadFrames([...defaultFrames, ...hoverFrames]);
+  const setFrames = startFrameLoop((url) => image.src = url, defaultFrames, 120);
+  image.addEventListener("pointerenter", () => setFrames(hoverFrames));
+  image.addEventListener("pointerleave", () => setFrames(defaultFrames));
+}
 function setResumeLinks() {
   document.querySelectorAll("[data-resume-link]").forEach((link) => {
     link.href = profileLinks.resumeProjectUrl;

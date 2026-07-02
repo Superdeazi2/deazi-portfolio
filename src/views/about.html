@@ -7,17 +7,18 @@
   <title>Обо мне | Mikhail Russkikh</title>
   <meta name="description" content="Обо мне и контакты Mikhail Russkikh." />
   <link rel="stylesheet" href="/css/style.css" />
-  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg" />
 </head>
 
 <body class="bg min-h-screen flex flex-col items-center p-2" data-page="about">
-  <button type="button" class="page-sprite page-sprite--v1" data-scroll-top aria-label="Наверх"></button>
-  <button type="button" class="page-sprite page-sprite--v2" data-scroll-top aria-label="Наверх"></button>
+  <button type="button" class="page-sprite page-sprite--v2" data-page-icon="page_icon_2" data-scroll-top
+    aria-label="Наверх"></button>
 
   <nav class="fixed left-0 top-0 z-50 w-full border-b border-white/20 bg-black/10 px-4 py-3 backdrop-blur">
-    <div class="mx-auto flex max-w-5xl items-center justify-between gap-4">
-      <a href="./index.html" class="text-sm font-semibold text-white">Mikhail Russkikh</a>
-      <ul class="flex flex-wrap items-center justify-end gap-4 text-sm font-semibold md:gap-6 md:text-base">
+    <div class="mx-auto flex max-w-5xl items-center justify-between gap-2 sm:gap-4">
+      <a href="./index.html" class="flex shrink-0 items-center text-sm font-semibold text-white"><img
+          data-header-fox class="mr-1.5 h-8 w-8 shrink-0 object-contain" alt="" />Mikhail Russkikh</a>
+      <ul class="flex flex-wrap items-center justify-end gap-2 text-sm font-semibold md:gap-6 md:text-base">
         <li><a href="./index.html" class="text-blue-100 transition duration-300 hover:text-white">Главная</a></li>
         <li><a href="./about.html"
             class="font-bold text-white underline decoration-gray-300 decoration-1 underline-offset-4">Обо мне</a></li>

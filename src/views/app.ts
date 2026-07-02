@@ -6,6 +6,13 @@ import project3Url from "/assets/project3.jpg";
 import project4Url from "/assets/project4.jpg";
 import project5Url from "/assets/project5.jpg";
 import project7Url from "/assets/project7.jpg";
+import headerFoxUrl from "../animations/fox/fox_01.png";
+
+const animationFrameUrls = import.meta.glob("../animations/**/*.png", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as Record<string, string>;
 
 const projectImageUrls = {
   figma1: figma1Url,
@@ -16,6 +23,10 @@ const projectImageUrls = {
   project7: project7Url,
 };
 
+initFoxLoader();
+initPageIcons();
+initCat();
+setHeaderFox();
 setResumeLinks();
 setProfilePhotos();
 setProjectImages();
@@ -24,6 +35,131 @@ renderExperienceLists();
 initStackCarousel();
 initPhotoGallery();
 initProjectLightbox();
+
+function setHeaderFox() {
+  document.querySelectorAll<HTMLImageElement>("[data-header-fox]").forEach((image) => {
+    image.src = headerFoxUrl;
+  });
+}
+
+function getAnimationFrames(folder: string) {
+  return Object.entries(animationFrameUrls)
+    .filter(([path]) => path.slice(0, path.lastIndexOf("/")).endsWith(`/animations/${folder}`))
+    .sort(([firstPath], [secondPath]) =>
+      firstPath.localeCompare(secondPath, undefined, { numeric: true }),
+    )
+    .map(([, url]) => url);
+}
+
+function preloadFrames(frames: string[]) {
+  return Promise.all(
+    frames.map(
+      (url) =>
+        new Promise<void>((resolve) => {
+          const image = new Image();
+          image.onload = image.onerror = () => resolve();
+          image.src = url;
+        }),
+    ),
+  );
+}
+
+function startFrameLoop(
+  showFrame: (url: string) => void,
+  initialFrames: string[],
+  delay = 110,
+) {
+  let frames = initialFrames;
+  let frameIndex = 0;
+
+  const render = () => showFrame(frames[frameIndex]);
+  const setFrames = (nextFrames: string[]) => {
+    frames = nextFrames;
+    frameIndex = 0;
+    render();
+  };
+
+  render();
+
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    window.setInterval(() => {
+      frameIndex = (frameIndex + 1) % frames.length;
+      render();
+    }, delay);
+  }
+
+  return setFrames;
+}
+
+function initFoxLoader() {
+  if (document.body.dataset.page !== "index") return;
+
+  const frames = getAnimationFrames("fox");
+
+  if (!frames.length) return;
+
+  const loader = document.createElement("div");
+  const image = document.createElement("img");
+  loader.className = "fox-loader";
+  loader.setAttribute("role", "img");
+  loader.setAttribute("aria-label", "Загрузка страницы");
+  image.alt = "";
+  image.src = frames[0];
+  loader.append(image);
+  document.body.append(loader);
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let frameIndex = reducedMotion ? frames.length - 1 : 0;
+  image.src = frames[frameIndex];
+
+  void preloadFrames(frames).then(() => {
+    const timer = window.setInterval(() => {
+      frameIndex += 1;
+
+      if (frameIndex < frames.length) {
+        image.src = frames[frameIndex];
+        return;
+      }
+
+      window.clearInterval(timer);
+      loader.classList.add("is-hiding");
+      window.setTimeout(() => loader.remove(), 500);
+    }, reducedMotion ? 80 : 120);
+  });
+}
+
+function initPageIcons() {
+  document.querySelectorAll<HTMLElement>("[data-page-icon]").forEach((icon) => {
+    const folder = icon.dataset.pageIcon;
+
+    if (!folder) return;
+
+    const frames = getAnimationFrames(folder);
+
+    if (frames.length) {
+      startFrameLoop((url) => (icon.style.backgroundImage = `url("${url}")`), frames, 90);
+    }
+  });
+}
+
+function initCat() {
+  const container = document.querySelector("[data-cat-animation]");
+  const defaultFrames = getAnimationFrames("cat");
+  const hoverFrames = getAnimationFrames("cat/hover");
+
+  if (!container || !defaultFrames.length || !hoverFrames.length) return;
+
+  const image = document.createElement("img");
+  image.className = "easter-egg-cat";
+  image.alt = "Анимированный кот";
+  image.draggable = false;
+  container.append(image);
+
+  void preloadFrames([...defaultFrames, ...hoverFrames]);
+  const setFrames = startFrameLoop((url) => (image.src = url), defaultFrames, 120);
+  image.addEventListener("pointerenter", () => setFrames(hoverFrames));
+  image.addEventListener("pointerleave", () => setFrames(defaultFrames));
+}
 
 function setResumeLinks() {
   document.querySelectorAll<HTMLAnchorElement>("[data-resume-link]").forEach((link) => {

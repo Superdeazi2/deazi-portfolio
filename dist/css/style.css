@@ -363,6 +363,39 @@ button,input:where([type=button],[type=reset],[type=submit]){
 .z-\[70\]{
   z-index:70
 }
+.container{
+  width:100%
+}
+@media (min-width:40rem){
+  .container{
+  max-width:40rem
+}
+
+}
+@media (min-width:48rem){
+  .container{
+  max-width:48rem
+}
+
+}
+@media (min-width:64rem){
+  .container{
+  max-width:64rem
+}
+
+}
+@media (min-width:80rem){
+  .container{
+  max-width:80rem
+}
+
+}
+@media (min-width:96rem){
+  .container{
+  max-width:96rem
+}
+
+}
 .mx-auto{
   margin-inline:auto
 }
@@ -383,6 +416,9 @@ button,input:where([type=button],[type=reset],[type=submit]){
 }
 .mt-8{
   margin-top:calc(var(--spacing)*8)
+}
+.mr-1\.5{
+  margin-right:calc(var(--spacing)*1.5)
 }
 .mb-2{
   margin-bottom:calc(var(--spacing)*2)
@@ -414,6 +450,9 @@ button,input:where([type=button],[type=reset],[type=submit]){
 .h-6{
   height:calc(var(--spacing)*6)
 }
+.h-8{
+  height:calc(var(--spacing)*8)
+}
 .h-10{
   height:calc(var(--spacing)*10)
 }
@@ -440,6 +479,9 @@ button,input:where([type=button],[type=reset],[type=submit]){
 }
 .w-6{
   width:calc(var(--spacing)*6)
+}
+.w-8{
+  width:calc(var(--spacing)*8)
 }
 .w-10{
   width:calc(var(--spacing)*10)
@@ -468,6 +510,9 @@ button,input:where([type=button],[type=reset],[type=submit]){
 }
 .max-w-full{
   max-width:100%
+}
+.shrink-0{
+  flex-shrink:0
 }
 .-translate-x-1\/2{
   --tw-translate-x:calc(calc(1/2*100%)*-1);
@@ -994,6 +1039,9 @@ button,input:where([type=button],[type=reset],[type=submit]){
 .sm\:justify-between{
   justify-content:space-between
 }
+.sm\:gap-4{
+  gap:calc(var(--spacing)*4)
+}
 
 }
 @media (min-width:48rem){
@@ -1157,35 +1205,22 @@ to{
   opacity:0;
   cursor:pointer;
   image-rendering:pixelated;
-  animation:showPageSprite linear forwards,playPageSprite var(--sprite-duration)steps(var(--sprite-frames))infinite;
   background-color:#0000;
+  background-position:50%;
   background-repeat:no-repeat;
+  background-size:contain;
   border:0;
   padding:0;
-  animation-timeline:scroll(),auto;
+  animation:linear forwards showPageSprite;
+  animation-timeline:scroll();
   position:fixed
 }
 .page-sprite:focus-visible{
   outline-offset:4px;
   outline:2px solid #bfdbfecc
 }
-.page-sprite--v1{
-  --sprite-frames:10;
-  --sprite-sheet-width:640px;
-  --sprite-end-position:-640px;
-  --sprite-duration:.9s;
-  left:var(--sprite-side);
-  background-image:url(../images/1.png);
-  background-size:var(--sprite-sheet-width)var(--sprite-size)
-}
 .page-sprite--v2{
-  --sprite-frames:12;
-  --sprite-sheet-width:768px;
-  --sprite-end-position:-768px;
-  --sprite-duration:1.08s;
-  right:var(--sprite-side);
-  background-image:url(../images/2.png);
-  background-size:var(--sprite-sheet-width)var(--sprite-size)
+  right:var(--sprite-side)
 }
 @media (max-width:520px){
   .page-sprite{
@@ -1193,13 +1228,7 @@ to{
   --sprite-bottom:10px;
   --sprite-side:8px
 }
-.page-sprite--v1{
-  --sprite-sheet-width:480px;
-  --sprite-end-position:-480px
-}
 .page-sprite--v2{
-  --sprite-sheet-width:576px;
-  --sprite-end-position:-576px;
   display:none
 }
 
@@ -1228,12 +1257,63 @@ to{
 }
 
 }
-@keyframes playPageSprite{
-  0%{
-  background-position:0 0
+.fox-loader{
+  z-index:100;
+  opacity:1;
+  background:#0000001a;
+  place-items:center;
+  transition:opacity .45s;
+  display:grid;
+  position:fixed;
+  inset:0
 }
-to{
-  background-position:var(--sprite-end-position)0
+.fox-loader.is-hiding{
+  opacity:0;
+  pointer-events:none
+}
+.fox-loader img{
+  image-rendering:auto;
+  filter:drop-shadow(0 18px 34px #00000059);
+  width:clamp(180px,30vw,320px);
+  max-width:82vw;
+  height:auto;
+  transform:translateY(-10%)
+}
+.about-preview-content{
+  align-items:center;
+  gap:1rem;
+  display:grid
+}
+.about-cat-slot{
+  justify-content:center;
+  display:flex
+}
+.easter-egg-cat{
+  opacity:.72;
+  cursor:default;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  user-select:none;
+  border-radius:10px;
+  width:min(100%,256px);
+  height:auto;
+  margin:0;
+  transition:opacity .18s,transform .18s;
+  display:block
+}
+.easter-egg-cat:hover{
+  opacity:1;
+  transform:translateY(-2px)
+}
+@media (max-width:520px){
+  .fox-loader img{
+  width:min(62vw,230px)
+}
+
+}
+@media (min-width:640px){
+  .about-preview-content{
+  grid-template-columns:minmax(0,1fr) minmax(190px,256px)
 }
 
 }
