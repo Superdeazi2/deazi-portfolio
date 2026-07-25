@@ -146,15 +146,8 @@ const experienceItems = [
     ]
   }
 ];
-const avatarUrl = "" + new URL("../images/avatar.png", import.meta.url).href;
-const photoMe1Url = "" + new URL("../images/photo_me1.png", import.meta.url).href;
-const photoMe2Url = "" + new URL("../images/photo_me2.png", import.meta.url).href;
-const photoMe3Url = "" + new URL("../images/photo_me3.png", import.meta.url).href;
 const photoMe4Url = "" + new URL("../images/photo_me4.png", import.meta.url).href;
 const photoMe5Url = "" + new URL("../images/photo_me5.jpg", import.meta.url).href;
-const photoMe6Url = "" + new URL("../images/photo_me6.jpg", import.meta.url).href;
-const photoMe7Url = "" + new URL("../images/photo_me7.jpg", import.meta.url).href;
-const photoMe8Url = "" + new URL("../images/photo_me8.jpg", import.meta.url).href;
 const photoMe9Url = "" + new URL("../images/photo_me9.jpg", import.meta.url).href;
 const resumeProjectUrl = "" + new URL("../docs/resume-project.txt", import.meta.url).href;
 const profileLinks = {
@@ -167,21 +160,6 @@ const profilePhotos = [
     src: photoMe9Url
   },
   {
-    id: "photo-me-1",
-    title: "",
-    src: photoMe1Url
-  },
-  {
-    id: "photo-me-2",
-    title: "",
-    src: photoMe2Url
-  },
-  {
-    id: "photo-me-3",
-    title: "",
-    src: photoMe3Url
-  },
-  {
     id: "photo-me-4",
     title: "",
     src: photoMe4Url
@@ -190,26 +168,6 @@ const profilePhotos = [
     id: "photo-me-5",
     title: "",
     src: photoMe5Url
-  },
-  {
-    id: "photo-me-6",
-    title: "",
-    src: photoMe6Url
-  },
-  {
-    id: "photo-me-7",
-    title: "",
-    src: photoMe7Url
-  },
-  {
-    id: "photo-me-8",
-    title: "",
-    src: photoMe8Url
-  },
-  {
-    id: "avatar",
-    title: "",
-    src: avatarUrl
   }
 ];
 const figma1Url = "" + new URL("../images/figma1.jpg", import.meta.url).href;
@@ -333,25 +291,44 @@ function initFoxLoader() {
   const loader = document.createElement("div");
   const image = document.createElement("img");
   loader.className = "fox-loader";
-  loader.setAttribute("role", "img");
-  loader.setAttribute("aria-label", "Загрузка страницы");
+  loader.setAttribute("role", "button");
+  loader.setAttribute("tabindex", "0");
+  loader.setAttribute("aria-label", "Закрыть заставку");
   image.alt = "";
   image.src = frames[0];
   loader.append(image);
   document.body.append(loader);
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let frameIndex = reducedMotion ? frames.length - 1 : 0;
+  let timer = 0;
+  let fallbackTimer = 0;
+  let isDismissed = false;
   image.src = frames[frameIndex];
+  const dismissLoader = () => {
+    if (isDismissed) return;
+    isDismissed = true;
+    window.clearInterval(timer);
+    window.clearTimeout(fallbackTimer);
+    loader.classList.add("is-hiding");
+    window.setTimeout(() => loader.remove(), 500);
+  };
+  loader.addEventListener("pointerdown", dismissLoader);
+  loader.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " " || event.key === "Escape") {
+      event.preventDefault();
+      dismissLoader();
+    }
+  });
+  fallbackTimer = window.setTimeout(dismissLoader, reducedMotion ? 1200 : 3500);
   void preloadFrames(frames).then(() => {
-    const timer = window.setInterval(() => {
+    if (isDismissed) return;
+    timer = window.setInterval(() => {
       frameIndex += 1;
       if (frameIndex < frames.length) {
         image.src = frames[frameIndex];
         return;
       }
-      window.clearInterval(timer);
-      loader.classList.add("is-hiding");
-      window.setTimeout(() => loader.remove(), 500);
+      dismissLoader();
     }, reducedMotion ? 80 : 120);
   });
 }
@@ -386,7 +363,7 @@ function setResumeLinks() {
   });
 }
 function setProfilePhotos() {
-  const mainPhoto = document.body.dataset.page === "about" ? profilePhotos.find((photo) => photo.id === "photo-me-4") : profilePhotos[0];
+  const mainPhoto = document.body.dataset.page === "about" ? profilePhotos.find((photo) => photo.id === "photo-me-9") : profilePhotos[0];
   if (!mainPhoto) {
     return;
   }
@@ -404,7 +381,15 @@ function setProjectImages() {
   });
 }
 function initScrollTopButtons() {
-  document.querySelectorAll("[data-scroll-top]").forEach((button) => {
+  const buttons = [...document.querySelectorAll("[data-scroll-top]")];
+  if (!buttons.length) {
+    return;
+  }
+  const updateScrollTopVisibility = () => {
+    const shouldShow = window.scrollY > 100;
+    buttons.forEach((button) => button.classList.toggle("is-visible", shouldShow));
+  };
+  buttons.forEach((button) => {
     button.addEventListener("click", () => {
       window.scrollTo({
         top: 0,
@@ -412,6 +397,11 @@ function initScrollTopButtons() {
       });
     });
   });
+  updateScrollTopVisibility();
+  window.requestAnimationFrame(() => {
+    buttons.forEach((button) => button.classList.add("is-initialized"));
+  });
+  window.addEventListener("scroll", updateScrollTopVisibility, { passive: true });
 }
 function renderExperienceLists() {
   const template = document.querySelector("#experience-card-template");
@@ -578,20 +568,37 @@ function initProjectLightbox() {
   if (!lightbox || !lightboxImg) {
     return;
   }
+  let previousBodyOverflow = "";
+  const openLightbox = (image) => {
+    previousBodyOverflow = document.body.style.overflow;
+    lightboxImg.src = image.src;
+    lightboxImg.alt = image.alt;
+    document.body.style.overflow = "hidden";
+    lightbox.classList.remove("opacity-0", "pointer-events-none");
+    lightbox.classList.add("opacity-100", "pointer-events-auto");
+  };
+  const closeLightbox = () => {
+    document.body.style.overflow = previousBodyOverflow;
+    lightbox.classList.remove("opacity-100", "pointer-events-auto");
+    lightbox.classList.add("opacity-0", "pointer-events-none");
+  };
   document.querySelectorAll("[data-project]").forEach((button) => {
     button.addEventListener("click", () => {
       const image = button.querySelector("img");
       if (!image) {
         return;
       }
-      lightboxImg.src = image.src;
-      lightboxImg.alt = image.alt;
-      lightbox.classList.remove("opacity-0", "pointer-events-none");
-      lightbox.classList.add("opacity-100", "pointer-events-auto");
+      openLightbox(image);
     });
   });
-  lightbox.addEventListener("click", () => {
-    lightbox.classList.remove("opacity-100", "pointer-events-auto");
-    lightbox.classList.add("opacity-0", "pointer-events-none");
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox) {
+      closeLightbox();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !lightbox.classList.contains("pointer-events-none")) {
+      closeLightbox();
+    }
   });
 }

@@ -1,17 +1,10 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Kyiv_Machine_Font";
-  src: url("../../fonts/kyiv-machine-font/KyivMachine-nR0aM.ttf")
-    format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
 body {
   color: #fff;
   position: relative;
   z-index: 0;
+  font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 html {
@@ -22,9 +15,6 @@ body {
   background-color: transparent;
 }
 
-.cust_font {
-  font-family: "Kyiv_Machine_Font", monospace;
-}
 .bg {
   color: #111;
   isolation: isolate;
@@ -47,11 +37,15 @@ body {
 }
 
 .bg::before {
-  background-image: url("../assets/bg-light.png");
+  background-image:
+    linear-gradient(180deg, rgb(42 49 39 / 0.72), rgb(22 34 30 / 0.82)),
+    url("../assets/bg-light.png");
 }
 
 .bg::after {
-  background-image: url("../assets/bg-dark.png");
+  background-image:
+    linear-gradient(180deg, rgb(39 49 38 / 0.68), rgb(17 32 29 / 0.86)),
+    url("../assets/bg-dark.png");
   opacity: 0;
 
   animation: changeBg linear forwards;
@@ -100,6 +94,52 @@ body {
   }
 }
 
+.site-nav {
+  border-bottom: 1px solid rgb(255 255 255 / 0.12);
+  background: rgb(15 24 21 / 0.68);
+  color: #fff;
+  backdrop-filter: blur(14px);
+}
+
+.hero-card,
+.bg .bg-white\/10 {
+  background-color: rgb(15 25 22 / 0.62);
+  border-color: rgb(255 255 255 / 0.13);
+  backdrop-filter: blur(10px);
+}
+
+.bg .bg-white\/15 {
+  background-color: rgb(255 255 255 / 0.1);
+}
+
+.bg .hover\:bg-white\/20:hover {
+  background-color: rgb(27 42 37 / 0.72);
+}
+
+.bg .hover\:border-white\/30:hover,
+.bg .hover\:border-blue-200\/60:hover,
+.bg .hover\:border-blue-200\/50:hover {
+  border-color: rgb(220 230 218 / 0.36);
+}
+
+.bg .text-blue-100,
+.bg .text-blue-200 {
+  color: rgb(219 226 213);
+}
+
+.bg .decoration-blue-200\/40 {
+  text-decoration-color: rgb(219 226 213 / 0.42);
+}
+
+.bg .border-blue-200\/30 {
+  border-color: rgb(219 226 213 / 0.26);
+}
+
+.bg main,
+.bg footer {
+  position: relative;
+}
+
 .page-sprite {
   --sprite-size: 64px;
   --sprite-bottom: clamp(12px, 2.4vw, 24px);
@@ -116,12 +156,40 @@ body {
   background-size: contain;
   background-color: transparent;
   opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
   padding: 0;
-  cursor: pointer;
+  cursor: n-resize;
   image-rendering: pixelated;
+  transform: translateY(8px);
+  transition: none;
+}
 
-  animation: showPageSprite linear forwards;
-  animation-timeline: scroll();
+.page-sprite.is-initialized {
+  transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+}
+
+.page-sprite.is-visible {
+  opacity: 0.72;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.page-sprite.is-visible:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+.page-sprite.is-visible:hover::after {
+  content: "↑";
+  position: absolute;
+  left: 50%;
+  top: -0.75rem;
+  transform: translateX(-50%);
+  color: rgb(255 255 255 / 0.9);
+  font-size: 0.9rem;
+  line-height: 1;
 }
 
 .page-sprite:focus-visible {
@@ -139,34 +207,16 @@ body {
     --sprite-bottom: 10px;
     --sprite-side: 8px;
   }
-
-  .page-sprite--v2 {
-    display: none;
-  }
 }
 
-@media (min-width: 521px) and (max-width: 767px) {
-  .page-sprite--v2 {
-    display: none;
-  }
-}
-
-@supports not (animation-timeline: scroll()) {
-  .page-sprite {
-    opacity: 1;
+@media (hover: none) {
+  .page-sprite.is-visible:hover {
+    opacity: 0.72;
     transform: translateY(0);
   }
-}
 
-@keyframes showPageSprite {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .page-sprite.is-visible:hover::after {
+    content: none;
   }
 }
 
@@ -176,8 +226,9 @@ body {
   z-index: 100;
   display: grid;
   place-items: center;
-  background: rgb(0 0 0 / 0.1);
+  background: rgb(15 24 21 / 0.44);
   opacity: 1;
+  cursor: pointer;
   transition: opacity 450ms ease;
 }
 
@@ -199,16 +250,19 @@ body {
   display: grid;
   gap: 1rem;
   align-items: center;
+  overflow: hidden;
 }
 
 .about-cat-slot {
   display: flex;
   justify-content: center;
+  min-height: 0;
 }
 
 .easter-egg-cat {
   display: block;
   width: min(100%, 256px);
+  max-height: 220px;
   height: auto;
   margin: 0;
   border-radius: 10px;

@@ -14,15 +14,15 @@
   <button type="button" class="page-sprite page-sprite--v2" data-page-icon="page_icon_2" data-scroll-top
     aria-label="Наверх"></button>
 
-  <nav class="fixed left-0 top-0 z-50 w-full border-b border-white/20 bg-black/10 px-4 py-3 backdrop-blur">
+  <nav class="site-nav fixed left-0 top-0 z-50 w-full px-4 py-3">
     <div class="mx-auto flex max-w-5xl items-center justify-between gap-2 sm:gap-4">
       <a href="./index.html" class="flex shrink-0 items-center text-sm font-semibold text-white"><img
           data-header-fox class="mr-1.5 h-8 w-8 shrink-0 object-contain" alt="" />Mikhail Russkikh</a>
       <ul class="flex flex-wrap items-center justify-end gap-2 text-sm font-semibold md:gap-6 md:text-base">
-        <li><a href="./index.html" class="text-blue-100 transition duration-300 hover:text-white">Главная</a></li>
+        <li><a href="./index.html" class="text-gray-300 transition duration-300 hover:text-white">Главная</a></li>
         <li><a href="./about.html"
             class="font-bold text-white underline decoration-gray-300 decoration-1 underline-offset-4">Обо мне</a></li>
-        <li><a href="./experience.html" class="text-blue-100 transition duration-300 hover:text-white">Проекты</a>
+        <li><a href="./experience.html" class="text-gray-300 transition duration-300 hover:text-white">Проекты</a>
         </li>
       </ul>
     </div>
@@ -30,41 +30,27 @@
 
   <main class="w-full max-w-5xl px-3 pt-20 md:px-6">
     <section class="rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
-      <div class="grid gap-6 md:grid-cols-[1.4fr_0.8fr] md:items-start">
-        <div>
-          <div class="mb-5">
-            <h1 class="text-2xl font-bold text-white md:text-3xl">О себе</h1>
-          </div>
-          <div class="space-y-4 rounded-lg bg-white/10 p-5 text-base leading-7 text-gray-200">
-            <p>Привет! Меня зовут Михаил Русских, я frontend-разработчик.</p>
-            <p>Я работаю с React, JavaScript, TypeScript, Tailwind CSS и адаптивной версткой. Мне нравится делать
-              интерфейсы, которые понятно выглядят, нормально работают на разных экранах и не разваливаются при правках.
-            </p>
-            <p>Сейчас ищу frontend-работу и хочу развиваться в команде, где можно делать реальные проекты, учиться у
-              более опытных разработчиков и приносить пользу продукту.</p>
-          </div>
+      <h1 class="text-2xl font-bold text-white md:text-3xl">О себе</h1>
+      <div class="mt-6 grid gap-6 md:grid-cols-[minmax(0,1fr)_280px] md:items-center">
+        <div class="max-w-2xl space-y-4 text-base leading-7 text-gray-200">
+          <p>Привет! Меня зовут Михаил Русских. Я frontend-разработчик из Перми</p>
+          <p>Работаю с React, JavaScript, TypeScript и Tailwind CSS. Верстаю адаптивные страницы, собираю интерфейсы, формы и подключаю frontend к backend через API</p>
+          <p>Мне нравится делать понятные и аккуратные интерфейсы, которые хорошо выглядят на разных экранах и остаются удобными для дальнейших изменений</p>
+          <p>Сейчас ищу frontend-команду, где смогу работать над реальными задачами, развиваться и приносить пользу продукту</p>
         </div>
         <div class="flex justify-center md:justify-end">
-          <div class="w-full max-w-64 overflow-hidden rounded-lg border border-white/10 bg-white/10 p-2">
-            <img data-profile-photo alt="Фото Михаила Русских" class="aspect-square w-full rounded-md object-cover" />
+          <div class="w-full max-w-72 overflow-hidden rounded-lg border border-white/10 bg-black/20">
+            <img data-profile-photo alt="Фото Михаила Русских" class="aspect-[4/5] w-full object-cover" />
           </div>
         </div>
       </div>
     </section>
 
-    <section class="mt-8 grid gap-6 md:grid-cols-2">
-      <div class="rounded-lg border border-white/10 bg-white/10 p-6">
-        <h2 class="text-xl font-bold text-white">Мои качества</h2>
-        <ul class="mt-4 space-y-2 text-gray-200">
-          <li>– спокойно разбираюсь в новых задачах</li>
-          <li>– умею искать информацию и доводить работу до результата</li>
-          <li>– стараюсь писать код так, чтобы потом его можно было понять</li>
-        </ul>
-      </div>
-      <div class="rounded-lg border border-white/10 bg-white/10 p-6">
-        <h2 class="text-xl font-bold text-white">Увлечения</h2>
-        <p class="mt-4 leading-7 text-gray-200">В свободное время занимаюсь своими проектами, спортом и интересуюсь
-          интерфейсами, играми и веб-разработкой.</p>
+    <section class="mt-8 rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
+      <h2 class="text-2xl font-bold text-white md:text-3xl">Вне работы</h2>
+      <div class="mt-4 max-w-3xl space-y-4 text-base leading-7 text-gray-200">
+        <p>В свободное время разрабатываю собственную игру. Занимаюсь 2D- и 3D-графикой, моделирую персонажей и декорации, продумываю игровые интерфейсы и постепенно собираю проект целиком</p>
+        <p>Также занимаюсь спортом и изучаю новые инструменты, которые помогают мне лучше понимать дизайн, анимацию и разработку</p>
       </div>
     </section>
 

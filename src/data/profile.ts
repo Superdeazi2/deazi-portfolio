@@ -1,12 +1,5 @@
-import avatarUrl from "/assets/avatar.png";
-import photoMe1Url from "/assets/photo_me1.png";
-import photoMe2Url from "/assets/photo_me2.png";
-import photoMe3Url from "/assets/photo_me3.png";
 import photoMe4Url from "/assets/photo_me4.png";
 import photoMe5Url from "/assets/photo_me5.jpg";
-import photoMe6Url from "/assets/photo_me6.jpg";
-import photoMe7Url from "/assets/photo_me7.jpg";
-import photoMe8Url from "/assets/photo_me8.jpg";
 import photoMe9Url from "/assets/photo_me9.jpg";
 import resumeProjectUrl from "/assets/resume-project.txt?url";
 
@@ -89,21 +82,6 @@ export const profilePhotos: ProfilePhoto[] = [
     src: photoMe9Url,
   },
   {
-    id: "photo-me-1",
-    title: "",
-    src: photoMe1Url,
-  },
-  {
-    id: "photo-me-2",
-    title: "",
-    src: photoMe2Url,
-  },
-  {
-    id: "photo-me-3",
-    title: "",
-    src: photoMe3Url,
-  },
-  {
     id: "photo-me-4",
     title: "",
     src: photoMe4Url,
@@ -112,25 +90,5 @@ export const profilePhotos: ProfilePhoto[] = [
     id: "photo-me-5",
     title: "",
     src: photoMe5Url,
-  },
-  {
-    id: "photo-me-6",
-    title: "",
-    src: photoMe6Url,
-  },
-  {
-    id: "photo-me-7",
-    title: "",
-    src: photoMe7Url,
-  },
-  {
-    id: "photo-me-8",
-    title: "",
-    src: photoMe8Url,
-  },
-  {
-    id: "avatar",
-    title: "",
-    src: avatarUrl,
   },
 ];

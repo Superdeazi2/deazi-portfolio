@@ -1,5 +1,13 @@
 import { experienceItems, type ExperienceItem } from "/data/experience";
 import { profileLinks, profilePhotos } from "/data/profile";
+import "@fontsource/manrope/cyrillic-400.css";
+import "@fontsource/manrope/cyrillic-500.css";
+import "@fontsource/manrope/cyrillic-600.css";
+import "@fontsource/manrope/cyrillic-700.css";
+import "@fontsource/manrope/latin-400.css";
+import "@fontsource/manrope/latin-500.css";
+import "@fontsource/manrope/latin-600.css";
+import "@fontsource/manrope/latin-700.css";
 import figma1Url from "/assets/figma1.jpg";
 import project2Url from "/assets/project2.jpg";
 import project3Url from "/assets/project3.jpg";
@@ -101,8 +109,9 @@ function initFoxLoader() {
   const loader = document.createElement("div");
   const image = document.createElement("img");
   loader.className = "fox-loader";
-  loader.setAttribute("role", "img");
-  loader.setAttribute("aria-label", "Загрузка страницы");
+  loader.setAttribute("role", "button");
+  loader.setAttribute("tabindex", "0");
+  loader.setAttribute("aria-label", "Закрыть заставку");
   image.alt = "";
   image.src = frames[0];
   loader.append(image);
@@ -110,10 +119,35 @@ function initFoxLoader() {
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let frameIndex = reducedMotion ? frames.length - 1 : 0;
+  let timer = 0;
+  let fallbackTimer = 0;
+  let isDismissed = false;
   image.src = frames[frameIndex];
 
+  const dismissLoader = () => {
+    if (isDismissed) return;
+
+    isDismissed = true;
+    window.clearInterval(timer);
+    window.clearTimeout(fallbackTimer);
+    loader.classList.add("is-hiding");
+    window.setTimeout(() => loader.remove(), 500);
+  };
+
+  loader.addEventListener("pointerdown", dismissLoader);
+  loader.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " " || event.key === "Escape") {
+      event.preventDefault();
+      dismissLoader();
+    }
+  });
+
+  fallbackTimer = window.setTimeout(dismissLoader, reducedMotion ? 1200 : 3500);
+
   void preloadFrames(frames).then(() => {
-    const timer = window.setInterval(() => {
+    if (isDismissed) return;
+
+    timer = window.setInterval(() => {
       frameIndex += 1;
 
       if (frameIndex < frames.length) {
@@ -121,9 +155,7 @@ function initFoxLoader() {
         return;
       }
 
-      window.clearInterval(timer);
-      loader.classList.add("is-hiding");
-      window.setTimeout(() => loader.remove(), 500);
+      dismissLoader();
     }, reducedMotion ? 80 : 120);
   });
 }
@@ -170,7 +202,7 @@ function setResumeLinks() {
 function setProfilePhotos() {
   const mainPhoto =
     document.body.dataset.page === "about"
-      ? profilePhotos.find((photo) => photo.id === "photo-me-4")
+      ? profilePhotos.find((photo) => photo.id === "photo-me-9")
       : profilePhotos[0];
 
   if (!mainPhoto) {
@@ -194,7 +226,18 @@ function setProjectImages() {
 }
 
 function initScrollTopButtons() {
-  document.querySelectorAll<HTMLButtonElement>("[data-scroll-top]").forEach((button) => {
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>("[data-scroll-top]")];
+
+  if (!buttons.length) {
+    return;
+  }
+
+  const updateScrollTopVisibility = () => {
+    const shouldShow = window.scrollY > 100;
+    buttons.forEach((button) => button.classList.toggle("is-visible", shouldShow));
+  };
+
+  buttons.forEach((button) => {
     button.addEventListener("click", () => {
       window.scrollTo({
         top: 0,
@@ -202,6 +245,12 @@ function initScrollTopButtons() {
       });
     });
   });
+
+  updateScrollTopVisibility();
+  window.requestAnimationFrame(() => {
+    buttons.forEach((button) => button.classList.add("is-initialized"));
+  });
+  window.addEventListener("scroll", updateScrollTopVisibility, { passive: true });
 }
 
 function renderExperienceLists() {
@@ -427,6 +476,23 @@ function initProjectLightbox() {
     return;
   }
 
+  let previousBodyOverflow = "";
+
+  const openLightbox = (image: HTMLImageElement) => {
+    previousBodyOverflow = document.body.style.overflow;
+    lightboxImg.src = image.src;
+    lightboxImg.alt = image.alt;
+    document.body.style.overflow = "hidden";
+    lightbox.classList.remove("opacity-0", "pointer-events-none");
+    lightbox.classList.add("opacity-100", "pointer-events-auto");
+  };
+
+  const closeLightbox = () => {
+    document.body.style.overflow = previousBodyOverflow;
+    lightbox.classList.remove("opacity-100", "pointer-events-auto");
+    lightbox.classList.add("opacity-0", "pointer-events-none");
+  };
+
   document.querySelectorAll<HTMLButtonElement>("[data-project]").forEach((button) => {
     button.addEventListener("click", () => {
       const image = button.querySelector<HTMLImageElement>("img");
@@ -435,15 +501,18 @@ function initProjectLightbox() {
         return;
       }
 
-      lightboxImg.src = image.src;
-      lightboxImg.alt = image.alt;
-      lightbox.classList.remove("opacity-0", "pointer-events-none");
-      lightbox.classList.add("opacity-100", "pointer-events-auto");
+      openLightbox(image);
     });
   });
 
-  lightbox.addEventListener("click", () => {
-    lightbox.classList.remove("opacity-100", "pointer-events-auto");
-    lightbox.classList.add("opacity-0", "pointer-events-none");
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox) {
+      closeLightbox();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !lightbox.classList.contains("pointer-events-none")) {
+      closeLightbox();
+    }
   });
 }
