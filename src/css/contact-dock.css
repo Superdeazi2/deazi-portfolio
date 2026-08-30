@@ -1,0 +1,238 @@
+/*
+ * CONTACT DOCK
+ * ------------
+ * Compact expanding social/contact control inspired by the rounded social
+ * interaction from Uiverse (Praashoo7 / smooth-crab-52), adapted to this site.
+ * The layout uses flex-wrap, so 3, 5, 7 or 9 links remain centered.
+ */
+
+.contact-dock-section {
+  width: 100%;
+  padding: 1.25rem 0 0.25rem;
+}
+
+.contact-dock {
+  --contact-accent: 74 222 128;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.contact-dock-panel {
+  display: flex;
+  width: min(100%, 660px);
+  max-height: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  pointer-events: none;
+  transition:
+    max-height 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.contact-dock.is-open .contact-dock-panel {
+  max-height: 190px;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.contact-dock-link {
+  position: relative;
+  display: inline-flex;
+  min-width: 96px;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.48rem;
+  border: 1px solid rgb(171 198 182 / 0.2);
+  border-radius: 999px;
+  padding: 0 0.78rem;
+  background: linear-gradient(180deg, rgb(29 47 39 / 0.94), rgb(13 27 21 / 0.98));
+  color: rgb(222 233 224);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 5px 12px rgb(0 0 0 / 0.16);
+  text-decoration: none;
+  transform: translateY(8px) scale(0.92);
+  opacity: 0;
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 200ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.contact-dock.is-open .contact-dock-link {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.contact-dock.is-open .contact-dock-link:nth-child(2) { transition-delay: 25ms; }
+.contact-dock.is-open .contact-dock-link:nth-child(3) { transition-delay: 50ms; }
+.contact-dock.is-open .contact-dock-link:nth-child(4) { transition-delay: 75ms; }
+.contact-dock.is-open .contact-dock-link:nth-child(5) { transition-delay: 100ms; }
+.contact-dock.is-open .contact-dock-link:nth-child(n+6) { transition-delay: 125ms; }
+
+.contact-dock-link svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+.contact-dock-link--hh {
+  min-width: 128px;
+}
+
+.contact-dock-hh-mark {
+  display: inline-grid;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  place-items: center;
+  border: 1px solid rgb(var(--contact-accent) / 0.28);
+  border-radius: 6px;
+  background: rgb(var(--contact-accent) / 0.07);
+  color: rgb(202 238 212);
+  font-size: 0.67rem !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.08em;
+  text-transform: lowercase;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.045);
+}
+
+.contact-dock-link--hh:hover .contact-dock-hh-mark {
+  border-color: rgb(var(--contact-accent) / 0.5);
+  background: rgb(var(--contact-accent) / 0.12);
+  color: rgb(225 250 232);
+}
+
+.contact-dock-link:hover {
+  border-color: rgb(var(--contact-accent) / 0.48);
+  background: linear-gradient(180deg, rgb(34 59 47 / 0.98), rgb(15 35 26 / 0.98));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    0 0 16px rgb(var(--contact-accent) / 0.13),
+    0 7px 16px rgb(0 0 0 / 0.2);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.contact-dock-link:focus-visible,
+.contact-dock-trigger:focus-visible {
+  outline: 2px solid rgb(var(--contact-accent) / 0.72);
+  outline-offset: 3px;
+}
+
+.contact-dock-link span {
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.contact-dock-trigger {
+  position: relative;
+  display: inline-flex;
+  min-width: 142px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.62rem;
+  border: 1px solid rgb(155 186 168 / 0.28);
+  border-radius: 999px;
+  padding: 0 1rem;
+  background: linear-gradient(180deg, rgb(30 48 40 / 0.96), rgb(13 27 22 / 0.99));
+  color: rgb(229 237 230);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 4px 0 rgb(6 17 12 / 0.72),
+    0 8px 18px rgb(0 0 0 / 0.18);
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.contact-dock-trigger-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgb(var(--contact-accent));
+  box-shadow: 0 0 9px rgb(var(--contact-accent) / 0.55);
+}
+
+.contact-dock-trigger svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.contact-dock.is-open .contact-dock-trigger {
+  border-color: rgb(var(--contact-accent) / 0.48);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    0 3px 0 rgb(6 17 12 / 0.72),
+    0 0 18px rgb(var(--contact-accent) / 0.12);
+}
+
+.contact-dock.is-open .contact-dock-trigger svg {
+  transform: rotate(180deg);
+}
+
+.contact-dock-trigger:hover {
+  transform: translateY(-1px);
+  border-color: rgb(var(--contact-accent) / 0.46);
+}
+
+.contact-dock-trigger:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 1px 0 rgb(6 17 12 / 0.76);
+}
+
+@media (max-width: 520px) {
+  .contact-dock-panel {
+    width: min(100%, 330px);
+    gap: 0.5rem;
+  }
+
+  .contact-dock.is-open .contact-dock-panel {
+    max-height: 260px;
+  }
+
+  .contact-dock-link {
+    min-width: 88px;
+    height: 42px;
+    padding-inline: 0.66rem;
+  }
+
+  .contact-dock-link span {
+    font-size: 0.72rem;
+  }
+}

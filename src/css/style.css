@@ -1,4 +1,14 @@
+@import "@fontsource/manrope/cyrillic-400.css";
+@import "@fontsource/manrope/cyrillic-500.css";
+@import "@fontsource/manrope/cyrillic-600.css";
+@import "@fontsource/manrope/cyrillic-700.css";
+@import "@fontsource/manrope/latin-400.css";
+@import "@fontsource/manrope/latin-500.css";
+@import "@fontsource/manrope/latin-600.css";
+@import "@fontsource/manrope/latin-700.css";
 @import "tailwindcss";
+@import "./matrix-background.css";
+@import "./contact-dock.css";
 
 body {
   color: #fff;
@@ -13,6 +23,54 @@ html {
 
 body {
   background-color: transparent;
+}
+
+/* Stable first paint: JS marks the page ready after fonts + critical media. */
+.js .bg > .site-nav,
+.js .bg > main,
+.js .bg > footer {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(5px);
+}
+
+.js .bg.site-ready > .site-nav,
+.js .bg.site-ready > main,
+.js .bg.site-ready > footer {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bg.is-page-leaving > .site-nav,
+.bg.is-page-leaving > main,
+.bg.is-page-leaving > footer {
+  opacity: 0 !important;
+  transform: translateY(-3px) !important;
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease !important;
+}
+
+/* Bundled images stay completely hidden until Vite has resolved and loaded them. */
+img[data-bundled-image] {
+  visibility: hidden;
+  opacity: 0;
+  background: rgb(10 18 15 / 0.22);
+  transition: opacity 220ms ease;
+}
+
+img[data-bundled-image].is-image-ready {
+  visibility: visible;
+  opacity: 1;
+}
+
+img[data-bundled-image].is-image-error {
+  visibility: hidden;
+  opacity: 0;
 }
 
 .bg {
@@ -159,7 +217,7 @@ body {
   visibility: hidden;
   pointer-events: none;
   padding: 0;
-  cursor: n-resize;
+  cursor: url("../assets/cursor-up.svg") 16 5, pointer;
   image-rendering: pixelated;
   transform: translateY(8px);
   transition: none;
@@ -181,16 +239,6 @@ body {
   transform: translateY(-3px);
 }
 
-.page-sprite.is-visible:hover::after {
-  content: "↑";
-  position: absolute;
-  left: 50%;
-  top: -0.75rem;
-  transform: translateX(-50%);
-  color: rgb(255 255 255 / 0.9);
-  font-size: 0.9rem;
-  line-height: 1;
-}
 
 .page-sprite:focus-visible {
   outline: 2px solid rgb(191 219 254 / 0.8);
@@ -215,9 +263,220 @@ body {
     transform: translateY(0);
   }
 
-  .page-sprite.is-visible:hover::after {
-    content: none;
+}
+
+.header-brand {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.header-fox-trigger {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  place-items: center;
+  border: 0;
+  padding: 0;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, filter 160ms ease;
+}
+
+.header-fox-trigger:hover {
+  transform: translateY(-1px) scale(1.04);
+  background: rgb(255 255 255 / 0.05);
+  filter: drop-shadow(0 0 8px rgb(52 211 153 / 0.18));
+}
+
+.header-fox-trigger:focus-visible {
+  outline: 2px solid rgb(74 222 128 / 0.7);
+  outline-offset: 2px;
+}
+
+
+.header-fox-trigger img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+/* Matrix motion switch: detached from navigation so it stays subtle. */
+.matrix-motion-toggle {
+  position: relative;
+  width: 38px;
+  height: 22px;
+  flex: 0 0 38px;
+  border: 1px solid rgb(202 220 208 / 0.24);
+  border-radius: 7px;
+  padding: 0;
+  background: linear-gradient(180deg, rgb(36 48 43 / 0.9), rgb(14 25 21 / 0.94));
+  box-shadow:
+    inset 1px 1px 0 rgb(255 255 255 / 0.07),
+    inset -2px -2px 0 rgb(0 0 0 / 0.28),
+    0 2px 0 rgb(0 0 0 / 0.22);
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+  z-index: 2;
+  opacity: 0.7;
+  transition:
+    opacity 150ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 120ms ease;
+}
+
+.matrix-motion-toggle::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgb(227 238 229 / 0.34);
+  border-radius: 4px;
+  background: linear-gradient(145deg, rgb(101 115 108), rgb(61 74 68));
+  box-shadow:
+    inset 1px 1px 0 rgb(255 255 255 / 0.14),
+    1px 2px 0 rgb(0 0 0 / 0.26);
+  transition:
+    transform 190ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.matrix-motion-toggle::after {
+  content: "";
+  position: absolute;
+  inset: 4px 7px;
+  border-top: 1px solid rgb(255 255 255 / 0.025);
+  pointer-events: none;
+}
+
+.matrix-motion-toggle.is-active {
+  border-color: rgb(74 222 128 / 0.55);
+  box-shadow:
+    inset 1px 1px 0 rgb(255 255 255 / 0.08),
+    inset -2px -2px 0 rgb(0 0 0 / 0.26),
+    0 2px 0 rgb(0 0 0 / 0.24),
+    0 0 7px rgb(34 197 94 / 0.34),
+    0 0 14px rgb(34 197 94 / 0.1);
+}
+
+.matrix-motion-toggle.is-active::before {
+  transform: translateX(18px);
+  border-color: rgb(187 247 208 / 0.68);
+  background: linear-gradient(145deg, rgb(69 211 112), rgb(34 154 76));
+  box-shadow:
+    inset 1px 1px 0 rgb(255 255 255 / 0.2),
+    1px 2px 0 rgb(0 0 0 / 0.23),
+    0 0 6px rgb(74 222 128 / 0.32);
+}
+
+.matrix-motion-toggle:hover,
+.matrix-motion-toggle:focus-visible,
+.matrix-motion-toggle:active {
+  opacity: 1;
+}
+
+.matrix-motion-toggle:focus-visible {
+  outline: 2px solid rgb(74 222 128 / 0.62);
+  outline-offset: 3px;
+}
+
+.matrix-motion-toggle--header {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .site-nav {
+    padding-right: 4.25rem;
   }
+
+  .matrix-motion-toggle--header {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: clamp(14px, 2.2vw, 34px);
+    transform: translateY(-50%);
+  }
+
+  .matrix-motion-toggle--header:hover,
+  .matrix-motion-toggle--header:focus-visible {
+    transform: translateY(-50%) scale(1.03);
+  }
+
+  .matrix-motion-toggle--header:active {
+    transform: translateY(calc(-50% + 1px)) scale(0.98);
+  }
+}
+
+.hero-action-button {
+  position: relative;
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(128 166 143 / 0.34);
+  border-radius: 5px;
+  padding: 0.66rem 1.12rem;
+  background: linear-gradient(180deg, rgb(31 53 44 / 0.96), rgb(18 34 28 / 0.98));
+  color: rgb(226 235 226);
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.1;
+  text-decoration: none;
+  box-shadow:
+    0 4px 0 rgb(7 18 13 / 0.92),
+    0 7px 14px rgb(0 0 0 / 0.16),
+    inset 0 1px 0 rgb(255 255 255 / 0.08);
+  transform: translateY(0) skewX(-2deg);
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.hero-action-button::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgb(255 255 255 / 0.025);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.hero-action-button:hover {
+  border-color: rgb(110 231 143 / 0.42);
+  background: linear-gradient(180deg, rgb(39 67 54 / 0.98), rgb(21 42 33 / 0.98));
+  color: #fff;
+  box-shadow:
+    0 5px 0 rgb(7 18 13 / 0.96),
+    0 9px 18px rgb(0 0 0 / 0.2),
+    0 0 14px rgb(34 197 94 / 0.08),
+    inset 0 1px 0 rgb(255 255 255 / 0.1);
+  transform: translateY(-1px) skewX(-2deg);
+}
+
+.hero-action-button:active {
+  box-shadow:
+    0 1px 0 rgb(7 18 13 / 0.96),
+    0 3px 8px rgb(0 0 0 / 0.18),
+    inset 0 1px 0 rgb(255 255 255 / 0.08);
+  transform: translateY(3px) skewX(-2deg);
+}
+
+.hero-action-button:focus-visible {
+  outline: 2px solid rgb(74 222 128 / 0.72);
+  outline-offset: 4px;
 }
 
 .fox-loader {
@@ -226,24 +485,47 @@ body {
   z-index: 100;
   display: grid;
   place-items: center;
-  background: rgb(15 24 21 / 0.44);
+  background: transparent;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  cursor: default;
+  transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+.fox-loader.is-playing {
   opacity: 1;
-  cursor: pointer;
-  transition: opacity 450ms ease;
+  visibility: visible;
 }
 
 .fox-loader.is-hiding {
   opacity: 0;
-  pointer-events: none;
+  visibility: hidden;
 }
 
 .fox-loader img {
-  width: clamp(180px, 30vw, 320px);
-  max-width: 82vw;
+  width: clamp(150px, 19vw, 250px);
+  max-width: 72vw;
   height: auto;
-  transform: translateY(-10%);
+  opacity: 0;
+  transform: translateY(-4%) scale(0.96);
   image-rendering: auto;
-  filter: drop-shadow(0 18px 34px rgb(0 0 0 / 0.35));
+  filter:
+    drop-shadow(0 15px 28px rgb(0 0 0 / 0.22))
+    drop-shadow(0 0 16px rgb(52 211 153 / 0.08));
+  transition: opacity 120ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fox-loader.is-frame-ready img {
+  opacity: 0.92;
+  transform: translateY(-4%) scale(1);
+}
+
+
+@media (max-width: 520px) {
+  .fox-loader img {
+    width: min(48vw, 190px);
+  }
 }
 
 .about-preview-content {

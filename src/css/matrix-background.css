@@ -1,0 +1,44 @@
+/*
+ * MATRIX BACKGROUND EFFECT
+ * ------------------------
+ * Isolated full-screen Matrix layer.
+ *
+ * Quick disable:
+ * 1) remove: @import "./matrix-background.css"; from css/style.css
+ * 2) remove initMatrixBackground import + call from views/app.ts
+ */
+
+:root {
+  --matrix-background-opacity: 0.5;
+}
+
+/* Existing wallpaper stays below the Matrix canvas. */
+.bg::before,
+.bg::after {
+  z-index: -1;
+}
+
+/*
+ * z-index: 0 is intentional here.
+ * Negative z-index could place the canvas behind the root/body painting layer
+ * in some browser/stacking-context combinations, making the effect invisible.
+ */
+.matrix-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  opacity: var(--matrix-background-opacity);
+  pointer-events: none;
+  user-select: none;
+  mix-blend-mode: screen;
+}
+
+/* Keep normal page content above the canvas. */
+.bg > main,
+.bg > footer {
+  position: relative;
+  z-index: 1;
+}

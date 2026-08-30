@@ -1,20 +1,21 @@
+import { initMatrixBackground, type MatrixController } from "../effects/matrix-background";
 import { experienceItems, type ExperienceItem } from "/data/experience";
 import { profileLinks, profilePhotos } from "/data/profile";
-import "@fontsource/manrope/cyrillic-400.css";
-import "@fontsource/manrope/cyrillic-500.css";
-import "@fontsource/manrope/cyrillic-600.css";
-import "@fontsource/manrope/cyrillic-700.css";
-import "@fontsource/manrope/latin-400.css";
-import "@fontsource/manrope/latin-500.css";
-import "@fontsource/manrope/latin-600.css";
-import "@fontsource/manrope/latin-700.css";
-import figma1Url from "/assets/figma1.jpg";
-import project2Url from "/assets/project2.jpg";
-import project3Url from "/assets/project3.jpg";
-import project4Url from "/assets/project4.jpg";
-import project5Url from "/assets/project5.jpg";
-import project7Url from "/assets/project7.jpg";
-import headerFoxUrl from "../animations/fox/fox_01.png";
+import fox01Url from "../animations/fox/fox_01.png";
+import fox02Url from "../animations/fox/fox_02.png";
+import fox03Url from "../animations/fox/fox_03.png";
+import fox04Url from "../animations/fox/fox_04.png";
+import fox05Url from "../animations/fox/fox_05.png";
+import fox06Url from "../animations/fox/fox_06.png";
+import fox07Url from "../animations/fox/fox_07.png";
+import fox08Url from "../animations/fox/fox_08.png";
+import photoMe9Url from "../assets/photo_me9.jpg";
+import figma1Url from "../assets/figma1.jpg";
+import project2Url from "../assets/project2.jpg";
+import project3Url from "../assets/project3.jpg";
+import project4Url from "../assets/project4.jpg";
+import project5Url from "../assets/project5.jpg";
+import project7Url from "../assets/project7.jpg";
 
 const animationFrameUrls = import.meta.glob("../animations/**/*.png", {
   eager: true,
@@ -22,7 +23,18 @@ const animationFrameUrls = import.meta.glob("../animations/**/*.png", {
   import: "default",
 }) as Record<string, string>;
 
-const projectImageUrls = {
+const foxAnimationFrames = [
+  fox01Url,
+  fox02Url,
+  fox03Url,
+  fox04Url,
+  fox05Url,
+  fox06Url,
+  fox07Url,
+  fox08Url,
+];
+
+const projectImageUrls: Record<string, string> = {
   figma1: figma1Url,
   project2: project2Url,
   project3: project3Url,
@@ -31,22 +43,156 @@ const projectImageUrls = {
   project7: project7Url,
 };
 
+const profileImageUrls: Record<string, string> = {
+  "photo-me-9": photoMe9Url,
+};
+
+const FOX_LOADER_COOLDOWN_MS = 60_000;
+const FOX_LOADER_STORAGE_KEY = "deazi-fox-loader-last-auto-played-at-v2";
+
+setBundledImageSources();
+setResumeLinks();
+initStablePageReveal();
+initPageTransitions();
+const matrixController = initMatrixBackground();
+initMatrixMotionToggle(matrixController);
 initFoxLoader();
 initPageIcons();
 initCat();
-setHeaderFox();
-setResumeLinks();
-setProfilePhotos();
-setProjectImages();
 initScrollTopButtons();
 renderExperienceLists();
 initStackCarousel();
 initPhotoGallery();
 initProjectLightbox();
+initContactDock();
 
-function setHeaderFox() {
+
+function initMatrixMotionToggle(controller: MatrixController | null) {
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>("[data-matrix-toggle]")];
+  if (!buttons.length) return;
+
+  const sync = () => {
+    const enabled = controller?.isMotionEnabled() ?? false;
+    buttons.forEach((button) => {
+      button.classList.toggle("is-active", enabled);
+      button.setAttribute("aria-pressed", String(enabled));
+      button.setAttribute(
+        "aria-label",
+        enabled ? "Остановить движение фона" : "Продолжить движение фона",
+      );
+      button.title = enabled ? "Остановить фон" : "Продолжить фон";
+    });
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      controller?.toggleMotion();
+      sync();
+    });
+  });
+
+  sync();
+}
+
+function initStablePageReveal() {
+  const body = document.body;
+
+  const waitForCriticalImages = Promise.all(
+    [...document.querySelectorAll<HTMLImageElement>("[data-critical-image]")].map(async (image) => {
+      if (image.complete && image.naturalWidth > 0) return;
+
+      try {
+        await image.decode();
+      } catch {
+        await new Promise<void>((resolve) => {
+          image.addEventListener("load", () => resolve(), { once: true });
+          image.addEventListener("error", () => resolve(), { once: true });
+        });
+      }
+    }),
+  );
+
+  const fontsReady = document.fonts?.ready ?? Promise.resolve();
+  const safetyTimeout = new Promise<void>((resolve) => window.setTimeout(resolve, 1400));
+
+  void Promise.race([Promise.all([fontsReady, waitForCriticalImages]), safetyTimeout]).then(() => {
+    window.requestAnimationFrame(() => body.classList.add("site-ready"));
+  });
+
+  window.addEventListener("pageshow", () => {
+    body.classList.remove("is-page-leaving");
+    body.classList.add("site-ready");
+  });
+}
+
+function initPageTransitions() {
+  document.addEventListener("click", (event) => {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const link = target.closest<HTMLAnchorElement>("a[href]");
+    if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+
+    const url = new URL(link.href, window.location.href);
+    if (url.origin !== window.location.origin) return;
+    if (url.pathname === window.location.pathname && url.hash) return;
+
+    const isPageNavigation = /\/(?:index|about|experience)\.html$/.test(url.pathname);
+    if (!isPageNavigation) return;
+
+    event.preventDefault();
+    document.body.classList.add("is-page-leaving");
+
+    window.setTimeout(() => {
+      window.location.href = url.href;
+    }, 170);
+  });
+}
+
+function bindBundledImage(image: HTMLImageElement, src: string) {
+  image.classList.remove("is-image-ready", "is-image-error");
+  image.src = src;
+
+  const reveal = () => {
+    if (image.naturalWidth > 0) {
+      image.classList.add("is-image-ready");
+      image.classList.remove("is-image-error");
+    } else {
+      image.classList.add("is-image-error");
+    }
+  };
+
+  if (image.complete) {
+    reveal();
+    return;
+  }
+
+  image.addEventListener("load", reveal, { once: true });
+  image.addEventListener("error", reveal, { once: true });
+}
+
+function setBundledImageSources() {
   document.querySelectorAll<HTMLImageElement>("[data-header-fox]").forEach((image) => {
-    image.src = headerFoxUrl;
+    bindBundledImage(image, fox01Url);
+  });
+
+  document.querySelectorAll<HTMLImageElement>("[data-fox-loader-image]").forEach((image) => {
+    bindBundledImage(image, fox01Url);
+  });
+
+  document.querySelectorAll<HTMLImageElement>("[data-profile-photo]").forEach((image) => {
+    const key = image.dataset.profilePhoto;
+    if (key && profileImageUrls[key]) bindBundledImage(image, profileImageUrls[key]);
+  });
+
+  document.querySelectorAll<HTMLImageElement>("[data-project-image]").forEach((image) => {
+    const key = image.dataset.projectImage;
+    if (key && projectImageUrls[key]) bindBundledImage(image, projectImageUrls[key]);
   });
 }
 
@@ -79,85 +225,130 @@ function startFrameLoop(
 ) {
   let frames = initialFrames;
   let frameIndex = 0;
+  let lastFrameTime = performance.now();
 
-  const render = () => showFrame(frames[frameIndex]);
+  const render = () => {
+    const frame = frames[frameIndex];
+    if (frame) showFrame(frame);
+  };
+
   const setFrames = (nextFrames: string[]) => {
+    if (!nextFrames.length) return;
     frames = nextFrames;
     frameIndex = 0;
+    lastFrameTime = performance.now();
     render();
   };
 
-  render();
-
-  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    window.setInterval(() => {
+  const loop = (time: number) => {
+    // requestAnimationFrame naturally pauses in background tabs. Resetting the
+    // timestamp after a long gap prevents sprite animations from trying to
+    // catch up when the tab becomes visible again.
+    if (time - lastFrameTime >= delay) {
       frameIndex = (frameIndex + 1) % frames.length;
+      lastFrameTime = time;
       render();
-    }, delay);
-  }
+    }
+
+    window.requestAnimationFrame(loop);
+  };
+
+  render();
+  window.requestAnimationFrame(loop);
 
   return setFrames;
 }
 
 function initFoxLoader() {
-  if (document.body.dataset.page !== "index") return;
+  const loader = document.querySelector<HTMLElement>("[data-fox-loader]");
+  const image = loader?.querySelector<HTMLImageElement>("[data-fox-loader-image]");
+  const triggers = [...document.querySelectorAll<HTMLButtonElement>("[data-header-fox-trigger]")];
 
-  const frames = getAnimationFrames("fox");
+  if (!loader || !image || !foxAnimationFrames.length) {
+    loader?.remove();
+    return;
+  }
 
-  if (!frames.length) return;
+  let isPlaying = false;
+  let inMemoryLastAutoPlayedAt = 0;
 
-  const loader = document.createElement("div");
-  const image = document.createElement("img");
-  loader.className = "fox-loader";
-  loader.setAttribute("role", "button");
-  loader.setAttribute("tabindex", "0");
-  loader.setAttribute("aria-label", "Закрыть заставку");
-  image.alt = "";
-  image.src = frames[0];
-  loader.append(image);
-  document.body.append(loader);
+  const delay = (ms: number) => new Promise<void>((resolve) => window.setTimeout(resolve, ms));
 
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let frameIndex = reducedMotion ? frames.length - 1 : 0;
-  let timer = 0;
-  let fallbackTimer = 0;
-  let isDismissed = false;
-  image.src = frames[frameIndex];
-
-  const dismissLoader = () => {
-    if (isDismissed) return;
-
-    isDismissed = true;
-    window.clearInterval(timer);
-    window.clearTimeout(fallbackTimer);
-    loader.classList.add("is-hiding");
-    window.setTimeout(() => loader.remove(), 500);
+  const getLastAutoPlayedAt = () => {
+    try {
+      return Number(window.localStorage.getItem(FOX_LOADER_STORAGE_KEY) ?? 0) || 0;
+    } catch {
+      return inMemoryLastAutoPlayedAt;
+    }
   };
 
-  loader.addEventListener("pointerdown", dismissLoader);
-  loader.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " " || event.key === "Escape") {
-      event.preventDefault();
-      dismissLoader();
+  const rememberAutoPlayedNow = () => {
+    const now = Date.now();
+    inMemoryLastAutoPlayedAt = now;
+    try {
+      window.localStorage.setItem(FOX_LOADER_STORAGE_KEY, String(now));
+    } catch {
+      // Keep the cooldown in memory if storage is unavailable.
     }
+  };
+
+  const canAutoPlay = () => Date.now() - getLastAutoPlayedAt() >= FOX_LOADER_COOLDOWN_MS;
+
+  const hideLoader = () => {
+    loader.classList.add("is-hiding");
+    loader.classList.remove("is-playing", "is-frame-ready");
+    window.setTimeout(() => loader.classList.remove("is-hiding"), 240);
+  };
+
+  const showFrame = async (src: string) => {
+    loader.classList.remove("is-frame-ready");
+    image.src = src;
+
+    try {
+      await image.decode();
+    } catch {
+      await new Promise<void>((resolve) => {
+        if (image.complete) return resolve();
+        image.addEventListener("load", () => resolve(), { once: true });
+        image.addEventListener("error", () => resolve(), { once: true });
+      });
+    }
+
+    if (image.naturalWidth > 0) loader.classList.add("is-frame-ready");
+  };
+
+  const play = async (mode: "auto" | "manual") => {
+    if (isPlaying) return false;
+    if (mode === "auto" && !canAutoPlay()) return false;
+
+    isPlaying = true;
+    if (mode === "auto") rememberAutoPlayedNow();
+
+    await showFrame(foxAnimationFrames[0]);
+    loader.classList.remove("is-hiding");
+    loader.classList.add("is-playing");
+
+    await preloadFrames(foxAnimationFrames);
+
+    for (const frame of foxAnimationFrames) {
+      await showFrame(frame);
+      await delay(135);
+    }
+
+    await delay(180);
+    hideLoader();
+    isPlaying = false;
+    return true;
+  };
+
+  // Manual clicks ALWAYS play. They intentionally do not read or update the
+  // one-minute automatic-loader cooldown.
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => void play("manual"));
   });
 
-  fallbackTimer = window.setTimeout(dismissLoader, reducedMotion ? 1200 : 3500);
-
-  void preloadFrames(frames).then(() => {
-    if (isDismissed) return;
-
-    timer = window.setInterval(() => {
-      frameIndex += 1;
-
-      if (frameIndex < frames.length) {
-        image.src = frames[frameIndex];
-        return;
-      }
-
-      dismissLoader();
-    }, reducedMotion ? 80 : 120);
-  });
+  // Only the automatic animation on the main page uses the one-minute cooldown.
+  if (document.body.dataset.page === "index") void play("auto");
 }
 
 function initPageIcons() {
@@ -199,31 +390,6 @@ function setResumeLinks() {
   });
 }
 
-function setProfilePhotos() {
-  const mainPhoto =
-    document.body.dataset.page === "about"
-      ? profilePhotos.find((photo) => photo.id === "photo-me-9")
-      : profilePhotos[0];
-
-  if (!mainPhoto) {
-    return;
-  }
-
-  document.querySelectorAll<HTMLImageElement>("[data-profile-photo]").forEach((image) => {
-    image.src = mainPhoto.src;
-  });
-}
-
-function setProjectImages() {
-  document.querySelectorAll<HTMLImageElement>("[data-project-image]").forEach((image) => {
-    const imageKey = image.dataset.projectImage as keyof typeof projectImageUrls;
-    const imageUrl = projectImageUrls[imageKey];
-
-    if (imageUrl) {
-      image.src = imageUrl;
-    }
-  });
-}
 
 function initScrollTopButtons() {
   const buttons = [...document.querySelectorAll<HTMLButtonElement>("[data-scroll-top]")];
@@ -251,6 +417,47 @@ function initScrollTopButtons() {
     buttons.forEach((button) => button.classList.add("is-initialized"));
   });
   window.addEventListener("scroll", updateScrollTopVisibility, { passive: true });
+}
+
+function initContactDock() {
+  const docks = [...document.querySelectorAll<HTMLElement>("[data-contact-dock]")];
+  if (!docks.length) return;
+
+  const setOpen = (dock: HTMLElement, open: boolean) => {
+    dock.classList.toggle("is-open", open);
+    dock.querySelector<HTMLButtonElement>("[data-contact-trigger]")?.setAttribute(
+      "aria-expanded",
+      String(open),
+    );
+  };
+
+  docks.forEach((dock) => {
+    const trigger = dock.querySelector<HTMLButtonElement>("[data-contact-trigger]");
+    if (!trigger) return;
+
+    // Contacts start expanded on every page load.
+    setOpen(dock, true);
+
+    trigger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      setOpen(dock, !dock.classList.contains("is-open"));
+    });
+
+    dock.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setOpen(dock, false);
+        trigger.focus();
+      }
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    docks.forEach((dock) => {
+      if (!dock.contains(target)) setOpen(dock, false);
+    });
+  });
 }
 
 function renderExperienceLists() {
