@@ -623,3 +623,103 @@ img[data-bundled-image].is-image-error {
     transform: translateX(-50%);
   }
 }
+
+/* === DEAZI MOBILE + INTRO FIX V8 START === */
+
+/*
+ * Do not show the large startup fox / splash layer.
+ * The normal small logo inside <header> is intentionally NOT targeted.
+ */
+body > .preloader,
+body > .page-preloader,
+body > .loader,
+body > .page-loader,
+body > .loading-screen,
+body > .splash,
+body > .splash-screen,
+body > .intro,
+body > .intro-screen,
+body > [class*="preloader" i],
+body > [class*="loading-screen" i],
+body > [class*="splash-screen" i],
+body > [id*="preloader" i],
+body > [id*="loading-screen" i],
+body > [id*="splash-screen" i] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* A standalone startup logo can never cover the page. Header logo stays intact. */
+body > img[src*="fox" i],
+body > img[src*="kitsune" i],
+body > img[class*="intro" i],
+body > img[class*="splash" i],
+body > svg[class*="intro" i],
+body > svg[class*="splash" i] {
+  display: none !important;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 720px) {
+  header {
+    overflow: visible !important;
+  }
+
+  header nav {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 8px 12px !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 118px) !important;
+    overflow: visible !important;
+  }
+
+  header nav a,
+  header nav button {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    white-space: nowrap !important;
+    min-width: 0 !important;
+  }
+
+  main,
+  main section {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  img,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+
+  a,
+  button {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 390px) {
+  header nav {
+    gap: 6px 9px !important;
+    max-width: calc(100vw - 102px) !important;
+  }
+
+  header nav a,
+  header nav button {
+    font-size: 0.86rem !important;
+  }
+}
+
+/* === DEAZI MOBILE + INTRO FIX V8 END === */

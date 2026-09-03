@@ -11,12 +11,28 @@
 
 ## Скриншоты
 
-<p>
-  <img src="docs/screenshots/portfolio-desktop.png" alt="Portfolio — desktop" width="760">
-</p>
+### Главная
 
 <p>
-  <img src="docs/screenshots/portfolio-mobile.png" alt="Portfolio — mobile" width="320">
+  <img src="docs/screenshots/portfolio-home-desktop.png" alt="Portfolio — главная, desktop" width="780">
+</p>
+
+### Мобильная версия
+
+<p>
+  <img src="docs/screenshots/portfolio-home-mobile.png" alt="Portfolio — главная, mobile" width="340">
+</p>
+
+### Обо мне
+
+<p>
+  <img src="docs/screenshots/portfolio-about-desktop.png" alt="Portfolio — обо мне" width="780">
+</p>
+
+### Опыт
+
+<p>
+  <img src="docs/screenshots/portfolio-experience-desktop.png" alt="Portfolio — опыт" width="780">
 </p>
 
 ## Стек
