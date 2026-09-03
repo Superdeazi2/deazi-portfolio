@@ -44,6 +44,207 @@ const __vite_glob_0_42 = "" + new URL("../images/page_icon_2_09.png", import.met
 const __vite_glob_0_43 = "" + new URL("../images/page_icon_2_10.png", import.meta.url).href;
 const __vite_glob_0_44 = "" + new URL("../images/page_icon_2_11.png", import.meta.url).href;
 const __vite_glob_0_45 = "" + new URL("../images/page_icon_2_12.png", import.meta.url).href;
+const MATRIX_CANVAS_CLASS = "matrix-background";
+const MATRIX_STORAGE_KEY = "deazi-matrix-motion-enabled";
+const MATRIX_GLYPHS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ";
+function readMotionPreference() {
+  try {
+    return window.localStorage.getItem(MATRIX_STORAGE_KEY) !== "0";
+  } catch {
+    return true;
+  }
+}
+function storeMotionPreference(enabled) {
+  try {
+    window.localStorage.setItem(MATRIX_STORAGE_KEY, enabled ? "1" : "0");
+  } catch {
+  }
+}
+function initMatrixBackground() {
+  const matrixWindow = window;
+  matrixWindow.__deaziMatrixController?.destroy();
+  const host = document.querySelector(".bg") ?? document.body;
+  const canvas = document.createElement("canvas");
+  canvas.className = MATRIX_CANVAS_CLASS;
+  canvas.setAttribute("aria-hidden", "true");
+  host.prepend(canvas);
+  const context = canvas.getContext("2d", { alpha: true });
+  if (!context) {
+    canvas.remove();
+    return null;
+  }
+  const fontSize = 17;
+  const columnGap = 24;
+  let width = 0;
+  let height = 0;
+  let streams = [];
+  let animationFrame = 0;
+  let previousTime = performance.now();
+  let motionEnabled = readMotionPreference();
+  let pageVisible = !document.hidden;
+  let isDestroyed = false;
+  const randomGlyph = () => MATRIX_GLYPHS[Math.floor(Math.random() * MATRIX_GLYPHS.length)] ?? "0";
+  const createStreams = () => {
+    const columns = Math.ceil(width / columnGap);
+    streams = Array.from({ length: columns }, (_, column) => ({
+      x: column * columnGap + Math.random() * 4,
+      y: Math.random() * (height + 260),
+      speed: 24 + Math.random() * 34,
+      length: 9 + Math.floor(Math.random() * 18),
+      phase: Math.random() * Math.PI * 2
+    }));
+  };
+  const configureCanvas = (preservePositions = false) => {
+    const oldWidth = width;
+    const oldHeight = height;
+    const oldStreams = streams;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.max(1, Math.floor(width * dpr));
+    canvas.height = Math.max(1, Math.floor(height * dpr));
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    context.textBaseline = "top";
+    context.font = `${fontSize}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace`;
+    if (!preservePositions || !oldStreams.length || !oldWidth || !oldHeight) {
+      createStreams();
+      return;
+    }
+    const columns = Math.ceil(width / columnGap);
+    const yScale = height / oldHeight;
+    streams = Array.from({ length: columns }, (_, column) => {
+      const previous = oldStreams[Math.min(column, oldStreams.length - 1)];
+      if (!previous) {
+        return {
+          x: column * columnGap + Math.random() * 4,
+          y: Math.random() * (height + 260),
+          speed: 24 + Math.random() * 34,
+          length: 9 + Math.floor(Math.random() * 18),
+          phase: Math.random() * Math.PI * 2
+        };
+      }
+      return {
+        ...previous,
+        x: column * columnGap + previous.x % columnGap,
+        y: previous.y * yScale
+      };
+    });
+  };
+  const renderFrame = (time, advance) => {
+    const delta = advance ? Math.min((time - previousTime) / 1e3, 0.05) : 0;
+    previousTime = time;
+    context.clearRect(0, 0, width, height);
+    for (const stream of streams) {
+      const sway = Math.sin(time * 35e-5 + stream.phase) * 1.4;
+      for (let index = 0; index < stream.length; index += 1) {
+        const y = stream.y + index * fontSize;
+        if (y < -fontSize || y > height + fontSize) continue;
+        const alpha = index === 0 ? 0.9 : Math.max(0.06, 0.45 - index * 0.026);
+        context.fillStyle = index === 0 ? "rgba(180, 255, 195, 0.90)" : `rgba(38, 176, 72, ${alpha})`;
+        context.fillText(randomGlyph(), stream.x + sway, y);
+      }
+      if (!advance) continue;
+      stream.y -= stream.speed * delta;
+      if (stream.y + stream.length * fontSize < -24) {
+        stream.y = height + 40 + Math.random() * 220;
+        stream.speed = 24 + Math.random() * 34;
+        stream.length = 9 + Math.floor(Math.random() * 18);
+      }
+    }
+  };
+  const stopAnimation = () => {
+    if (animationFrame) {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+    }
+  };
+  const draw = (time) => {
+    animationFrame = 0;
+    if (isDestroyed || !motionEnabled || !pageVisible) return;
+    if (time - previousTime > 250) {
+      previousTime = time;
+      renderFrame(time, false);
+    } else {
+      renderFrame(time, true);
+    }
+    if (!isDestroyed && motionEnabled && pageVisible) {
+      animationFrame = window.requestAnimationFrame(draw);
+    }
+  };
+  const startAnimation = () => {
+    if (isDestroyed || !motionEnabled || !pageVisible || animationFrame) return;
+    previousTime = performance.now();
+    animationFrame = window.requestAnimationFrame(draw);
+  };
+  const setMotionEnabled = (enabled) => {
+    if (isDestroyed || motionEnabled === enabled) return;
+    motionEnabled = enabled;
+    storeMotionPreference(enabled);
+    stopAnimation();
+    if (motionEnabled) {
+      startAnimation();
+    }
+  };
+  const handleVisibilityChange = () => {
+    pageVisible = !document.hidden;
+    stopAnimation();
+    previousTime = performance.now();
+    if (!pageVisible) return;
+    renderFrame(previousTime, false);
+    startAnimation();
+  };
+  const handlePageHide = () => {
+    pageVisible = false;
+    stopAnimation();
+    previousTime = performance.now();
+  };
+  const handlePageShow = () => {
+    pageVisible = !document.hidden;
+    stopAnimation();
+    previousTime = performance.now();
+    renderFrame(previousTime, false);
+    startAnimation();
+  };
+  const handleResize = () => {
+    stopAnimation();
+    configureCanvas(true);
+    previousTime = performance.now();
+    renderFrame(previousTime, false);
+    startAnimation();
+  };
+  const controller = {
+    isMotionEnabled: () => motionEnabled,
+    setMotionEnabled,
+    toggleMotion: () => {
+      setMotionEnabled(!motionEnabled);
+      return motionEnabled;
+    },
+    destroy: () => {
+      if (isDestroyed) return;
+      isDestroyed = true;
+      stopAnimation();
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pagehide", handlePageHide);
+      window.removeEventListener("pageshow", handlePageShow);
+      canvas.remove();
+      if (matrixWindow.__deaziMatrixController === controller) {
+        delete matrixWindow.__deaziMatrixController;
+      }
+    }
+  };
+  configureCanvas(false);
+  renderFrame(previousTime, false);
+  startAnimation();
+  window.addEventListener("resize", handleResize, { passive: true });
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  window.addEventListener("pagehide", handlePageHide);
+  window.addEventListener("pageshow", handlePageShow);
+  matrixWindow.__deaziMatrixController = controller;
+  return controller;
+}
 const experienceItems = [
   {
     id: "keylink",
@@ -170,13 +371,20 @@ const profilePhotos = [
     src: photoMe5Url
   }
 ];
+const fox01Url = "" + new URL("../images/fox_01.png", import.meta.url).href;
+const fox02Url = "" + new URL("../images/fox_02.png", import.meta.url).href;
+const fox03Url = "" + new URL("../images/fox_03.png", import.meta.url).href;
+const fox04Url = "" + new URL("../images/fox_04.png", import.meta.url).href;
+const fox05Url = "" + new URL("../images/fox_05.png", import.meta.url).href;
+const fox06Url = "" + new URL("../images/fox_06.png", import.meta.url).href;
+const fox07Url = "" + new URL("../images/fox_07.png", import.meta.url).href;
+const fox08Url = "" + new URL("../images/fox_08.png", import.meta.url).href;
 const figma1Url = "" + new URL("../images/figma1.jpg", import.meta.url).href;
 const project2Url = "" + new URL("../images/project2.jpg", import.meta.url).href;
 const project3Url = "" + new URL("../images/project3.jpg", import.meta.url).href;
 const project4Url = "" + new URL("../images/project4.jpg", import.meta.url).href;
 const project5Url = "" + new URL("../images/project5.jpg", import.meta.url).href;
 const project7Url = "" + new URL("../images/project7.jpg", import.meta.url).href;
-const headerFoxUrl = "" + new URL("../images/fox_01.png", import.meta.url).href;
 const animationFrameUrls = /* @__PURE__ */ Object.assign({
   "../animations/cat/cat_01.png": __vite_glob_0_0,
   "../animations/cat/cat_02.png": __vite_glob_0_1,
@@ -225,6 +433,16 @@ const animationFrameUrls = /* @__PURE__ */ Object.assign({
   "../animations/page_icon_2/page_icon_2_11.png": __vite_glob_0_44,
   "../animations/page_icon_2/page_icon_2_12.png": __vite_glob_0_45
 });
+const foxAnimationFrames = [
+  fox01Url,
+  fox02Url,
+  fox03Url,
+  fox04Url,
+  fox05Url,
+  fox06Url,
+  fox07Url,
+  fox08Url
+];
 const projectImageUrls = {
   figma1: figma1Url,
   project2: project2Url,
@@ -233,21 +451,128 @@ const projectImageUrls = {
   project5: project5Url,
   project7: project7Url
 };
+const profileImageUrls = {
+  "photo-me-9": photoMe9Url
+};
+const FOX_LOADER_COOLDOWN_MS = 6e4;
+const FOX_LOADER_STORAGE_KEY = "deazi-fox-loader-last-auto-played-at-v2";
+setBundledImageSources();
+setResumeLinks();
+initStablePageReveal();
+initPageTransitions();
+const matrixController = initMatrixBackground();
+initMatrixMotionToggle(matrixController);
 initFoxLoader();
 initPageIcons();
 initCat();
-setHeaderFox();
-setResumeLinks();
-setProfilePhotos();
-setProjectImages();
 initScrollTopButtons();
 renderExperienceLists();
 initStackCarousel();
 initPhotoGallery();
 initProjectLightbox();
-function setHeaderFox() {
+initContactDock();
+function initMatrixMotionToggle(controller) {
+  const buttons = [...document.querySelectorAll("[data-matrix-toggle]")];
+  if (!buttons.length) return;
+  const sync = () => {
+    const enabled = controller?.isMotionEnabled() ?? false;
+    buttons.forEach((button) => {
+      button.classList.toggle("is-active", enabled);
+      button.setAttribute("aria-pressed", String(enabled));
+      button.setAttribute(
+        "aria-label",
+        enabled ? "Остановить движение фона" : "Продолжить движение фона"
+      );
+      button.title = enabled ? "Остановить фон" : "Продолжить фон";
+    });
+  };
+  buttons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      controller?.toggleMotion();
+      sync();
+    });
+  });
+  sync();
+}
+function initStablePageReveal() {
+  const body = document.body;
+  const waitForCriticalImages = Promise.all(
+    [...document.querySelectorAll("[data-critical-image]")].map(async (image) => {
+      if (image.complete && image.naturalWidth > 0) return;
+      try {
+        await image.decode();
+      } catch {
+        await new Promise((resolve) => {
+          image.addEventListener("load", () => resolve(), { once: true });
+          image.addEventListener("error", () => resolve(), { once: true });
+        });
+      }
+    })
+  );
+  const fontsReady = document.fonts?.ready ?? Promise.resolve();
+  const safetyTimeout = new Promise((resolve) => window.setTimeout(resolve, 1400));
+  void Promise.race([Promise.all([fontsReady, waitForCriticalImages]), safetyTimeout]).then(() => {
+    window.requestAnimationFrame(() => body.classList.add("site-ready"));
+  });
+  window.addEventListener("pageshow", () => {
+    body.classList.remove("is-page-leaving");
+    body.classList.add("site-ready");
+  });
+}
+function initPageTransitions() {
+  document.addEventListener("click", (event) => {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const link = target.closest("a[href]");
+    if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+    const url = new URL(link.href, window.location.href);
+    if (url.origin !== window.location.origin) return;
+    if (url.pathname === window.location.pathname && url.hash) return;
+    const isPageNavigation = /\/(?:index|about|experience)\.html$/.test(url.pathname);
+    if (!isPageNavigation) return;
+    event.preventDefault();
+    document.body.classList.add("is-page-leaving");
+    window.setTimeout(() => {
+      window.location.href = url.href;
+    }, 170);
+  });
+}
+function bindBundledImage(image, src) {
+  image.classList.remove("is-image-ready", "is-image-error");
+  image.src = src;
+  const reveal = () => {
+    if (image.naturalWidth > 0) {
+      image.classList.add("is-image-ready");
+      image.classList.remove("is-image-error");
+    } else {
+      image.classList.add("is-image-error");
+    }
+  };
+  if (image.complete) {
+    reveal();
+    return;
+  }
+  image.addEventListener("load", reveal, { once: true });
+  image.addEventListener("error", reveal, { once: true });
+}
+function setBundledImageSources() {
   document.querySelectorAll("[data-header-fox]").forEach((image) => {
-    image.src = headerFoxUrl;
+    bindBundledImage(image, fox01Url);
+  });
+  document.querySelectorAll("[data-fox-loader-image]").forEach((image) => {
+    bindBundledImage(image, fox01Url);
+  });
+  document.querySelectorAll("[data-profile-photo]").forEach((image) => {
+    const key = image.dataset.profilePhoto;
+    if (key && profileImageUrls[key]) bindBundledImage(image, profileImageUrls[key]);
+  });
+  document.querySelectorAll("[data-project-image]").forEach((image) => {
+    const key = image.dataset.projectImage;
+    if (key && projectImageUrls[key]) bindBundledImage(image, projectImageUrls[key]);
   });
 }
 function getAnimationFrames(folder) {
@@ -269,68 +594,98 @@ function preloadFrames(frames) {
 function startFrameLoop(showFrame, initialFrames, delay = 110) {
   let frames = initialFrames;
   let frameIndex = 0;
-  const render = () => showFrame(frames[frameIndex]);
+  let lastFrameTime = performance.now();
+  const render = () => {
+    const frame = frames[frameIndex];
+    if (frame) showFrame(frame);
+  };
   const setFrames = (nextFrames) => {
+    if (!nextFrames.length) return;
     frames = nextFrames;
     frameIndex = 0;
+    lastFrameTime = performance.now();
     render();
   };
-  render();
-  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    window.setInterval(() => {
+  const loop = (time) => {
+    if (time - lastFrameTime >= delay) {
       frameIndex = (frameIndex + 1) % frames.length;
+      lastFrameTime = time;
       render();
-    }, delay);
-  }
+    }
+    window.requestAnimationFrame(loop);
+  };
+  render();
+  window.requestAnimationFrame(loop);
   return setFrames;
 }
 function initFoxLoader() {
-  if (document.body.dataset.page !== "index") return;
-  const frames = getAnimationFrames("fox");
-  if (!frames.length) return;
-  const loader = document.createElement("div");
-  const image = document.createElement("img");
-  loader.className = "fox-loader";
-  loader.setAttribute("role", "button");
-  loader.setAttribute("tabindex", "0");
-  loader.setAttribute("aria-label", "Закрыть заставку");
-  image.alt = "";
-  image.src = frames[0];
-  loader.append(image);
-  document.body.append(loader);
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let frameIndex = reducedMotion ? frames.length - 1 : 0;
-  let timer = 0;
-  let fallbackTimer = 0;
-  let isDismissed = false;
-  image.src = frames[frameIndex];
-  const dismissLoader = () => {
-    if (isDismissed) return;
-    isDismissed = true;
-    window.clearInterval(timer);
-    window.clearTimeout(fallbackTimer);
-    loader.classList.add("is-hiding");
-    window.setTimeout(() => loader.remove(), 500);
-  };
-  loader.addEventListener("pointerdown", dismissLoader);
-  loader.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " " || event.key === "Escape") {
-      event.preventDefault();
-      dismissLoader();
+  const loader = document.querySelector("[data-fox-loader]");
+  const image = loader?.querySelector("[data-fox-loader-image]");
+  const triggers = [...document.querySelectorAll("[data-header-fox-trigger]")];
+  if (!loader || !image || !foxAnimationFrames.length) {
+    loader?.remove();
+    return;
+  }
+  let isPlaying = false;
+  let inMemoryLastAutoPlayedAt = 0;
+  const delay = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+  const getLastAutoPlayedAt = () => {
+    try {
+      return Number(window.localStorage.getItem(FOX_LOADER_STORAGE_KEY) ?? 0) || 0;
+    } catch {
+      return inMemoryLastAutoPlayedAt;
     }
+  };
+  const rememberAutoPlayedNow = () => {
+    const now = Date.now();
+    inMemoryLastAutoPlayedAt = now;
+    try {
+      window.localStorage.setItem(FOX_LOADER_STORAGE_KEY, String(now));
+    } catch {
+    }
+  };
+  const canAutoPlay = () => Date.now() - getLastAutoPlayedAt() >= FOX_LOADER_COOLDOWN_MS;
+  const hideLoader = () => {
+    loader.classList.add("is-hiding");
+    loader.classList.remove("is-playing", "is-frame-ready");
+    window.setTimeout(() => loader.classList.remove("is-hiding"), 240);
+  };
+  const showFrame = async (src) => {
+    loader.classList.remove("is-frame-ready");
+    image.src = src;
+    try {
+      await image.decode();
+    } catch {
+      await new Promise((resolve) => {
+        if (image.complete) return resolve();
+        image.addEventListener("load", () => resolve(), { once: true });
+        image.addEventListener("error", () => resolve(), { once: true });
+      });
+    }
+    if (image.naturalWidth > 0) loader.classList.add("is-frame-ready");
+  };
+  const play = async (mode) => {
+    if (isPlaying) return false;
+    if (mode === "auto" && !canAutoPlay()) return false;
+    isPlaying = true;
+    if (mode === "auto") rememberAutoPlayedNow();
+    await showFrame(foxAnimationFrames[0]);
+    loader.classList.remove("is-hiding");
+    loader.classList.add("is-playing");
+    await preloadFrames(foxAnimationFrames);
+    for (const frame of foxAnimationFrames) {
+      await showFrame(frame);
+      await delay(135);
+    }
+    await delay(180);
+    hideLoader();
+    isPlaying = false;
+    return true;
+  };
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => void play("manual"));
   });
-  fallbackTimer = window.setTimeout(dismissLoader, reducedMotion ? 1200 : 3500);
-  void preloadFrames(frames).then(() => {
-    if (isDismissed) return;
-    timer = window.setInterval(() => {
-      frameIndex += 1;
-      if (frameIndex < frames.length) {
-        image.src = frames[frameIndex];
-        return;
-      }
-      dismissLoader();
-    }, reducedMotion ? 80 : 120);
-  });
+  if (document.body.dataset.page === "index") void play("auto");
 }
 function initPageIcons() {
   document.querySelectorAll("[data-page-icon]").forEach((icon) => {
@@ -362,24 +717,6 @@ function setResumeLinks() {
     link.href = profileLinks.resumeProjectUrl;
   });
 }
-function setProfilePhotos() {
-  const mainPhoto = document.body.dataset.page === "about" ? profilePhotos.find((photo) => photo.id === "photo-me-9") : profilePhotos[0];
-  if (!mainPhoto) {
-    return;
-  }
-  document.querySelectorAll("[data-profile-photo]").forEach((image) => {
-    image.src = mainPhoto.src;
-  });
-}
-function setProjectImages() {
-  document.querySelectorAll("[data-project-image]").forEach((image) => {
-    const imageKey = image.dataset.projectImage;
-    const imageUrl = projectImageUrls[imageKey];
-    if (imageUrl) {
-      image.src = imageUrl;
-    }
-  });
-}
 function initScrollTopButtons() {
   const buttons = [...document.querySelectorAll("[data-scroll-top]")];
   if (!buttons.length) {
@@ -402,6 +739,39 @@ function initScrollTopButtons() {
     buttons.forEach((button) => button.classList.add("is-initialized"));
   });
   window.addEventListener("scroll", updateScrollTopVisibility, { passive: true });
+}
+function initContactDock() {
+  const docks = [...document.querySelectorAll("[data-contact-dock]")];
+  if (!docks.length) return;
+  const setOpen = (dock, open) => {
+    dock.classList.toggle("is-open", open);
+    dock.querySelector("[data-contact-trigger]")?.setAttribute(
+      "aria-expanded",
+      String(open)
+    );
+  };
+  docks.forEach((dock) => {
+    const trigger = dock.querySelector("[data-contact-trigger]");
+    if (!trigger) return;
+    setOpen(dock, true);
+    trigger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      setOpen(dock, !dock.classList.contains("is-open"));
+    });
+    dock.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setOpen(dock, false);
+        trigger.focus();
+      }
+    });
+  });
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    docks.forEach((dock) => {
+      if (!dock.contains(target)) setOpen(dock, false);
+    });
+  });
 }
 function renderExperienceLists() {
   const template = document.querySelector("#experience-card-template");
