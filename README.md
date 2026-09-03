@@ -9,6 +9,16 @@
 
 
 
+## Скриншоты
+
+<p>
+  <img src="docs/screenshots/portfolio-desktop.png" alt="Portfolio — desktop" width="760">
+</p>
+
+<p>
+  <img src="docs/screenshots/portfolio-mobile.png" alt="Portfolio — mobile" width="320">
+</p>
+
 ## Стек
 
 `TypeScript` · `Vite` · `Tailwind CSS` · `HTML` · `CSS`
