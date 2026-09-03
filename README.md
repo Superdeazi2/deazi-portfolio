@@ -7,20 +7,12 @@
 
 ### [Открыть портфолио →](https://deazi-c87e25.gitlab.io/)
 
-
-
 ## Скриншоты
 
 ### Главная
 
 <p>
   <img src="docs/screenshots/portfolio-home-desktop.png" alt="Portfolio — главная, desktop" width="780">
-</p>
-
-### Мобильная версия
-
-<p>
-  <img src="docs/screenshots/portfolio-home-mobile.png" alt="Portfolio — главная, mobile" width="340">
 </p>
 
 ### Обо мне
