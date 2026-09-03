@@ -137,57 +137,62 @@
       </div>
     </section>
   <!-- DEAZI_LIVE_PROJECTS_START -->
-<section class="mx-auto mt-10 max-w-6xl px-4 pb-8 sm:px-6" aria-labelledby="live-projects-title">
-  <div class="mb-5">
-    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">ещё можно открыть</p>
-    <h2 id="live-projects-title" class="mt-2 text-2xl font-semibold tracking-tight text-slate-100">Живые проекты</h2>
-    <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
-      Небольшие проекты, которые можно открыть в браузере и проверить в работе.
+<section class="career-projects" aria-labelledby="career-projects-title">
+  <div class="career-projects__head">
+    <p class="career-projects__eyebrow">Живые проекты</p>
+    <h2 id="career-projects-title">Можно открыть и проверить</h2>
+    <p>
+      Несколько небольших проектов, где можно посмотреть не только код,
+      но и рабочий результат.
     </p>
   </div>
 
-  <div class="grid gap-3 md:grid-cols-2">
-    <article class="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-      <h3 class="text-lg font-semibold text-slate-100">Roomline</h3>
-      <p class="mt-2 text-sm leading-6 text-slate-400">
-        Realtime-чат: комнаты, WebSocket, presence, typing и история сообщений в PostgreSQL.
-      </p>
-      <div class="mt-4 flex flex-wrap gap-3 text-sm">
-        <a class="font-medium text-sky-300 hover:text-sky-200" href="https://roomline-deazi-yr6h.onrender.com/" target="_blank" rel="noreferrer">Открыть проект</a>
-        <a class="text-slate-400 hover:text-slate-200" href="https://gitlab.com/Deazi/roomline" target="_blank" rel="noreferrer">Исходный код</a>
+  <div class="career-projects__grid">
+    <article class="career-project-card">
+      <div>
+        <p class="career-project-card__type">Fullstack · Realtime</p>
+        <h3>Roomline</h3>
+        <p>Чат с комнатами, WebSocket, presence, typing и историей сообщений в PostgreSQL.</p>
+      </div>
+      <div class="career-project-card__actions">
+        <a class="career-project-card__primary" href="https://roomline-deazi-yr6h.onrender.com/" target="_blank" rel="noreferrer">Открыть проект</a>
+        <a href="https://gitlab.com/Deazi/roomline" target="_blank" rel="noreferrer">Код</a>
       </div>
     </article>
 
-    <article class="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-      <h3 class="text-lg font-semibold text-slate-100">Linkdrop</h3>
-      <p class="mt-2 text-sm leading-6 text-slate-400">
-        Сервис коротких ссылок с HTTP redirects, QR-кодами и статистикой переходов.
-      </p>
-      <div class="mt-4 flex flex-wrap gap-3 text-sm">
-        <a class="font-medium text-sky-300 hover:text-sky-200" href="https://deazi-linkdrop-demo.onrender.com/" target="_blank" rel="noreferrer">Открыть проект</a>
-        <a class="text-slate-400 hover:text-slate-200" href="https://gitlab.com/Deazi/linkdrop" target="_blank" rel="noreferrer">Исходный код</a>
+    <article class="career-project-card">
+      <div>
+        <p class="career-project-card__type">Fullstack · API</p>
+        <h3>Linkdrop</h3>
+        <p>Короткие ссылки, реальные HTTP redirects, QR-коды и статистика переходов.</p>
+      </div>
+      <div class="career-project-card__actions">
+        <a class="career-project-card__primary" href="https://deazi-linkdrop-demo.onrender.com/" target="_blank" rel="noreferrer">Открыть проект</a>
+        <a href="https://gitlab.com/Deazi/linkdrop" target="_blank" rel="noreferrer">Код</a>
       </div>
     </article>
 
-    <article class="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-      <h3 class="text-lg font-semibold text-slate-100">Kanban Board</h3>
-      <p class="mt-2 text-sm leading-6 text-slate-400">
-        Адаптивная drag-and-drop доска задач с поиском, фильтрами и localStorage.
-      </p>
-      <div class="mt-4 flex flex-wrap gap-3 text-sm">
-        <a class="font-medium text-sky-300 hover:text-sky-200" href="https://kanban-board-c8967d.gitlab.io/" target="_blank" rel="noreferrer">Открыть проект</a>
-        <a class="text-slate-400 hover:text-slate-200" href="https://gitlab.com/Deazi/kanban-board" target="_blank" rel="noreferrer">Исходный код</a>
+    <article class="career-project-card">
+      <div>
+        <p class="career-project-card__type">Frontend · React</p>
+        <h3>Kanban Board</h3>
+        <p>Drag-and-drop доска задач с поиском, фильтрами и сохранением в localStorage.</p>
+      </div>
+      <div class="career-project-card__actions">
+        <a class="career-project-card__primary" href="https://kanban-board-c8967d.gitlab.io/" target="_blank" rel="noreferrer">Открыть проект</a>
+        <a href="https://gitlab.com/Deazi/kanban-board" target="_blank" rel="noreferrer">Код</a>
       </div>
     </article>
 
-    <article class="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-      <h3 class="text-lg font-semibold text-slate-100">Saveur</h3>
-      <p class="mt-2 text-sm leading-6 text-slate-400">
-        Отдельный frontend-проект с упором на аккуратную визуальную подачу и адаптивность.
-      </p>
-      <div class="mt-4 flex flex-wrap gap-3 text-sm">
-        <a class="font-medium text-sky-300 hover:text-sky-200" href="https://saveur-nine-gamma.vercel.app/" target="_blank" rel="noreferrer">Открыть проект</a>
-        <a class="text-slate-400 hover:text-slate-200" href="https://gitlab.com/Deazi/saveur" target="_blank" rel="noreferrer">Исходный код</a>
+    <article class="career-project-card">
+      <div>
+        <p class="career-project-card__type">Frontend · UI</p>
+        <h3>Saveur</h3>
+        <p>Отдельный frontend-проект с аккуратной визуальной подачей и адаптивностью.</p>
+      </div>
+      <div class="career-project-card__actions">
+        <a class="career-project-card__primary" href="https://saveur-nine-gamma.vercel.app/" target="_blank" rel="noreferrer">Открыть проект</a>
+        <a href="https://gitlab.com/Deazi/saveur" target="_blank" rel="noreferrer">Код</a>
       </div>
     </article>
   </div>
