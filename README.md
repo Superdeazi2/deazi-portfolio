@@ -1,47 +1,31 @@
-# Deazi Portfolio
-Личный сайт-портфолио frontend-разработчика.
+# Михаил Русских — Frontend Developer
 
-На сайте я кратко рассказываю о себе, своём опыте, проектах и стеке, с которым работаю.
+[![Published](https://img.shields.io/badge/Published-✓-2ea44f?style=flat-square)](https://deazi-c87e25.gitlab.io/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-111827?style=flat-square)](https://deazi-c87e25.gitlab.io/)
 
-## Ссылки
-Сайт опубликован здесь:
-https://deazi-c87e25.gitlab.io
+Личное портфолио: проекты, опыт, технологии и контакты.
 
-Репозиторий проекта:
-https://gitlab.com/Deazi/deazi-portfolio
+### [Открыть портфолио →](https://deazi-c87e25.gitlab.io/)
 
-Скачать проект ZIP:
-[Скачать архив проекта](https://gitlab.com/Deazi/deazi-portfolio/-/archive/main/deazi-portfolio-main.zip)
 
-## Что есть на сайте
-– главная страница
-– страница «Обо мне»
-– страница с опытом работы
-– блок с основным стеком
-– ссылки на резюме, GitHub, GitLab, Telegram и email
-– адаптивная верстка для разных экранов
 
-## Стек проекта
-– React
-– TypeScript
-– Vite
-– Tailwind CSS
-– HTML
-– CSS
-– GitLab Pages
+## Стек
 
-## Как скачать и запустить проект
+`TypeScript` · `Vite` · `Tailwind CSS` · `HTML` · `CSS`
+
+## В портфолио
+
+- проекты с live demo и исходным кодом;
+- опыт и используемые технологии;
+- контакты и резюме.
+
+## Локальный запуск
+
 ```bash
-git clone https://gitlab.com/Deazi/deazi-portfolio.git
 npm install
 npm run dev
-npm run build
 ```
-## Контакты
 
-Телефон: +7 (919) 468-77-56
-Email: [deazinew@mail.ru](mailto:deazinew@mail.ru)
-Telegram: [@SuperDeazi](https://t.me/SuperDeazi)
-GitHub: [github.com/Superdeazi2](https://github.com/Superdeazi2)
-GitLab: [gitlab.com/Deazi](https://gitlab.com/Deazi)
-Резюме HH: [hh.ru/resume/a0a1eac0ff0f3cb0490039ed1f50774c6f6157](https://perm.hh.ru/resume/a4721098ff10a7855d0039ed1f4b38437a4746)
+---
+
+**Live:** https://deazi-c87e25.gitlab.io/
