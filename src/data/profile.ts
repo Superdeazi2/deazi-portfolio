@@ -1,14 +1,13 @@
 import photoMe4Url from "/assets/photo_me4.png";
 import photoMe5Url from "/assets/photo_me5.jpg";
 import photoMe9Url from "/assets/photo_me9.jpg";
-import resumeProjectUrl from "/assets/resume-project.txt?url";
 
 export const profile = {
   name: "Mikhail Russkikh",
   role: "Frontend Developer",
-  stackLine: "React / JavaScript / TypeScript / Tailwind CSS",
+  stackLine: "React / TypeScript / JavaScript / Tailwind CSS",
   shortText:
-    "Frontend-разработчик. Работаю с сайтами, админками и веб-интерфейсами. Верстаю адаптивные страницы по Figma, делаю компоненты, формы и подключаю frontend к backend.",
+    "Frontend-разработчик с коммерческим опытом. Разрабатываю веб-интерфейсы и админ-панели на React и TypeScript, работаю с API, состоянием приложения, формами и серверными данными.",
   aboutText: [
     "Меня зовут Михаил Русских, я frontend-разработчик.",
     "Работал над коммерческими сайтами, админками и веб-интерфейсами. Больше всего мне нравится делать понятные и аккуратные страницы: сверстать макет, адаптировать под разные экраны, подключить данные и довести интерфейс до рабочего состояния.",
@@ -27,22 +26,21 @@ export const profileLinks = {
   gitlabLabel: "Deazi",
   hhUrl: "https://perm.hh.ru/resume/a4721098ff10a7855d0039ed1f4b38437a4746",
   portfolioUrl: "https://deazi-c87e25.gitlab.io",
-  resumeProjectUrl,
 };
 
 export const mainStack = [
   "React",
-  "JavaScript",
   "TypeScript",
+  "JavaScript",
   "HTML",
   "CSS",
   "Tailwind CSS",
+  "React Router",
+  "TanStack Query",
   "Zustand",
-  "Vite",
+  "REST API",
   "Git",
   "Figma",
-  "Ruby on Rails",
-  "PostgreSQL",
 ];
 
 export const canDoItems = [
@@ -64,7 +62,7 @@ export const quickStats = [
     label: "в коммерческой разработке",
   },
   {
-    value: "React / Tailwind",
+    value: "React / TypeScript",
     label: "основной frontend-стек",
   },
 ];
