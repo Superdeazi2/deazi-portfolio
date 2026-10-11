@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
@@ -6,8 +7,8 @@ const jsDir = new URL("js/", distDir);
 const cssDir = new URL("css/", distDir);
 
 await normalizeJavaScript();
-await normalizeHtmlScripts();
 await formatCss();
+await normalizeHtmlScripts();
 
 async function normalizeJavaScript() {
   let jsFiles = (await readdir(jsDir)).filter((fileName) => fileName.endsWith(".js"));
@@ -33,7 +34,9 @@ async function normalizeJavaScript() {
 
 async function normalizeHtmlScripts() {
   const htmlFiles = (await readdir(distDir)).filter((fileName) => fileName.endsWith(".html"));
-  const scripts = '    <script type="module" crossorigin src="./js/app.js"></script>';
+  const jsVersion = createHash("sha256").update(await readFile(new URL("app.js", jsDir))).digest("hex").slice(0, 12);
+  const cssVersion = createHash("sha256").update(await readFile(new URL("style.css", cssDir))).digest("hex").slice(0, 12);
+  const scripts = `    <script type="module" crossorigin src="./js/app.js?v=${jsVersion}"></script>`;
 
   await Promise.all(
     htmlFiles.map(async (fileName) => {
@@ -46,6 +49,7 @@ async function normalizeHtmlScripts() {
       const nextHtml = withoutScripts
         .replace(/href="\/logo\.svg"/g, 'href="./logo.svg"')
         .replace(/href="\/css\//g, 'href="./css/')
+        .replace(/href="(?:\.\/)?css\/style\.css(?:\?[^"]*)?"/g, `href="./css/style.css?v=${cssVersion}"`)
         .replace(/href="\/images\//g, 'href="./images/')
         .replace(/src="\/images\//g, 'src="./images/')
         .replace(/\s*<\/head>/, `\n${scripts}\n  </head>`);
