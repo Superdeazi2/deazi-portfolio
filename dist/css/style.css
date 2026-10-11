@@ -2606,6 +2606,15 @@ body:has([data-section-notice]) main{
 }
 
 }
+[data-project-section]{
+  scroll-margin-top:90px
+}
+@media (max-width:640px){
+  [data-project-section]{
+  scroll-margin-top:170px
+}
+
+}
 @property --tw-translate-x{
   syntax:"*";
   inherits:false;
