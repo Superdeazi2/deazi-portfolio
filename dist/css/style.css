@@ -2601,6 +2601,9 @@ header nav a,header nav button{
 .section-notice__arrows{
   grid-template-columns:26px 26px
 }
+body:has([data-section-notice]) main{
+  padding-top:140px
+}
 
 }
 @property --tw-translate-x{

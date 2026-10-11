@@ -1182,7 +1182,7 @@ function initProjectSectionNotice() {
   let queued = false;
   let fadeTimer = 0;
   const measureHeader = () => {
-    const header = document.querySelector("header");
+    const header = document.querySelector(".site-nav");
     notice.style.setProperty("--notice-top", `${Math.max(64, header?.getBoundingClientRect().bottom ?? 64) + 12}px`);
   };
   const update = () => {
@@ -1219,8 +1219,8 @@ function initProjectSectionNotice() {
   const go = (delta) => {
     const section = sections[active + delta];
     if (!section) return;
-    const headerBottom = document.querySelector("header")?.getBoundingClientRect().bottom ?? 64;
-    window.scrollTo({ top: window.scrollY + section.getBoundingClientRect().top - headerBottom - 20, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    const headerBottom = document.querySelector(".site-nav")?.getBoundingClientRect().bottom ?? 64;
+    window.scrollTo({ top: window.scrollY + section.getBoundingClientRect().top - headerBottom - (innerWidth <= 640 ? notice.getBoundingClientRect().height + 24 : 20), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
   prev.addEventListener("click", () => go(-1));
   next.addEventListener("click", () => go(1));
