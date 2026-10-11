@@ -2009,7 +2009,7 @@ header nav a,header nav button{
 }
 
 }
-@media (max-width:767px){
+@media (max-width:599px){
   .site-nav{
   padding:10px 16px 6px
 }
@@ -2063,6 +2063,43 @@ header nav a,header nav button{
 }
 .bg main [id]{
   scroll-margin-top:120px
+}
+
+}
+@media (min-width:600px) and (max-width:1023px){
+  .site-nav{
+  padding:10px 24px
+}
+.site-nav>div{
+  flex-flow:row;
+  align-items:center;
+  gap:16px
+}
+.site-nav .header-brand{
+  gap:8px
+}
+.site-nav .header-brand>a{
+  white-space:nowrap;
+  font-size:20px;
+  line-height:1.2
+}
+.site-nav ul{
+  flex-wrap:nowrap;
+  gap:8px
+}
+.site-nav ul a{
+  justify-content:center;
+  align-items:center;
+  min-height:40px;
+  padding:0 8px;
+  font-size:14px;
+  display:inline-flex
+}
+.bg main{
+  padding-top:84px
+}
+.bg main [id]{
+  scroll-margin-top:84px
 }
 
 }

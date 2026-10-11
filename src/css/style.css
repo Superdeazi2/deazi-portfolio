@@ -900,7 +900,7 @@ body {
 }
 
 /* A clear two-row header on phones, with evenly sized navigation links. */
-@media (max-width: 767px) {
+@media (max-width: 599px) {
   .site-nav { padding: 10px 16px 6px; }
   .site-nav > div { flex-direction: column; align-items: stretch; gap: 4px; }
   .site-nav .header-brand { width: 100%; min-height: 40px; justify-content: center; gap: 10px; padding-right: 38px; }
@@ -912,4 +912,16 @@ body {
   .site-nav ul a.font-bold { background: rgb(255 255 255 / .07); text-decoration: none; }
   .bg main { padding-top: 120px; }
   .bg main [id] { scroll-margin-top: 120px; }
+}
+
+/* Tablets have enough room for one row; keep the content close to the header. */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .site-nav { padding: 10px 24px; }
+  .site-nav > div { flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 16px; }
+  .site-nav .header-brand { gap: 8px; }
+  .site-nav .header-brand > a { font-size: 20px; line-height: 1.2; white-space: nowrap; }
+  .site-nav ul { flex-wrap: nowrap; gap: 8px; }
+  .site-nav ul a { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 8px; font-size: 14px; }
+  .bg main { padding-top: 84px; }
+  .bg main [id] { scroll-margin-top: 84px; }
 }
