@@ -1217,12 +1217,49 @@ function initProjectSectionNotice() {
   const name = notice.querySelector("[data-section-name]");
   const prev = notice.querySelector("[data-section-prev]");
   const next = notice.querySelector("[data-section-next]");
+  const toggle = document.querySelector("[data-section-toggle]");
+  const preferenceKey = "deazi-section-notice-enabled-v1";
+  let enabled = true;
+  try {
+    enabled = localStorage.getItem(preferenceKey) !== "off";
+  } catch {
+  }
+  const syncToggle = () => {
+    const label = enabled ? "Скрыть уведомления разделов" : "Включить уведомления разделов";
+    toggle.setAttribute("aria-pressed", String(enabled));
+    toggle.setAttribute("aria-label", label);
+    toggle.title = label;
+    toggle.querySelector("[data-section-lock]").setAttribute("d", enabled ? "M8 11V7a4 4 0 0 1 7.5-2" : "M8 11V7a4 4 0 0 1 8 0v4");
+  };
   let active = -1;
   let queued = false;
   let fadeTimer = 0;
+  const hide = () => {
+    clearTimeout(fadeTimer);
+    notice.classList.remove("is-announcing");
+    notice.inert = true;
+    notice.setAttribute("aria-hidden", "true");
+  };
+  const announce = () => {
+    if (!enabled) {
+      hide();
+      return;
+    }
+    notice.inert = false;
+    notice.setAttribute("aria-hidden", "false");
+    notice.classList.add("is-announcing");
+    clearTimeout(fadeTimer);
+    fadeTimer = window.setTimeout(() => {
+      notice.classList.remove("is-announcing");
+      notice.inert = true;
+      notice.setAttribute("aria-hidden", "true");
+    }, 2e3);
+  };
   const measureHeader = () => {
     const header = document.querySelector(".site-nav");
-    notice.style.setProperty("--notice-top", `${Math.max(64, header?.getBoundingClientRect().bottom ?? 64) + 12}px`);
+    const top = `${Math.max(64, header?.getBoundingClientRect().bottom ?? 64) + 12}px`;
+    notice.style.setProperty("--notice-top", top);
+    toggle.style.setProperty("--notice-top", top);
   };
   const update = () => {
     queued = false;
@@ -1245,15 +1282,7 @@ function initProjectSectionNotice() {
     next.hidden = index === sections.length - 1;
     prev.setAttribute("aria-label", `Перейти: ${sections[index - 1]?.dataset.projectSection ?? ""}`);
     next.setAttribute("aria-label", `Перейти: ${sections[index + 1]?.dataset.projectSection ?? ""}`);
-    notice.inert = false;
-    notice.setAttribute("aria-hidden", "false");
-    notice.classList.add("is-announcing");
-    clearTimeout(fadeTimer);
-    fadeTimer = window.setTimeout(() => {
-      notice.classList.remove("is-announcing");
-      notice.inert = true;
-      notice.setAttribute("aria-hidden", "true");
-    }, 2e3);
+    announce();
   };
   const schedule = () => {
     if (!queued) {
@@ -1275,6 +1304,17 @@ function initProjectSectionNotice() {
     schedule();
   });
   document.addEventListener("gallerymodechange", schedule);
+  toggle.addEventListener("click", () => {
+    enabled = !enabled;
+    try {
+      localStorage.setItem(preferenceKey, enabled ? "on" : "off");
+    } catch {
+    }
+    syncToggle();
+    if (enabled) announce();
+    else hide();
+  });
+  syncToggle();
   measureHeader();
   update();
 }

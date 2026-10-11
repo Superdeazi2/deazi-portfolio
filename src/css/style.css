@@ -1013,3 +1013,9 @@ body {
 [data-project-section] { scroll-margin-top:90px; }
 @media(max-width:640px) { .section-notice { right:10px; padding:5px 8px; gap:8px; max-width:270px; } .section-notice__arrows { grid-template-columns:24px 24px; } .section-notice__arrows button { width:24px; height:24px; line-height:24px; } body:has([data-section-notice]) main { padding-top:120px; } [data-project-section] { scroll-margin-top:150px; } }
 @media(prefers-reduced-motion:reduce) { .section-notice, .section-notice__arrows button { transition:none; transform:none; } }
+
+.section-notice { right:50px; }
+.section-notice-toggle { position:fixed; right:16px; top:var(--notice-top,76px); z-index:41; display:grid; place-items:center; width:28px; height:34px; border:1px solid transparent; border-radius:8px; background:rgb(13 29 20 / .6); color:#b5c9bc; opacity:.3; transition:opacity .18s, background .18s; cursor:pointer; }
+.section-notice-toggle:hover, .section-notice-toggle:focus-visible { opacity:1; background:#162b1e; border-color:#ffffff20; }
+@media(max-width:640px) { .section-notice { right:46px; max-width:calc(100vw - 56px); } .section-notice-toggle { right:10px; width:30px; height:34px; opacity:1; background:rgb(13 29 20 / .85); } }
+@media(prefers-reduced-motion:reduce) { .section-notice-toggle { transition:none; } }

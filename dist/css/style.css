@@ -2616,6 +2616,51 @@ body:has([data-section-notice]) main{
 }
 
 }
+.section-notice{
+  right:50px
+}
+.section-notice-toggle{
+  right:16px;
+  top:var(--notice-top,76px);
+  z-index:41;
+  color:#b5c9bc;
+  opacity:.3;
+  cursor:pointer;
+  background:#0d1d1499;
+  border:1px solid #0000;
+  border-radius:8px;
+  place-items:center;
+  width:28px;
+  height:34px;
+  transition:opacity .18s,background .18s;
+  display:grid;
+  position:fixed
+}
+.section-notice-toggle:hover,.section-notice-toggle:focus-visible{
+  opacity:1;
+  background:#162b1e;
+  border-color:#ffffff20
+}
+@media (max-width:640px){
+  .section-notice{
+  max-width:calc(100vw - 56px);
+  right:46px
+}
+.section-notice-toggle{
+  opacity:1;
+  background:#0d1d14d9;
+  width:30px;
+  height:34px;
+  right:10px
+}
+
+}
+@media (prefers-reduced-motion:reduce){
+  .section-notice-toggle{
+  transition:none
+}
+
+}
 @property --tw-translate-x{
   syntax:"*";
   inherits:false;
