@@ -1019,3 +1019,12 @@ body {
 .section-notice-toggle:hover, .section-notice-toggle:focus-visible { opacity:1; background:#162b1e; border-color:#ffffff20; }
 @media(max-width:640px) { .section-notice { right:46px; max-width:calc(100vw - 56px); } .section-notice-toggle { right:10px; width:30px; height:34px; opacity:1; background:rgb(13 29 20 / .85); } }
 @media(prefers-reduced-motion:reduce) { .section-notice-toggle { transition:none; } }
+
+.project-carousel__slide > span > small { display:block; margin-top:5px; font-size:12px; font-weight:400; line-height:1.5; color:#b8cbbc; }
+.project-viewer__canvas { position:absolute; inset:16px 58px 94px; overflow:auto; overscroll-behavior:contain; }
+.project-viewer__canvas > img { display:block; width:100%; height:100%; object-fit:contain; }
+.project-viewer__stage.is-zoomed .project-viewer__canvas > img { width:max(100%,var(--viewer-image-width,100%)); height:auto; max-width:none; }
+.project-viewer__caption small { font-size:11px; color:#b8cbbc; }
+.project-viewer__caption small:empty { display:none; }
+.project-viewer__actions [data-viewer-zoom][aria-pressed="true"] { border-color:#71bf8e; background:#244d35; }
+@media(max-width:700px) { .project-viewer__canvas { inset:12px 10px 112px; } .project-viewer__toolbar .gallery-modes { flex:0 0 100%; } .project-viewer__actions { width:100%; justify-content:flex-end; } .project-viewer__caption { gap:4px; } }

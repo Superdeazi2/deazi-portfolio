@@ -34,7 +34,27 @@ const foxAnimationFrames = [
   fox08Url,
 ];
 
+import neposeda_uiUrl from "../assets/gallery-neposeda-ui.png";
+import neposeda_desktopUrl from "../assets/gallery-neposeda-desktop.png";
+import neposeda_mobileUrl from "../assets/gallery-neposeda-mobile.png";
+import ecoreef_figmaUrl from "../assets/gallery-ecoreef-figma.png";
+import planner_figmaUrl from "../assets/gallery-planner-figma.png";
+import budget_figmaUrl from "../assets/gallery-budget-figma.png";
+import budget_screenUrl from "../assets/gallery-budget-screen.png";
+import green_figmaUrl from "../assets/gallery-green-figma.png";
+import kontur_figmaUrl from "../assets/gallery-kontur-figma.png";
+
 const projectImageUrls: Record<string, string> = {
+  "neposeda-ui": neposeda_uiUrl,
+  "neposeda-desktop": neposeda_desktopUrl,
+  "neposeda-mobile": neposeda_mobileUrl,
+  "ecoreef-figma": ecoreef_figmaUrl,
+  "planner-figma": planner_figmaUrl,
+  "budget-figma": budget_figmaUrl,
+  "budget-screen": budget_screenUrl,
+  "green-figma": green_figmaUrl,
+  "kontur-figma": kontur_figmaUrl,
+
   figma1: figma1Url,
   project2: project2Url,
   project3: project3Url,
@@ -741,6 +761,18 @@ function initProjectLightbox() {
   }));
   let imageRequest = 0;
   const stage = viewer.querySelector<HTMLElement>(".project-viewer__stage")!;
+  const canvas = viewer.querySelector<HTMLElement>(".project-viewer__canvas")!;
+  const zoomButton = viewer.querySelector<HTMLButtonElement>("[data-viewer-zoom]")!;
+  let zoomed = false;
+  const setZoom = (value: boolean) => {
+    zoomed = value;
+    stage.classList.toggle("is-zoomed", value);
+    zoomButton.setAttribute("aria-pressed", String(value));
+    zoomButton.setAttribute("aria-label", value ? "Показать изображение целиком" : "Увеличить изображение");
+    zoomButton.textContent = value ? "Целиком" : "Увеличить";
+    canvas.scrollTo(value ? Math.max(0, (canvas.scrollWidth - canvas.clientWidth) / 2) : 0, 0);
+  };
+  zoomButton.addEventListener("click", () => setZoom(!zoomed));
   const positions: Record<string, number> = { interfaces: 0, figma: 0 };
   let mode = "interfaces";
   let previousOverflow = "";
@@ -750,6 +782,7 @@ function initProjectLightbox() {
     menu.setAttribute("aria-expanded", String(open));
   };
   const update = () => {
+    setZoom(false);
     const current = slides();
     const index = positions[mode];
     allSlides.forEach(slide => { slide.hidden = slide !== current[index]; });
@@ -764,6 +797,8 @@ function initProjectLightbox() {
         viewerImage!.replaceWith(prepared.image);
         viewerImage = prepared.image;
         viewerImage.style.visibility = "";
+        canvas.style.setProperty("--viewer-image-width", `${Math.min(viewerImage.naturalWidth, 2200)}px`);
+        viewer.querySelector<HTMLElement>("[data-viewer-description]")!.textContent = current[index].dataset.slideDescription ?? "";
         stage.removeAttribute("aria-busy");
         viewer.querySelector<HTMLElement>("[data-viewer-caption]")!.textContent = prepared.image.alt;
         viewer.querySelector<HTMLElement>("[data-viewer-counter]")!.textContent = counter;
@@ -772,6 +807,7 @@ function initProjectLightbox() {
       else {
         viewerImage!.style.visibility = "hidden";
         stage.setAttribute("aria-busy", "true");
+        viewer.querySelector<HTMLElement>("[data-viewer-description]")!.textContent = "";
         viewer.querySelector<HTMLElement>("[data-viewer-caption]")!.textContent = "Загрузка изображения…";
         viewer.querySelector<HTMLElement>("[data-viewer-counter]")!.textContent = "";
         void prepared.ready.then(ok => {
@@ -839,6 +875,7 @@ function initProjectLightbox() {
     surface.addEventListener("touchend", event => {
       const dx = event.changedTouches[0].clientX - startX;
       const dy = event.changedTouches[0].clientY - startY;
+      if (surface === stage && zoomed) return;
       if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) step(dx > 0 ? -1 : 1);
     }, { passive: true });
   });

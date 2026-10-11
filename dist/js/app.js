@@ -430,6 +430,15 @@ const project3Url = "" + new URL("../images/project3.jpg", import.meta.url).href
 const project4Url = "" + new URL("../images/project4.jpg", import.meta.url).href;
 const project5Url = "" + new URL("../images/project5.jpg", import.meta.url).href;
 const project7Url = "" + new URL("../images/project7.jpg", import.meta.url).href;
+const neposeda_uiUrl = "" + new URL("../images/gallery-neposeda-ui.png", import.meta.url).href;
+const neposeda_desktopUrl = "" + new URL("../images/gallery-neposeda-desktop.png", import.meta.url).href;
+const neposeda_mobileUrl = "" + new URL("../images/gallery-neposeda-mobile.png", import.meta.url).href;
+const ecoreef_figmaUrl = "" + new URL("../images/gallery-ecoreef-figma.png", import.meta.url).href;
+const planner_figmaUrl = "" + new URL("../images/gallery-planner-figma.png", import.meta.url).href;
+const budget_figmaUrl = "" + new URL("../images/gallery-budget-figma.png", import.meta.url).href;
+const budget_screenUrl = "" + new URL("../images/gallery-budget-screen.png", import.meta.url).href;
+const green_figmaUrl = "" + new URL("../images/gallery-green-figma.png", import.meta.url).href;
+const kontur_figmaUrl = "" + new URL("../images/gallery-kontur-figma.png", import.meta.url).href;
 const animationFrameUrls = /* @__PURE__ */ Object.assign({
   "../animations/cat/cat_01.png": __vite_glob_0_0,
   "../animations/cat/cat_02.png": __vite_glob_0_1,
@@ -489,6 +498,15 @@ const foxAnimationFrames = [
   fox08Url
 ];
 const projectImageUrls = {
+  "neposeda-ui": neposeda_uiUrl,
+  "neposeda-desktop": neposeda_desktopUrl,
+  "neposeda-mobile": neposeda_mobileUrl,
+  "ecoreef-figma": ecoreef_figmaUrl,
+  "planner-figma": planner_figmaUrl,
+  "budget-figma": budget_figmaUrl,
+  "budget-screen": budget_screenUrl,
+  "green-figma": green_figmaUrl,
+  "kontur-figma": kontur_figmaUrl,
   figma1: figma1Url,
   project2: project2Url,
   project3: project3Url,
@@ -1081,6 +1099,18 @@ function initProjectLightbox() {
   }));
   let imageRequest = 0;
   const stage = viewer.querySelector(".project-viewer__stage");
+  const canvas = viewer.querySelector(".project-viewer__canvas");
+  const zoomButton = viewer.querySelector("[data-viewer-zoom]");
+  let zoomed = false;
+  const setZoom = (value) => {
+    zoomed = value;
+    stage.classList.toggle("is-zoomed", value);
+    zoomButton.setAttribute("aria-pressed", String(value));
+    zoomButton.setAttribute("aria-label", value ? "Показать изображение целиком" : "Увеличить изображение");
+    zoomButton.textContent = value ? "Целиком" : "Увеличить";
+    canvas.scrollTo(value ? Math.max(0, (canvas.scrollWidth - canvas.clientWidth) / 2) : 0, 0);
+  };
+  zoomButton.addEventListener("click", () => setZoom(!zoomed));
   const positions = { interfaces: 0, figma: 0 };
   let mode = "interfaces";
   let previousOverflow = "";
@@ -1090,6 +1120,7 @@ function initProjectLightbox() {
     menu.setAttribute("aria-expanded", String(open));
   };
   const update = () => {
+    setZoom(false);
     const current = slides();
     const index = positions[mode];
     allSlides.forEach((slide) => {
@@ -1106,6 +1137,8 @@ function initProjectLightbox() {
         viewerImage.replaceWith(prepared.image);
         viewerImage = prepared.image;
         viewerImage.style.visibility = "";
+        canvas.style.setProperty("--viewer-image-width", `${Math.min(viewerImage.naturalWidth, 2200)}px`);
+        viewer.querySelector("[data-viewer-description]").textContent = current[index].dataset.slideDescription ?? "";
         stage.removeAttribute("aria-busy");
         viewer.querySelector("[data-viewer-caption]").textContent = prepared.image.alt;
         viewer.querySelector("[data-viewer-counter]").textContent = counter;
@@ -1114,6 +1147,7 @@ function initProjectLightbox() {
       else {
         viewerImage.style.visibility = "hidden";
         stage.setAttribute("aria-busy", "true");
+        viewer.querySelector("[data-viewer-description]").textContent = "";
         viewer.querySelector("[data-viewer-caption]").textContent = "Загрузка изображения…";
         viewer.querySelector("[data-viewer-counter]").textContent = "";
         void prepared.ready.then((ok) => {
@@ -1196,6 +1230,7 @@ function initProjectLightbox() {
     surface.addEventListener("touchend", (event) => {
       const dx = event.changedTouches[0].clientX - startX;
       const dy = event.changedTouches[0].clientY - startY;
+      if (surface === stage && zoomed) return;
       if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) step(dx > 0 ? -1 : 1);
     }, { passive: true });
   });

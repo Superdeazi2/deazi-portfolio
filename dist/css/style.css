@@ -2661,6 +2661,59 @@ body:has([data-section-notice]) main{
 }
 
 }
+.project-carousel__slide>span>small{
+  color:#b8cbbc;
+  margin-top:5px;
+  font-size:12px;
+  font-weight:400;
+  line-height:1.5;
+  display:block
+}
+.project-viewer__canvas{
+  overscroll-behavior:contain;
+  position:absolute;
+  inset:16px 58px 94px;
+  overflow:auto
+}
+.project-viewer__canvas>img{
+  -o-object-fit:contain;
+  object-fit:contain;
+  width:100%;
+  height:100%;
+  display:block
+}
+.project-viewer__stage.is-zoomed .project-viewer__canvas>img{
+  width:max(100%,var(--viewer-image-width,100%));
+  max-width:none;
+  height:auto
+}
+.project-viewer__caption small{
+  color:#b8cbbc;
+  font-size:11px
+}
+.project-viewer__caption small:empty{
+  display:none
+}
+.project-viewer__actions [data-viewer-zoom][aria-pressed=true]{
+  background:#244d35;
+  border-color:#71bf8e
+}
+@media (max-width:700px){
+  .project-viewer__canvas{
+  inset:12px 10px 112px
+}
+.project-viewer__toolbar .gallery-modes{
+  flex:0 0 100%
+}
+.project-viewer__actions{
+  justify-content:flex-end;
+  width:100%
+}
+.project-viewer__caption{
+  gap:4px
+}
+
+}
 @property --tw-translate-x{
   syntax:"*";
   inherits:false;
