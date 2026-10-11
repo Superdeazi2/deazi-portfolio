@@ -898,3 +898,18 @@ body {
   .bg main { padding-top: 112px; }
   .bg main [id] { scroll-margin-top: 116px; }
 }
+
+/* A clear two-row header on phones, with evenly sized navigation links. */
+@media (max-width: 767px) {
+  .site-nav { padding: 10px 16px 6px; }
+  .site-nav > div { flex-direction: column; align-items: stretch; gap: 4px; }
+  .site-nav .header-brand { width: 100%; min-height: 40px; justify-content: center; gap: 10px; padding-right: 38px; }
+  .site-nav .header-brand > a { font-size: clamp(20px, 5.8vw, 24px); line-height: 1.2; letter-spacing: -.025em; white-space: nowrap; }
+  .site-nav .header-fox-trigger { width: 36px; height: 36px; flex: 0 0 36px; }
+  .site-nav .header-fox-trigger img { width: 36px; height: 36px; }
+  .site-nav ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; gap: 6px; }
+  .site-nav ul a { display: flex; min-height: 40px; align-items: center; justify-content: center; border-radius: 8px; font-size: 14px; }
+  .site-nav ul a.font-bold { background: rgb(255 255 255 / .07); text-decoration: none; }
+  .bg main { padding-top: 120px; }
+  .bg main [id] { scroll-margin-top: 120px; }
+}

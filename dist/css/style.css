@@ -2009,6 +2009,63 @@ header nav a,header nav button{
 }
 
 }
+@media (max-width:767px){
+  .site-nav{
+  padding:10px 16px 6px
+}
+.site-nav>div{
+  flex-direction:column;
+  align-items:stretch;
+  gap:4px
+}
+.site-nav .header-brand{
+  justify-content:center;
+  gap:10px;
+  width:100%;
+  min-height:40px;
+  padding-right:38px
+}
+.site-nav .header-brand>a{
+  letter-spacing:-.025em;
+  white-space:nowrap;
+  font-size:clamp(20px,5.8vw,24px);
+  line-height:1.2
+}
+.site-nav .header-fox-trigger{
+  flex:0 0 36px;
+  width:36px;
+  height:36px
+}
+.site-nav .header-fox-trigger img{
+  width:36px;
+  height:36px
+}
+.site-nav ul{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:6px;
+  width:100%;
+  display:grid
+}
+.site-nav ul a{
+  border-radius:8px;
+  justify-content:center;
+  align-items:center;
+  min-height:40px;
+  font-size:14px;
+  display:flex
+}
+.site-nav ul a.font-bold{
+  background:#ffffff12;
+  text-decoration:none
+}
+.bg main{
+  padding-top:120px
+}
+.bg main [id]{
+  scroll-margin-top:120px
+}
+
+}
 @property --tw-translate-x{
   syntax:"*";
   inherits:false;
