@@ -647,14 +647,22 @@ function initPhotoGallery() {
   let previousBodyOverflow = "";
 
   let photoRequest = 0;
-  const prepared = profilePhotos.map(photo => {
+  const preparePhoto = (photo: typeof profilePhotos[number]) => {
     const inline = mainImage!.cloneNode(false) as HTMLImageElement;
     const full = modalImg!.cloneNode(false) as HTMLImageElement;
     inline.removeAttribute("data-critical-image");
     [inline, full].forEach(image => { image.src = photo.src; image.loading = "eager"; });
-    const ready = Promise.all([inline.decode(), full.decode()]).then(() => true, () => false);
-    return { inline, full, ready };
-  });
+    let failed = false;
+    const ready = Promise.all([inline.decode(), full.decode()]).then(() => {
+      [inline, full].forEach(image => {
+        image.classList.add("is-image-ready");
+        image.classList.remove("is-image-error");
+      });
+      return true;
+    }, () => { failed = true; return false; });
+    return { inline, full, ready, hasFailed: () => failed };
+  };
+  const prepared = profilePhotos.map(preparePhoto);
   const setActivePhoto = (index: number) => {
     activeIndex = (index + profilePhotos.length) % profilePhotos.length;
     const requestedIndex = activeIndex;
@@ -734,6 +742,23 @@ function initPhotoGallery() {
     if (event.key === "ArrowRight") showNext(1);
   });
 
+  const restorePhoto = () => {
+    // A cached page may return after image decoding failed or while a request was suspended.
+    [mainImage!, modalImg!].forEach(image => {
+      if (image.complete && image.naturalWidth > 0) {
+        image.classList.add("is-image-ready");
+        image.classList.remove("is-image-error");
+        image.style.visibility = "";
+      }
+    });
+    if (prepared[activeIndex].hasFailed() || !mainImage!.complete || mainImage!.naturalWidth === 0) {
+      prepared[activeIndex] = preparePhoto(profilePhotos[activeIndex]);
+    }
+    setActivePhoto(activeIndex);
+  };
+  window.addEventListener("pageshow", restorePhoto);
+  window.addEventListener("online", restorePhoto);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) restorePhoto(); });
   setActivePhoto(0);
 }
 
