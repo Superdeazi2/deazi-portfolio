@@ -40,7 +40,7 @@
   </nav>
 
   <main class="w-full max-w-5xl px-3 pt-20 md:px-6">
-    <section class="rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
+    <section id="commercial-projects" data-project-section="Коммерческие проекты" class="rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
       <div class="mb-5">
         <h1 class="text-2xl font-bold text-white md:text-3xl">Коммерческие проекты</h1>
         <p class="mt-2 max-w-2xl text-sm text-gray-200 md:text-base">Здесь собраны проекты, в которых я занимался вёрсткой, интерфейсами, формами, подключением данных и админ-панелями</p>
@@ -49,7 +49,7 @@
     </section>
 
   <!-- DEAZI_LIVE_PROJECTS_START -->
-<section id="live-projects" class="career-projects" aria-labelledby="career-projects-title">
+<section data-project-section="Собственные веб-проекты" id="live-projects" class="career-projects" aria-labelledby="career-projects-title">
   <div class="career-projects__head">
     <p class="career-projects__eyebrow">Живые проекты</p>
     <h2 id="career-projects-title">Собственные веб-проекты</h2>
@@ -122,7 +122,7 @@
 </section>
 <!-- DEAZI_LIVE_PROJECTS_END -->
 
-    <section id="personal-projects" class="mt-8 rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
+    <section data-project-section="Личные проекты" id="personal-projects" class="mt-8 rounded-lg border border-white/10 bg-white/10 p-6 md:p-8">
       <div class="mb-5">
         <h2 class="text-2xl font-bold text-white md:text-3xl">Личные проекты</h2>
         <p class="mt-2 max-w-2xl text-sm text-gray-200 md:text-base">Проекты, которые я разрабатывал самостоятельно вне коммерческой работы</p>
@@ -163,56 +163,41 @@
       </div>
     </section>
 
-    <section class="project-showcase rounded-lg border border-white/10 bg-white/10" aria-label="Макеты Figma">
-      <h2 class="text-2xl font-bold text-white md:text-3xl">Макеты Figma</h2>
-      <p class="mt-2 text-sm text-gray-200 md:text-base">Примеры дизайна и работы с макетами</p>
-      <div class="project-carousel" data-project-carousel tabindex="0" role="region" aria-roledescription="карусель" aria-label="Макеты Figma">
-        <div class="project-carousel__track">
-          <button type="button" class="project-carousel__slide" data-carousel-slide aria-label="Открыть: Софт-Онлайн">
+    <section id="project-gallery" data-project-section="Галерея работ" class="project-showcase rounded-lg border border-white/10 bg-white/10" aria-label="Галерея работ">
+      <h2 class="text-2xl font-bold text-white md:text-3xl">Галерея работ</h2>
+      <p class="mt-2 text-sm text-gray-200 md:text-base">Макеты и готовые интерфейсы — откройте изображение для подробного просмотра</p>
+      <div class="gallery-modes" aria-label="Раздел галереи"><button type="button" data-gallery-mode="interfaces" aria-pressed="true">Готовые интерфейсы</button><button type="button" data-gallery-mode="figma" aria-pressed="false">Макеты Figma</button></div>
+      <div class="project-carousel" data-project-carousel tabindex="0" role="region" aria-roledescription="карусель" aria-label="Галерея работ">
+        <div class="project-carousel__track"><button type="button" class="project-carousel__slide" data-carousel-slide data-gallery-group="figma" aria-label="Открыть: Софт-Онлайн">
             <img data-project-image="figma1" data-bundled-image loading="lazy" decoding="async" alt="Софт-Онлайн" />
             <span>Софт-Онлайн</span>
           </button>
-          <button type="button" class="project-carousel__slide" data-carousel-slide aria-label="Открыть: Elevator Protocol">
+<button type="button" class="project-carousel__slide" data-carousel-slide data-gallery-group="figma" aria-label="Открыть: Elevator Protocol">
             <img data-project-image="project5" data-bundled-image loading="lazy" decoding="async" alt="Elevator Protocol" />
             <span>Elevator Protocol</span>
           </button>
-        </div>
-        <button type="button" class="project-carousel__arrow project-carousel__arrow--prev" data-carousel-prev aria-label="Предыдущее изображение">‹</button>
-        <button type="button" class="project-carousel__arrow project-carousel__arrow--next" data-carousel-next aria-label="Следующее изображение">›</button>
-        <span class="project-carousel__counter" data-carousel-counter aria-live="polite"></span>
-      </div>
-    </section>
-
-    <section class="project-showcase rounded-lg border border-white/10 bg-white/10" aria-label="Экраны проектов">
-      <h2 class="text-2xl font-bold text-white md:text-3xl">Экраны проектов</h2>
-      <p class="mt-2 text-sm text-gray-200 md:text-base">Интерфейсы из коммерческих и собственных проектов</p>
-      <div class="project-carousel" data-project-carousel tabindex="0" role="region" aria-roledescription="карусель" aria-label="Экраны проектов">
-        <div class="project-carousel__track">
-          <button type="button" class="project-carousel__slide" data-carousel-slide aria-label="Открыть: KeyLink">
+<button type="button" class="project-carousel__slide" data-carousel-slide data-gallery-group="interfaces" aria-label="Открыть: KeyLink">
             <img data-project-image="project7" data-bundled-image loading="lazy" decoding="async" alt="KeyLink" />
             <span>KeyLink</span>
           </button>
-          <button type="button" class="project-carousel__slide" data-carousel-slide aria-label="Открыть: A.AGENCY — главная страница">
+<button type="button" class="project-carousel__slide" data-carousel-slide data-gallery-group="interfaces" aria-label="Открыть: A.AGENCY — главная страница">
             <img data-project-image="project2" data-bundled-image loading="lazy" decoding="async" alt="A.AGENCY — главная страница" />
             <span>A.AGENCY — главная страница</span>
           </button>
-          <button type="button" class="project-carousel__slide" data-carousel-slide aria-label="Открыть: A.AGENCY — внутренний экран">
+<button type="button" class="project-carousel__slide" data-carousel-slide data-gallery-group="interfaces" aria-label="Открыть: A.AGENCY — внутренний экран">
             <img data-project-image="project3" data-bundled-image loading="lazy" decoding="async" alt="A.AGENCY — внутренний экран" />
             <span>A.AGENCY — внутренний экран</span>
           </button>
-
-          <button type="button" class="project-carousel__slide" data-carousel-slide aria-label="Открыть: WebSocket-интерфейс">
+<button type="button" class="project-carousel__slide" data-carousel-slide data-gallery-group="interfaces" aria-label="Открыть: WebSocket-интерфейс">
             <img data-project-image="project4" data-bundled-image loading="lazy" decoding="async" alt="WebSocket-интерфейс" />
             <span>WebSocket-интерфейс</span>
-          </button>
-        </div>
+          </button></div>
         <button type="button" class="project-carousel__arrow project-carousel__arrow--prev" data-carousel-prev aria-label="Предыдущее изображение">‹</button>
         <button type="button" class="project-carousel__arrow project-carousel__arrow--next" data-carousel-next aria-label="Следующее изображение">›</button>
         <span class="project-carousel__counter" data-carousel-counter aria-live="polite"></span>
       </div>
     </section>
-
-</main>
+  </main>
 
   <footer class="w-full max-w-5xl px-3 md:px-6">
 <section class="contact-dock-section" id="contacts" aria-label="Контакты">
@@ -262,7 +247,7 @@
       </div>
       <div class="mt-4 flex flex-wrap gap-2" data-stack></div>
       <div class="mt-5 flex flex-wrap items-center gap-3" data-actions></div>
-      <div class="mt-4 hidden text-xs text-gray-300" data-private-repository>Репозиторий приватный. О личном вкладе расскажу на собеседовании.</div>
+
     </article>
   </template>
   <template id="skill-tag-template">
@@ -274,12 +259,23 @@
       class="inline-flex items-center justify-center rounded-lg border border-blue-200/30 bg-white/10 px-4 py-2 text-sm font-medium text-blue-100 transition duration-300 hover:bg-white/20 hover:border-blue-200/60 hover:text-white"></a>
   </template>
 
-  <dialog id="project-viewer" class="project-viewer" aria-label="Просмотр изображений проекта">
-    <button type="button" class="project-viewer__close" data-viewer-close aria-label="Закрыть просмотр">×</button>
-    <button type="button" class="project-carousel__arrow project-carousel__arrow--prev" data-viewer-prev aria-label="Предыдущее изображение">‹</button>
-    <img data-viewer-image alt="" />
-    <button type="button" class="project-carousel__arrow project-carousel__arrow--next" data-viewer-next aria-label="Следующее изображение">›</button>
-    <div class="project-viewer__caption"><span data-viewer-caption></span><span data-viewer-counter aria-live="polite"></span></div>
+  <nav class="section-notice" data-section-notice aria-label="Навигация по разделам проектов">
+    <div class="section-notice__label"><span>Сейчас на странице</span><strong data-section-name aria-live="polite"></strong></div>
+    <div class="section-notice__arrows"><button type="button" data-section-prev aria-label="Предыдущий раздел">↑</button><button type="button" data-section-next aria-label="Следующий раздел">↓</button></div>
+  </nav>
+  <dialog id="project-viewer" class="project-viewer" aria-label="Галерея работ">
+    <div class="project-viewer__toolbar"><div class="gallery-modes" aria-label="Раздел галереи"><button type="button" data-gallery-mode="interfaces" aria-pressed="true">Готовые интерфейсы</button><button type="button" data-gallery-mode="figma" aria-pressed="false">Макеты Figma</button></div>
+      <div class="project-viewer__actions"><button type="button" data-viewer-menu aria-expanded="false" aria-controls="gallery-slides">Все слайды <span data-viewer-total></span></button><button type="button" data-viewer-close aria-label="Закрыть просмотр">×</button></div>
+    </div>
+    <div class="project-viewer__body">
+      <div class="project-viewer__stage">
+        <button type="button" class="project-carousel__arrow project-carousel__arrow--prev" data-viewer-prev aria-label="Предыдущее изображение">‹</button>
+        <img data-viewer-image alt="" />
+        <button type="button" class="project-carousel__arrow project-carousel__arrow--next" data-viewer-next aria-label="Следующее изображение">›</button>
+        <div class="project-viewer__caption"><span data-viewer-caption></span><span data-viewer-counter aria-live="polite"></span></div>
+      </div>
+      <aside id="gallery-slides" class="project-viewer__slides" aria-label="Выбор слайда" hidden><h3>Выберите слайд</h3><div data-viewer-thumbnails></div></aside>
+    </div>
   </dialog>
 
   <script type="module" src="/app.ts"></script>

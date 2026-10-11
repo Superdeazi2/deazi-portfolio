@@ -516,6 +516,7 @@ renderExperienceLists();
 initStackCarousel();
 initPhotoGallery();
 initProjectLightbox();
+initProjectSectionNotice();
 function initMatrixMotionToggle(controller) {
   const buttons = [...document.querySelectorAll("[data-matrix-toggle]")];
   if (!buttons.length) return;
@@ -959,25 +960,67 @@ function initStackCarousel() {
 function initPhotoGallery() {
   const gallery = document.querySelector(".profile-gallery");
   const modal = document.querySelector("#photo-modal");
-  const mainImage = document.querySelector("[data-main-photo]");
-  const modalImg = document.querySelector("#photo-modal-img");
+  let mainImage = document.querySelector("[data-main-photo]");
+  let modalImg = document.querySelector("#photo-modal-img");
   const counter = document.querySelector("#photo-counter");
   if (!gallery || !modal || !mainImage || !modalImg) {
     return;
   }
   let activeIndex = 0;
   let previousBodyOverflow = "";
+  let photoRequest = 0;
+  const prepared = profilePhotos.map((photo) => {
+    const inline = mainImage.cloneNode(false);
+    const full = modalImg.cloneNode(false);
+    inline.removeAttribute("data-critical-image");
+    [inline, full].forEach((image) => {
+      image.src = photo.src;
+      image.loading = "eager";
+    });
+    const ready = Promise.all([inline.decode(), full.decode()]).then(() => true, () => false);
+    return { inline, full, ready };
+  });
   const setActivePhoto = (index) => {
     activeIndex = (index + profilePhotos.length) % profilePhotos.length;
-    const photo = profilePhotos[activeIndex];
-    mainImage.src = photo.src;
-    modalImg.src = photo.src;
-    if (counter) {
-      counter.textContent = `${activeIndex + 1} / ${profilePhotos.length}`;
+    const requestedIndex = activeIndex;
+    const request = ++photoRequest;
+    const photo = prepared[requestedIndex];
+    const apply = () => {
+      if (request !== photoRequest) return;
+      mainImage.replaceWith(photo.inline);
+      modalImg.replaceWith(photo.full);
+      mainImage = photo.inline;
+      modalImg = photo.full;
+      mainImage.style.visibility = "";
+      modalImg.style.visibility = "";
+      gallery.removeAttribute("aria-busy");
+      modal.removeAttribute("aria-busy");
+      if (counter) counter.textContent = `${requestedIndex + 1} / ${profilePhotos.length}`;
+    };
+    if (photo.inline.complete && photo.inline.naturalWidth > 0 && photo.full.complete && photo.full.naturalWidth > 0) {
+      void photo.ready.then((ok) => {
+        if (ok) apply();
+      });
+    } else {
+      mainImage.style.visibility = "hidden";
+      modalImg.style.visibility = "hidden";
+      gallery.setAttribute("aria-busy", "true");
+      modal.setAttribute("aria-busy", "true");
+      if (counter) counter.textContent = "Загрузка фото…";
+      void photo.ready.then((ok) => {
+        if (ok) apply();
+        else if (request === photoRequest) {
+          mainImage.style.visibility = "";
+          modalImg.style.visibility = "";
+          gallery.removeAttribute("aria-busy");
+          modal.removeAttribute("aria-busy");
+          if (counter) counter.textContent = "Фото не загрузилось. Попробуйте ещё раз";
+        }
+      });
     }
   };
   const openModal = (index = activeIndex) => {
-    previousBodyOverflow = document.body.style.overflow;
+    if (modal.classList.contains("pointer-events-none")) previousBodyOverflow = document.body.style.overflow;
     setActivePhoto(index);
     document.body.style.overflow = "hidden";
     modal.classList.remove("opacity-0", "pointer-events-none");
@@ -1014,91 +1057,179 @@ function initPhotoGallery() {
 }
 function initProjectLightbox() {
   const viewer = document.querySelector("#project-viewer");
+  const carousel = document.querySelector("[data-project-carousel]");
   const viewerImage = viewer?.querySelector("[data-viewer-image]");
-  if (!viewer || !viewerImage) return;
-  const viewerCaption = viewer.querySelector("[data-viewer-caption]");
-  const viewerCounter = viewer.querySelector("[data-viewer-counter]");
-  let active;
-  let opener = null;
+  if (!viewer || !viewerImage || !carousel) return;
+  const allSlides = [...carousel.querySelectorAll("[data-carousel-slide]")];
+  const modes = [...document.querySelectorAll("[data-gallery-mode]")];
+  const panel = viewer.querySelector("#gallery-slides");
+  const menu = viewer.querySelector("[data-viewer-menu]");
+  const thumbnails = viewer.querySelector("[data-viewer-thumbnails]");
+  const positions = { interfaces: 0, figma: 0 };
+  let mode = "interfaces";
   let previousOverflow = "";
-  document.querySelectorAll("[data-project-carousel]").forEach((carousel) => {
-    const slides = [...carousel.querySelectorAll("[data-carousel-slide]")];
-    const counter = carousel.querySelector("[data-carousel-counter]");
-    const prev = carousel.querySelector("[data-carousel-prev]");
-    const next = carousel.querySelector("[data-carousel-next]");
-    if (!slides.length) return;
-    let index = 0;
-    const update = () => {
-      slides.forEach((slide, i) => {
-        slide.hidden = i !== index;
-      });
-      if (counter) counter.textContent = `${index + 1} / ${slides.length}`;
-      if (prev) prev.hidden = slides.length < 2;
-      if (next) next.hidden = slides.length < 2;
-      if (viewer.open && active === controller) {
-        const image = slides[index].querySelector("img");
-        if (image) {
-          viewerImage.src = image.src;
-          viewerImage.alt = image.alt;
-          if (viewerCaption) viewerCaption.textContent = image.alt;
-        }
-        if (viewerCounter) viewerCounter.textContent = `${index + 1} / ${slides.length}`;
-        const modalPrev = viewer.querySelector("[data-viewer-prev]");
-        const modalNext = viewer.querySelector("[data-viewer-next]");
-        if (modalPrev) modalPrev.hidden = slides.length < 2;
-        if (modalNext) modalNext.hidden = slides.length < 2;
-      }
-    };
-    const step = (delta) => {
-      index = (index + delta + slides.length) % slides.length;
-      update();
-    };
-    const controller = { step, update };
-    prev?.addEventListener("click", () => step(-1));
-    next?.addEventListener("click", () => step(1));
-    slides.forEach((slide) => slide.addEventListener("click", () => {
-      active = controller;
-      opener = slide;
-      previousOverflow = document.body.style.overflow;
-      viewer.showModal();
-      document.body.style.overflow = "hidden";
-      update();
-    }));
-    carousel.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-        event.preventDefault();
-        step(event.key === "ArrowLeft" ? -1 : 1);
-      }
+  const slides = () => allSlides.filter((slide) => slide.dataset.galleryGroup === mode);
+  const setPanel = (open) => {
+    panel.hidden = !open;
+    menu.setAttribute("aria-expanded", String(open));
+  };
+  const update = () => {
+    const current = slides();
+    const index = positions[mode];
+    allSlides.forEach((slide) => {
+      slide.hidden = slide !== current[index];
     });
-    let startX = 0;
-    let startY = 0;
-    carousel.addEventListener("touchstart", (event) => {
+    modes.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.galleryMode === mode)));
+    const counter = `${index + 1} / ${current.length}`;
+    carousel.querySelector("[data-carousel-counter]").textContent = counter;
+    const image = current[index]?.querySelector("img");
+    if (image && viewer.open) {
+      viewerImage.src = image.src;
+      viewerImage.alt = image.alt;
+      viewer.querySelector("[data-viewer-caption]").textContent = image.alt;
+      viewer.querySelector("[data-viewer-counter]").textContent = counter;
+    }
+    viewer.querySelector("[data-viewer-total]").textContent = `(${current.length})`;
+    thumbnails.replaceChildren(...current.map((slide, i) => {
+      const source = slide.querySelector("img");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "gallery-thumbnail";
+      button.setAttribute("aria-label", `Слайд ${i + 1}: ${source.alt}`);
+      button.setAttribute("aria-current", String(i === index));
+      const preview = document.createElement("img");
+      preview.src = source.src;
+      preview.alt = "";
+      const label = document.createElement("span");
+      label.textContent = `${i + 1}. ${source.alt}`;
+      button.append(preview, label);
+      button.addEventListener("click", () => {
+        positions[mode] = i;
+        update();
+        const selected = thumbnails.querySelector('[aria-current="true"]');
+        if (window.matchMedia("(max-width: 700px)").matches) {
+          setPanel(false);
+          menu.focus();
+        } else selected?.focus();
+      });
+      return button;
+    }));
+  };
+  const step = (delta) => {
+    positions[mode] = (positions[mode] + delta + slides().length) % slides().length;
+    update();
+  };
+  modes.forEach((button) => button.addEventListener("click", () => {
+    mode = button.dataset.galleryMode;
+    update();
+    document.dispatchEvent(new Event("gallerymodechange"));
+  }));
+  allSlides.forEach((slide) => slide.addEventListener("click", () => {
+    previousOverflow = document.body.style.overflow;
+    setPanel(false);
+    viewer.showModal();
+    document.body.style.overflow = "hidden";
+    update();
+  }));
+  carousel.querySelector("[data-carousel-prev]")?.addEventListener("click", () => step(-1));
+  carousel.querySelector("[data-carousel-next]")?.addEventListener("click", () => step(1));
+  viewer.querySelector("[data-viewer-prev]")?.addEventListener("click", () => step(-1));
+  viewer.querySelector("[data-viewer-next]")?.addEventListener("click", () => step(1));
+  viewer.querySelector("[data-viewer-close]")?.addEventListener("click", () => viewer.close());
+  menu.addEventListener("click", () => setPanel(panel.hidden));
+  const keyboard = (event) => {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      step(event.key === "ArrowLeft" ? -1 : 1);
+    }
+    if (event.key === "Escape" && !panel.hidden) {
+      event.preventDefault();
+      setPanel(false);
+      menu.focus();
+    }
+  };
+  carousel.addEventListener("keydown", keyboard);
+  viewer.addEventListener("keydown", keyboard);
+  [carousel, viewer.querySelector(".project-viewer__stage")].forEach((surface) => {
+    let startX = 0, startY = 0;
+    surface.addEventListener("touchstart", (event) => {
       startX = event.touches[0].clientX;
       startY = event.touches[0].clientY;
     }, { passive: true });
-    carousel.addEventListener("touchend", (event) => {
+    surface.addEventListener("touchend", (event) => {
       const dx = event.changedTouches[0].clientX - startX;
       const dy = event.changedTouches[0].clientY - startY;
       if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) step(dx > 0 ? -1 : 1);
     }, { passive: true });
-    update();
-  });
-  viewer.querySelector("[data-viewer-close]")?.addEventListener("click", () => viewer.close());
-  viewer.querySelector("[data-viewer-prev]")?.addEventListener("click", () => active?.step(-1));
-  viewer.querySelector("[data-viewer-next]")?.addEventListener("click", () => active?.step(1));
-  viewer.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-      event.preventDefault();
-      active?.step(event.key === "ArrowLeft" ? -1 : 1);
-    }
   });
   viewer.addEventListener("click", (event) => {
     if (event.target === viewer) viewer.close();
   });
   viewer.addEventListener("close", () => {
     document.body.style.overflow = previousOverflow;
-    active = void 0;
-    const visibleOpener = opener?.closest("[data-project-carousel]")?.querySelector("[data-carousel-slide]:not([hidden])");
-    (visibleOpener ?? opener)?.focus();
+    slides()[positions[mode]]?.focus();
   });
+  update();
+}
+function initProjectSectionNotice() {
+  const notice = document.querySelector("[data-section-notice]");
+  const sections = [...document.querySelectorAll("[data-project-section]")];
+  if (!notice || !sections.length) return;
+  const name = notice.querySelector("[data-section-name]");
+  const prev = notice.querySelector("[data-section-prev]");
+  const next = notice.querySelector("[data-section-next]");
+  let active = -1;
+  let queued = false;
+  let fadeTimer = 0;
+  const measureHeader = () => {
+    const header = document.querySelector("header");
+    notice.style.setProperty("--notice-top", `${Math.max(64, header?.getBoundingClientRect().bottom ?? 64) + 12}px`);
+  };
+  const update = () => {
+    queued = false;
+    const readingLine = Math.min(innerHeight * 0.3, 220);
+    let index = 0;
+    sections.forEach((section2, i) => {
+      if (section2.getBoundingClientRect().top <= readingLine) index = i;
+    });
+    const section = sections[index];
+    const mode = document.querySelector('.project-showcase [data-gallery-mode][aria-pressed="true"]');
+    const title = section.id === "project-gallery" ? mode?.textContent ?? section.dataset.projectSection : section.dataset.projectSection;
+    if (active === index && name.textContent === title) return;
+    active = index;
+    name.textContent = title;
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      name.getAnimations().forEach((animation) => animation.cancel());
+      name.animate([{ opacity: 0, transform: "translateY(4px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 260, easing: "ease-out" });
+    }
+    prev.hidden = index === 0;
+    next.hidden = index === sections.length - 1;
+    prev.setAttribute("aria-label", `Перейти: ${sections[index - 1]?.dataset.projectSection ?? ""}`);
+    next.setAttribute("aria-label", `Перейти: ${sections[index + 1]?.dataset.projectSection ?? ""}`);
+    notice.classList.add("is-announcing");
+    clearTimeout(fadeTimer);
+    fadeTimer = window.setTimeout(() => notice.classList.remove("is-announcing"), 2400);
+  };
+  const schedule = () => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(update);
+    }
+  };
+  const go = (delta) => {
+    const section = sections[active + delta];
+    if (!section) return;
+    const headerBottom = document.querySelector("header")?.getBoundingClientRect().bottom ?? 64;
+    window.scrollTo({ top: window.scrollY + section.getBoundingClientRect().top - headerBottom - 20, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  };
+  prev.addEventListener("click", () => go(-1));
+  next.addEventListener("click", () => go(1));
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", () => {
+    measureHeader();
+    schedule();
+  });
+  document.addEventListener("gallerymodechange", schedule);
+  measureHeader();
+  update();
 }
