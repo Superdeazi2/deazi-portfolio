@@ -45,11 +45,13 @@ const __vite_glob_0_43 = "" + new URL("../images/page_icon_2_10.png", import.met
 const __vite_glob_0_44 = "" + new URL("../images/page_icon_2_11.png", import.meta.url).href;
 const __vite_glob_0_45 = "" + new URL("../images/page_icon_2_12.png", import.meta.url).href;
 const MATRIX_CANVAS_CLASS = "matrix-background";
+const MATRIX_SESSION_KEY = "deazi-matrix-state-v1";
 const MATRIX_STORAGE_KEY = "deazi-matrix-motion-enabled";
 const MATRIX_GLYPHS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ";
 function readMotionPreference() {
   try {
-    return window.localStorage.getItem(MATRIX_STORAGE_KEY) !== "0";
+    const saved = window.localStorage.getItem(MATRIX_STORAGE_KEY);
+    return saved === null ? !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches : saved !== "0";
   } catch {
     return true;
   }
@@ -75,6 +77,7 @@ function initMatrixBackground() {
   }
   const fontSize = 17;
   const columnGap = 24;
+  let animationTime = 0;
   let width = 0;
   let height = 0;
   let streams = [];
@@ -91,7 +94,8 @@ function initMatrixBackground() {
       y: Math.random() * (height + 260),
       speed: 24 + Math.random() * 34,
       length: 9 + Math.floor(Math.random() * 18),
-      phase: Math.random() * Math.PI * 2
+      phase: Math.random() * Math.PI * 2,
+      glyphs: Array.from({ length: 32 }, randomGlyph).join("")
     }));
   };
   const configureCanvas = (preservePositions = false) => {
@@ -122,7 +126,8 @@ function initMatrixBackground() {
           y: Math.random() * (height + 260),
           speed: 24 + Math.random() * 34,
           length: 9 + Math.floor(Math.random() * 18),
-          phase: Math.random() * Math.PI * 2
+          phase: Math.random() * Math.PI * 2,
+          glyphs: Array.from({ length: 32 }, randomGlyph).join("")
         };
       }
       return {
@@ -135,15 +140,16 @@ function initMatrixBackground() {
   const renderFrame = (time, advance) => {
     const delta = advance ? Math.min((time - previousTime) / 1e3, 0.05) : 0;
     previousTime = time;
+    animationTime += delta * 1e3;
     context.clearRect(0, 0, width, height);
     for (const stream of streams) {
-      const sway = Math.sin(time * 35e-5 + stream.phase) * 1.4;
+      const sway = Math.sin(animationTime * 35e-5 + stream.phase) * 1.4;
       for (let index = 0; index < stream.length; index += 1) {
         const y = stream.y + index * fontSize;
         if (y < -fontSize || y > height + fontSize) continue;
         const alpha = index === 0 ? 0.9 : Math.max(0.06, 0.45 - index * 0.026);
         context.fillStyle = index === 0 ? "rgba(180, 255, 195, 0.90)" : `rgba(38, 176, 72, ${alpha})`;
-        context.fillText(randomGlyph(), stream.x + sway, y);
+        context.fillText(stream.glyphs[index] ?? "0", stream.x + sway, y);
       }
       if (!advance) continue;
       stream.y -= stream.speed * delta;
@@ -195,7 +201,25 @@ function initMatrixBackground() {
     renderFrame(previousTime, false);
     startAnimation();
   };
+  const saveState = () => {
+    try {
+      window.sessionStorage.setItem(MATRIX_SESSION_KEY, JSON.stringify({ width, height, streams, animationTime }));
+    } catch {
+    }
+  };
+  const restoreState = () => {
+    try {
+      const saved = JSON.parse(window.sessionStorage.getItem(MATRIX_SESSION_KEY) ?? "null");
+      if (!saved || !Number.isFinite(saved.width) || saved.width <= 0 || !Number.isFinite(saved.height) || saved.height <= 0 || !Array.isArray(saved.streams) || !saved.streams.length || saved.streams.length > 1e3 || !Number.isFinite(saved.animationTime) || !saved.streams.every((stream) => [stream.x, stream.y, stream.speed, stream.phase, stream.length].every(Number.isFinite) && stream.length >= 1 && stream.length <= 32 && typeof stream.glyphs === "string" && stream.glyphs.length >= stream.length)) return;
+      width = saved.width;
+      height = saved.height;
+      streams = saved.streams;
+      animationTime = saved.animationTime;
+    } catch {
+    }
+  };
   const handlePageHide = () => {
+    saveState();
     pageVisible = false;
     stopAnimation();
     previousTime = performance.now();
@@ -224,6 +248,7 @@ function initMatrixBackground() {
     destroy: () => {
       if (isDestroyed) return;
       isDestroyed = true;
+      saveState();
       stopAnimation();
       window.removeEventListener("resize", handleResize);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
@@ -235,7 +260,8 @@ function initMatrixBackground() {
       }
     }
   };
-  configureCanvas(false);
+  restoreState();
+  configureCanvas(streams.length > 0);
   renderFrame(previousTime, false);
   startAnimation();
   window.addEventListener("resize", handleResize, { passive: true });
@@ -247,21 +273,37 @@ function initMatrixBackground() {
 }
 const experienceItems = [
   {
+    id: "aliot-current",
+    title: "ALIOT / EcoReef",
+    role: "Frontend Developer · проектная работа",
+    period: "06.2026 – настоящее время",
+    repositoryPrivate: true,
+    shortDescription: "Продолжаю развивать React-интерфейс управления освещением.",
+    description: "Работаю с существующим приложением: дорабатываю интерактивные интерфейсы, состояние и взаимодействие с API.",
+    responsibilities: [
+      "развиваю интерфейс на React и TypeScript",
+      "дорабатываю управление настройками и состоянием приложения на Zustand",
+      "интегрирую изменения интерфейса с REST API",
+      "проверяю расчётную логику и граничные сценарии тестами"
+    ],
+    stack: ["React", "TypeScript", "Zustand", "REST API", "GitLab"]
+  },
+  {
     id: "keylink",
     title: "KeyLink",
-    role: "Frontend Developer",
+    role: "Frontend Developer · совместная разработка",
     period: "10.2025 – 01.2026",
     siteUrl: "https://keylink.events/",
     repositoryLabel: "GitLab",
     repositoryUrl: null,
     repositoryPrivate: true,
     shortDescription: "Многостраничный сайт на Ruby on Rails, Tailwind CSS и JavaScript.",
-    description: "Делал адаптивные страницы, галереи, карусели, пагинацию и админ-панель для управления контентом, проектами, фотографиями и SEO.",
+    description: "Дорабатывал адаптивные страницы и административные интерфейсы в существующем Rails-приложении: контентные блоки с изображениями, слайдер и навигацию между проектами.",
     responsibilities: [
       "верстал адаптивные страницы по макетам Figma",
       "делал галереи, карусели, пагинацию и интерактивные блоки",
       "участвовал в разработке админ-панели",
-      "настраивал управление контентом, проектами, фотографиями и SEO",
+      "расширял контентные блоки и управление изображениями",
       "интегрировал frontend с backend"
     ],
     stack: [
@@ -283,11 +325,11 @@ const experienceItems = [
     repositoryUrl: null,
     repositoryPrivate: true,
     shortDescription: "Адаптивный сайт по макетам Figma.",
-    description: "Делал анимации, слайдеры, карусели, fullscreen-блоки и поддержку двух языков: русский и английский.",
+    description: "Совместно с другим разработчиком создавал дизайн и интерфейсы: адаптивные страницы, анимации, слайдеры и карусели в приложении Rails.",
     responsibilities: [
       "верстал адаптивные страницы по макетам Figma",
       "делал анимации, слайдеры, карусели и fullscreen-блоки",
-      "добавлял поддержку русского и английского языка",
+      "совместно прорабатывал дизайн и интерфейсы",
       "подключал frontend к Ruby on Rails",
       "работал с GitLab и вносил правки по задачам заказчика"
     ],
@@ -324,15 +366,13 @@ const experienceItems = [
     repositoryUrl: null,
     repositoryPrivate: true,
     shortDescription: "Сайт для продукта Контур.Маркет.",
-    description: "Делал макеты в Figma, адаптивную верстку на Bootstrap, форму обратной связи, простую админ-панель и подключение к PostgreSQL через Node.js.",
+    description: "Подготовил макеты в Figma и адаптивную вёрстку сайта на Bootstrap, работал с интерфейсом формы обратной связи.",
     responsibilities: [
       "собрал требования и подготовил техническое задание",
       "сделал макеты сайта и логотип в Figma",
       "сверстал адаптивный сайт на Bootstrap",
       "добавил светлую и тёмную тему",
       "сделал форму обратной связи",
-      "подключил сохранение заявок через Node.js и PostgreSQL",
-      "сделал простую админ-панель с авторизацией",
       "работал с Git, GitHub и Fork"
     ],
     stack: [
@@ -340,8 +380,6 @@ const experienceItems = [
       "CSS",
       "JavaScript",
       "Bootstrap",
-      "Node.js",
-      "PostgreSQL",
       "Git",
       "Figma"
     ]
@@ -350,9 +388,8 @@ const experienceItems = [
 const photoMe4Url = "" + new URL("../images/photo_me4.png", import.meta.url).href;
 const photoMe5Url = "" + new URL("../images/photo_me5.jpg", import.meta.url).href;
 const photoMe9Url = "" + new URL("../images/photo_me9.jpg", import.meta.url).href;
-const resumeProjectUrl = "" + new URL("../docs/resume-project.txt", import.meta.url).href;
 const profileLinks = {
-  resumeProjectUrl
+  hhUrl: "https://hh.ru/resume/a0a1eac0ff0f3cb0490039ed1f50774c6f6157"
 };
 const profilePhotos = [
   {
@@ -456,6 +493,7 @@ const profileImageUrls = {
 };
 const FOX_LOADER_COOLDOWN_MS = 6e4;
 const FOX_LOADER_STORAGE_KEY = "deazi-fox-loader-last-auto-played-at-v2";
+const decodedFrames = /* @__PURE__ */ new Map();
 setBundledImageSources();
 setResumeLinks();
 initStablePageReveal();
@@ -470,7 +508,6 @@ renderExperienceLists();
 initStackCarousel();
 initPhotoGallery();
 initProjectLightbox();
-initContactDock();
 function initMatrixMotionToggle(controller) {
   const buttons = [...document.querySelectorAll("[data-matrix-toggle]")];
   if (!buttons.length) return;
@@ -581,15 +618,22 @@ function getAnimationFrames(folder) {
   ).map(([, url]) => url);
 }
 function preloadFrames(frames) {
-  return Promise.all(
-    frames.map(
-      (url) => new Promise((resolve) => {
+  return Promise.all(frames.map((url) => {
+    let pending = decodedFrames.get(url);
+    if (!pending) {
+      pending = new Promise((resolve) => {
         const image = new Image();
-        image.onload = image.onerror = () => resolve();
+        image.onload = () => {
+          image.decode().catch(() => {
+          }).then(() => resolve());
+        };
+        image.onerror = () => resolve();
         image.src = url;
-      })
-    )
-  );
+      });
+      decodedFrames.set(url, pending);
+    }
+    return pending;
+  }));
 }
 function startFrameLoop(showFrame, initialFrames, delay = 110) {
   let frames = initialFrames;
@@ -599,9 +643,10 @@ function startFrameLoop(showFrame, initialFrames, delay = 110) {
     const frame = frames[frameIndex];
     if (frame) showFrame(frame);
   };
-  const setFrames = (nextFrames) => {
+  const setFrames = (nextFrames, nextDelay = delay) => {
     if (!nextFrames.length) return;
     frames = nextFrames;
+    delay = nextDelay;
     frameIndex = 0;
     lastFrameTime = performance.now();
     render();
@@ -615,7 +660,9 @@ function startFrameLoop(showFrame, initialFrames, delay = 110) {
     window.requestAnimationFrame(loop);
   };
   render();
-  window.requestAnimationFrame(loop);
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    window.requestAnimationFrame(loop);
+  }
   return setFrames;
 }
 function initFoxLoader() {
@@ -650,29 +697,19 @@ function initFoxLoader() {
     loader.classList.remove("is-playing", "is-frame-ready");
     window.setTimeout(() => loader.classList.remove("is-hiding"), 240);
   };
-  const showFrame = async (src) => {
-    loader.classList.remove("is-frame-ready");
+  const showFrame = (src) => {
     image.src = src;
-    try {
-      await image.decode();
-    } catch {
-      await new Promise((resolve) => {
-        if (image.complete) return resolve();
-        image.addEventListener("load", () => resolve(), { once: true });
-        image.addEventListener("error", () => resolve(), { once: true });
-      });
-    }
-    if (image.naturalWidth > 0) loader.classList.add("is-frame-ready");
+    loader.classList.add("is-frame-ready");
   };
   const play = async (mode) => {
     if (isPlaying) return false;
     if (mode === "auto" && !canAutoPlay()) return false;
     isPlaying = true;
     if (mode === "auto") rememberAutoPlayedNow();
-    await showFrame(foxAnimationFrames[0]);
+    await preloadFrames(foxAnimationFrames);
+    showFrame(foxAnimationFrames[0]);
     loader.classList.remove("is-hiding");
     loader.classList.add("is-playing");
-    await preloadFrames(foxAnimationFrames);
     for (const frame of foxAnimationFrames) {
       await showFrame(frame);
       await delay(135);
@@ -685,7 +722,7 @@ function initFoxLoader() {
   triggers.forEach((trigger) => {
     trigger.addEventListener("click", () => void play("manual"));
   });
-  if (document.body.dataset.page === "index") void play("auto");
+  if (document.body.dataset.page === "index" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) void play("auto");
 }
 function initPageIcons() {
   document.querySelectorAll("[data-page-icon]").forEach((icon) => {
@@ -693,11 +730,20 @@ function initPageIcons() {
     if (!folder) return;
     const frames = getAnimationFrames(folder);
     if (frames.length) {
-      startFrameLoop((url) => icon.style.backgroundImage = `url("${url}")`, frames, 90);
+      icon.style.backgroundImage = `url("${frames[0]}")`;
+      void preloadFrames(frames).then(() => {
+        const setFrames = startFrameLoop((url) => icon.style.backgroundImage = `url("${url}")`, frames, 180);
+        const animate = () => setFrames(frames, 90);
+        const idle = () => setFrames(frames, 180);
+        icon.addEventListener("pointerenter", animate);
+        icon.addEventListener("pointerleave", idle);
+        icon.addEventListener("focus", animate);
+        icon.addEventListener("blur", idle);
+      });
     }
   });
 }
-function initCat() {
+async function initCat() {
   const container = document.querySelector("[data-cat-animation]");
   const defaultFrames = getAnimationFrames("cat");
   const hoverFrames = getAnimationFrames("cat/hover");
@@ -707,14 +753,15 @@ function initCat() {
   image.alt = "Анимированный кот";
   image.draggable = false;
   container.append(image);
-  void preloadFrames([...defaultFrames, ...hoverFrames]);
+  image.src = defaultFrames[0];
+  await preloadFrames([...defaultFrames, ...hoverFrames]);
   const setFrames = startFrameLoop((url) => image.src = url, defaultFrames, 120);
   image.addEventListener("pointerenter", () => setFrames(hoverFrames));
   image.addEventListener("pointerleave", () => setFrames(defaultFrames));
 }
 function setResumeLinks() {
   document.querySelectorAll("[data-resume-link]").forEach((link) => {
-    link.href = profileLinks.resumeProjectUrl;
+    link.href = profileLinks.hhUrl;
   });
 }
 function initScrollTopButtons() {
@@ -739,39 +786,6 @@ function initScrollTopButtons() {
     buttons.forEach((button) => button.classList.add("is-initialized"));
   });
   window.addEventListener("scroll", updateScrollTopVisibility, { passive: true });
-}
-function initContactDock() {
-  const docks = [...document.querySelectorAll("[data-contact-dock]")];
-  if (!docks.length) return;
-  const setOpen = (dock, open) => {
-    dock.classList.toggle("is-open", open);
-    dock.querySelector("[data-contact-trigger]")?.setAttribute(
-      "aria-expanded",
-      String(open)
-    );
-  };
-  docks.forEach((dock) => {
-    const trigger = dock.querySelector("[data-contact-trigger]");
-    if (!trigger) return;
-    setOpen(dock, true);
-    trigger.addEventListener("click", (event) => {
-      event.stopPropagation();
-      setOpen(dock, !dock.classList.contains("is-open"));
-    });
-    dock.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        setOpen(dock, false);
-        trigger.focus();
-      }
-    });
-  });
-  document.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof Node)) return;
-    docks.forEach((dock) => {
-      if (!dock.contains(target)) setOpen(dock, false);
-    });
-  });
 }
 function renderExperienceLists() {
   const template = document.querySelector("#experience-card-template");

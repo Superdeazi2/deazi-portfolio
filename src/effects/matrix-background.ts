@@ -6,6 +6,7 @@
  */
 
 const MATRIX_CANVAS_CLASS = "matrix-background";
+const MATRIX_SESSION_KEY = "deazi-matrix-state-v1";
 const MATRIX_STORAGE_KEY = "deazi-matrix-motion-enabled";
 const MATRIX_GLYPHS =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ";
@@ -16,6 +17,7 @@ type MatrixStream = {
   speed: number;
   length: number;
   phase: number;
+  glyphs: string;
 };
 
 export type MatrixController = {
@@ -31,7 +33,8 @@ type MatrixWindow = Window & {
 
 function readMotionPreference() {
   try {
-    return window.localStorage.getItem(MATRIX_STORAGE_KEY) !== "0";
+    const saved = window.localStorage.getItem(MATRIX_STORAGE_KEY);
+    return saved === null ? !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches : saved !== "0";
   } catch {
     return true;
   }
@@ -64,6 +67,7 @@ export function initMatrixBackground(): MatrixController | null {
   const fontSize = 17;
   const columnGap = 24;
 
+  let animationTime = 0;
   let width = 0;
   let height = 0;
   let streams: MatrixStream[] = [];
@@ -84,6 +88,7 @@ export function initMatrixBackground(): MatrixController | null {
       speed: 24 + Math.random() * 34,
       length: 9 + Math.floor(Math.random() * 18),
       phase: Math.random() * Math.PI * 2,
+      glyphs: Array.from({ length: 32 }, randomGlyph).join(""),
     }));
   };
 
@@ -121,6 +126,7 @@ export function initMatrixBackground(): MatrixController | null {
           speed: 24 + Math.random() * 34,
           length: 9 + Math.floor(Math.random() * 18),
           phase: Math.random() * Math.PI * 2,
+          glyphs: Array.from({ length: 32 }, randomGlyph).join(""),
         };
       }
 
@@ -135,10 +141,11 @@ export function initMatrixBackground(): MatrixController | null {
   const renderFrame = (time: number, advance: boolean) => {
     const delta = advance ? Math.min((time - previousTime) / 1000, 0.05) : 0;
     previousTime = time;
+    animationTime += delta * 1000;
     context.clearRect(0, 0, width, height);
 
     for (const stream of streams) {
-      const sway = Math.sin(time * 0.00035 + stream.phase) * 1.4;
+      const sway = Math.sin(animationTime * 0.00035 + stream.phase) * 1.4;
 
       for (let index = 0; index < stream.length; index += 1) {
         const y = stream.y + index * fontSize;
@@ -149,7 +156,7 @@ export function initMatrixBackground(): MatrixController | null {
           index === 0
             ? "rgba(180, 255, 195, 0.90)"
             : `rgba(38, 176, 72, ${alpha})`;
-        context.fillText(randomGlyph(), stream.x + sway, y);
+        context.fillText(stream.glyphs[index] ?? "0", stream.x + sway, y);
       }
 
       if (!advance) continue;
@@ -226,7 +233,30 @@ export function initMatrixBackground(): MatrixController | null {
     startAnimation();
   };
 
+  const saveState = () => {
+    try {
+      window.sessionStorage.setItem(MATRIX_SESSION_KEY, JSON.stringify({ width, height, streams, animationTime }));
+    } catch { /* Continue without persistence when storage is unavailable. */ }
+  };
+
+  const restoreState = () => {
+    try {
+      const saved = JSON.parse(window.sessionStorage.getItem(MATRIX_SESSION_KEY) ?? "null");
+      if (!saved || !Number.isFinite(saved.width) || saved.width <= 0 ||
+          !Number.isFinite(saved.height) || saved.height <= 0 || !Array.isArray(saved.streams) ||
+          !saved.streams.length || saved.streams.length > 1000 || !Number.isFinite(saved.animationTime) ||
+          !saved.streams.every((stream: MatrixStream) =>
+            [stream.x, stream.y, stream.speed, stream.phase, stream.length].every(Number.isFinite) &&
+            stream.length >= 1 && stream.length <= 32 && typeof stream.glyphs === "string" && stream.glyphs.length >= stream.length)) return;
+      width = saved.width;
+      height = saved.height;
+      streams = saved.streams;
+      animationTime = saved.animationTime;
+    } catch { /* Ignore stale or invalid session data. */ }
+  };
+
   const handlePageHide = () => {
+    saveState();
     pageVisible = false;
     stopAnimation();
     previousTime = performance.now();
@@ -258,6 +288,7 @@ export function initMatrixBackground(): MatrixController | null {
     destroy: () => {
       if (isDestroyed) return;
       isDestroyed = true;
+      saveState();
       stopAnimation();
       window.removeEventListener("resize", handleResize);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
@@ -270,7 +301,8 @@ export function initMatrixBackground(): MatrixController | null {
     },
   };
 
-  configureCanvas(false);
+  restoreState();
+  configureCanvas(streams.length > 0);
   renderFrame(previousTime, false);
   startAnimation();
   window.addEventListener("resize", handleResize, { passive: true });

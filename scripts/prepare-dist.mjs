@@ -81,5 +81,5 @@ function prettifyCss(css) {
     .replaceAll("}", "\n}\n")
     .replaceAll("\n  \n", "\n")
     .replace(/\n{3,}/g, "\n\n")
-    .trimStart();
+    .trim() + "\n";
 }

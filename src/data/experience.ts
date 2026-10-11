@@ -15,9 +15,25 @@ export type ExperienceItem = {
 
 export const experienceItems: ExperienceItem[] = [
   {
+    id: "aliot-current",
+    title: "ALIOT / EcoReef",
+    role: "Frontend Developer · проектная работа",
+    period: "06.2026 – настоящее время",
+    repositoryPrivate: true,
+    shortDescription: "Продолжаю развивать React-интерфейс управления освещением.",
+    description: "Работаю с существующим приложением: дорабатываю интерактивные интерфейсы, состояние и взаимодействие с API.",
+    responsibilities: [
+      "развиваю интерфейс на React и TypeScript",
+      "дорабатываю управление настройками и состоянием приложения на Zustand",
+      "интегрирую изменения интерфейса с REST API",
+      "проверяю расчётную логику и граничные сценарии тестами",
+    ],
+    stack: ["React", "TypeScript", "Zustand", "REST API", "GitLab"],
+  },
+  {
     id: "keylink",
     title: "KeyLink",
-    role: "Frontend Developer",
+    role: "Frontend Developer · совместная разработка",
     period: "10.2025 – 01.2026",
     siteUrl: "https://keylink.events/",
     repositoryLabel: "GitLab",
@@ -26,12 +42,12 @@ export const experienceItems: ExperienceItem[] = [
     shortDescription:
       "Многостраничный сайт на Ruby on Rails, Tailwind CSS и JavaScript.",
     description:
-      "Делал адаптивные страницы, галереи, карусели, пагинацию и админ-панель для управления контентом, проектами, фотографиями и SEO.",
+      "Дорабатывал адаптивные страницы и административные интерфейсы в существующем Rails-приложении: контентные блоки с изображениями, слайдер и навигацию между проектами.",
     responsibilities: [
       "верстал адаптивные страницы по макетам Figma",
       "делал галереи, карусели, пагинацию и интерактивные блоки",
       "участвовал в разработке админ-панели",
-      "настраивал управление контентом, проектами, фотографиями и SEO",
+      "расширял контентные блоки и управление изображениями",
       "интегрировал frontend с backend",
     ],
     stack: [
@@ -54,11 +70,11 @@ export const experienceItems: ExperienceItem[] = [
     repositoryPrivate: true,
     shortDescription: "Адаптивный сайт по макетам Figma.",
     description:
-      "Делал анимации, слайдеры, карусели, fullscreen-блоки и поддержку двух языков: русский и английский.",
+      "Совместно с другим разработчиком создавал дизайн и интерфейсы: адаптивные страницы, анимации, слайдеры и карусели в приложении Rails.",
     responsibilities: [
       "верстал адаптивные страницы по макетам Figma",
       "делал анимации, слайдеры, карусели и fullscreen-блоки",
-      "добавлял поддержку русского и английского языка",
+      "совместно прорабатывал дизайн и интерфейсы",
       "подключал frontend к Ruby on Rails",
       "работал с GitLab и вносил правки по задачам заказчика",
     ],
@@ -97,15 +113,13 @@ export const experienceItems: ExperienceItem[] = [
     repositoryPrivate: true,
     shortDescription: "Сайт для продукта Контур.Маркет.",
     description:
-      "Делал макеты в Figma, адаптивную верстку на Bootstrap, форму обратной связи, простую админ-панель и подключение к PostgreSQL через Node.js.",
+      "Подготовил макеты в Figma и адаптивную вёрстку сайта на Bootstrap, работал с интерфейсом формы обратной связи.",
     responsibilities: [
       "собрал требования и подготовил техническое задание",
       "сделал макеты сайта и логотип в Figma",
       "сверстал адаптивный сайт на Bootstrap",
       "добавил светлую и тёмную тему",
       "сделал форму обратной связи",
-      "подключил сохранение заявок через Node.js и PostgreSQL",
-      "сделал простую админ-панель с авторизацией",
       "работал с Git, GitHub и Fork",
     ],
     stack: [
@@ -113,8 +127,6 @@ export const experienceItems: ExperienceItem[] = [
       "CSS",
       "JavaScript",
       "Bootstrap",
-      "Node.js",
-      "PostgreSQL",
       "Git",
       "Figma",
     ],

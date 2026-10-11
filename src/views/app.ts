@@ -50,6 +50,8 @@ const profileImageUrls: Record<string, string> = {
 const FOX_LOADER_COOLDOWN_MS = 60_000;
 const FOX_LOADER_STORAGE_KEY = "deazi-fox-loader-last-auto-played-at-v2";
 
+const decodedFrames = new Map<string, Promise<void>>();
+
 setBundledImageSources();
 setResumeLinks();
 initStablePageReveal();
@@ -64,7 +66,6 @@ renderExperienceLists();
 initStackCarousel();
 initPhotoGallery();
 initProjectLightbox();
-initContactDock();
 
 
 function initMatrixMotionToggle(controller: MatrixController | null) {
@@ -205,17 +206,23 @@ function getAnimationFrames(folder: string) {
     .map(([, url]) => url);
 }
 
+
 function preloadFrames(frames: string[]) {
-  return Promise.all(
-    frames.map(
-      (url) =>
-        new Promise<void>((resolve) => {
-          const image = new Image();
-          image.onload = image.onerror = () => resolve();
-          image.src = url;
-        }),
-    ),
-  );
+  return Promise.all(frames.map((url) => {
+    let pending = decodedFrames.get(url);
+    if (!pending) {
+      pending = new Promise<void>((resolve) => {
+        const image = new Image();
+        image.onload = () => {
+          image.decode().catch(() => {}).then(() => resolve());
+        };
+        image.onerror = () => resolve();
+        image.src = url;
+      });
+      decodedFrames.set(url, pending);
+    }
+    return pending;
+  }));
 }
 
 function startFrameLoop(
@@ -232,9 +239,10 @@ function startFrameLoop(
     if (frame) showFrame(frame);
   };
 
-  const setFrames = (nextFrames: string[]) => {
+  const setFrames = (nextFrames: string[], nextDelay = delay) => {
     if (!nextFrames.length) return;
     frames = nextFrames;
+    delay = nextDelay;
     frameIndex = 0;
     lastFrameTime = performance.now();
     render();
@@ -254,7 +262,9 @@ function startFrameLoop(
   };
 
   render();
-  window.requestAnimationFrame(loop);
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    window.requestAnimationFrame(loop);
+  }
 
   return setFrames;
 }
@@ -300,21 +310,9 @@ function initFoxLoader() {
     window.setTimeout(() => loader.classList.remove("is-hiding"), 240);
   };
 
-  const showFrame = async (src: string) => {
-    loader.classList.remove("is-frame-ready");
+  const showFrame = (src: string) => {
     image.src = src;
-
-    try {
-      await image.decode();
-    } catch {
-      await new Promise<void>((resolve) => {
-        if (image.complete) return resolve();
-        image.addEventListener("load", () => resolve(), { once: true });
-        image.addEventListener("error", () => resolve(), { once: true });
-      });
-    }
-
-    if (image.naturalWidth > 0) loader.classList.add("is-frame-ready");
+    loader.classList.add("is-frame-ready");
   };
 
   const play = async (mode: "auto" | "manual") => {
@@ -324,11 +322,10 @@ function initFoxLoader() {
     isPlaying = true;
     if (mode === "auto") rememberAutoPlayedNow();
 
-    await showFrame(foxAnimationFrames[0]);
+    await preloadFrames(foxAnimationFrames);
+    showFrame(foxAnimationFrames[0]);
     loader.classList.remove("is-hiding");
     loader.classList.add("is-playing");
-
-    await preloadFrames(foxAnimationFrames);
 
     for (const frame of foxAnimationFrames) {
       await showFrame(frame);
@@ -348,7 +345,7 @@ function initFoxLoader() {
   });
 
   // Only the automatic animation on the main page uses the one-minute cooldown.
-  if (document.body.dataset.page === "index") void play("auto");
+  if (document.body.dataset.page === "index" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) void play("auto");
 }
 
 function initPageIcons() {
@@ -360,12 +357,21 @@ function initPageIcons() {
     const frames = getAnimationFrames(folder);
 
     if (frames.length) {
-      startFrameLoop((url) => (icon.style.backgroundImage = `url("${url}")`), frames, 90);
+      icon.style.backgroundImage = `url("${frames[0]}")`;
+      void preloadFrames(frames).then(() => {
+        const setFrames = startFrameLoop((url) => (icon.style.backgroundImage = `url("${url}")`), frames, 180);
+        const animate = () => setFrames(frames, 90);
+        const idle = () => setFrames(frames, 180);
+        icon.addEventListener("pointerenter", animate);
+        icon.addEventListener("pointerleave", idle);
+        icon.addEventListener("focus", animate);
+        icon.addEventListener("blur", idle);
+      });
     }
   });
 }
 
-function initCat() {
+async function initCat() {
   const container = document.querySelector("[data-cat-animation]");
   const defaultFrames = getAnimationFrames("cat");
   const hoverFrames = getAnimationFrames("cat/hover");
@@ -378,7 +384,8 @@ function initCat() {
   image.draggable = false;
   container.append(image);
 
-  void preloadFrames([...defaultFrames, ...hoverFrames]);
+  image.src = defaultFrames[0];
+  await preloadFrames([...defaultFrames, ...hoverFrames]);
   const setFrames = startFrameLoop((url) => (image.src = url), defaultFrames, 120);
   image.addEventListener("pointerenter", () => setFrames(hoverFrames));
   image.addEventListener("pointerleave", () => setFrames(defaultFrames));
@@ -386,7 +393,7 @@ function initCat() {
 
 function setResumeLinks() {
   document.querySelectorAll<HTMLAnchorElement>("[data-resume-link]").forEach((link) => {
-    link.href = profileLinks.resumeProjectUrl;
+    link.href = profileLinks.hhUrl;
   });
 }
 
@@ -417,47 +424,6 @@ function initScrollTopButtons() {
     buttons.forEach((button) => button.classList.add("is-initialized"));
   });
   window.addEventListener("scroll", updateScrollTopVisibility, { passive: true });
-}
-
-function initContactDock() {
-  const docks = [...document.querySelectorAll<HTMLElement>("[data-contact-dock]")];
-  if (!docks.length) return;
-
-  const setOpen = (dock: HTMLElement, open: boolean) => {
-    dock.classList.toggle("is-open", open);
-    dock.querySelector<HTMLButtonElement>("[data-contact-trigger]")?.setAttribute(
-      "aria-expanded",
-      String(open),
-    );
-  };
-
-  docks.forEach((dock) => {
-    const trigger = dock.querySelector<HTMLButtonElement>("[data-contact-trigger]");
-    if (!trigger) return;
-
-    // Contacts start expanded on every page load.
-    setOpen(dock, true);
-
-    trigger.addEventListener("click", (event) => {
-      event.stopPropagation();
-      setOpen(dock, !dock.classList.contains("is-open"));
-    });
-
-    dock.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        setOpen(dock, false);
-        trigger.focus();
-      }
-    });
-  });
-
-  document.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof Node)) return;
-    docks.forEach((dock) => {
-      if (!dock.contains(target)) setOpen(dock, false);
-    });
-  });
 }
 
 function renderExperienceLists() {
