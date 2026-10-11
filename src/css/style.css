@@ -997,26 +997,19 @@ body {
  .project-viewer__caption { font-size:12px; }
 }
 
-.section-notice { position:fixed; top:var(--notice-top,76px); right:20px; z-index:40; display:flex; align-items:center; gap:16px; max-width:310px; padding:12px 14px; border:1px solid rgb(145 201 163 / .2); border-radius:14px; background:rgb(13 29 20 / .93); box-shadow:0 8px 24px #0003; opacity:.58; transition:opacity .5s, border-color .5s; }
-.section-notice.is-announcing, .section-notice:hover, .section-notice:focus-within { opacity:1; border-color:rgb(145 201 163 / .45); }
-.section-notice__label { display:flex; flex-direction:column; gap:4px; }
-.section-notice__label > span { color:#a9bcae; font-size:10px; letter-spacing:.06em; }
-.section-notice__label > strong { color:#e4f2e8; font-size:13px; font-weight:500; }
-.section-notice__arrows { display:flex; gap:6px; }
-.section-notice__arrows button { color:white; width:28px; height:32px; border-radius:8px; border:1px solid #ffffff25; background:#ffffff08; opacity:.5; transition:opacity .2s; }
-.section-notice__arrows button:hover, .section-notice__arrows button:focus-visible { opacity:1; background:#ffffff15; }
-.section-notice__arrows button[hidden] { display:none; }
-.profile-gallery[aria-busy="true"]::after { content:"Загрузка фото…"; position:absolute; inset:0; display:grid; place-items:center; color:#c8ddcf; font-size:12px; pointer-events:none; }
-@media(max-width:640px) { .section-notice { right:10px; max-width:265px; padding:8px 10px; gap:10px; } .section-notice__label > span { display:none; } .section-notice__label > strong { font-size:11px; } .section-notice__arrows button { width:26px; height:28px; } }
-@media(prefers-reduced-motion:reduce) { .section-notice, .section-notice__arrows button { transition:none; } }
-
-.section-notice { width:300px; }
-.section-notice__label { flex:1; min-width:0; }
-.section-notice__arrows { display:grid; grid-template-columns:28px 28px; flex-shrink:0; }
+/* Brief location notification; hidden controls never capture clicks or focus. */
+.section-notice { position:fixed; top:var(--notice-top,76px); right:16px; z-index:40; display:flex; align-items:center; gap:10px; width:max-content; max-width:280px; padding:7px 10px; border:1px solid rgb(145 201 163 / .22); border-radius:9px; background:rgb(13 29 20 / .94); box-shadow:0 4px 14px #0002; opacity:0; visibility:hidden; pointer-events:none; transform:translateY(-4px); transition:opacity .3s ease,transform .3s ease,visibility 0s .3s; }
+.section-notice.is-announcing { opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0); transition:opacity .25s ease,transform .25s ease,visibility 0s; }
+.section-notice__label { min-width:0; }
+.section-notice__label > strong { display:block; color:#e4f2e8; font-size:11px; font-weight:500; line-height:20px; white-space:nowrap; }
+.section-notice__arrows { display:grid; grid-template-columns:20px 20px; gap:2px; flex-shrink:0; }
 .section-notice__arrows [data-section-next] { grid-column:2; }
-@media(max-width:640px) { .section-notice { width:265px; } .section-notice__arrows { grid-template-columns:26px 26px; } }
-
-@media(max-width:640px) { body:has([data-section-notice]) main { padding-top:140px; } }
-
+.section-notice__arrows button { width:20px; height:20px; padding:0; color:#e4f2e8; font-size:11px; line-height:20px; border:0; border-radius:4px; background:transparent; opacity:.45; cursor:pointer; transition:opacity .15s; }
+.section-notice__arrows button:hover, .section-notice__arrows button:focus-visible { opacity:1; background:#ffffff0d; }
+.section-notice__arrows button[hidden] { display:none; }
+.nonselect, .project-carousel__arrow, .gallery-modes button, .project-viewer__actions button, .gallery-thumbnail { -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
+.project-viewer__stage[aria-busy="true"]::after { content:"Загрузка изображения…"; position:absolute; inset:0; display:grid; place-items:center; font-size:13px; color:#c8ddcf; pointer-events:none; }
+.profile-gallery[aria-busy="true"]::after { content:"Загрузка фото…"; position:absolute; inset:0; display:grid; place-items:center; color:#c8ddcf; font-size:12px; pointer-events:none; }
 [data-project-section] { scroll-margin-top:90px; }
-@media(max-width:640px) { [data-project-section] { scroll-margin-top:170px; } }
+@media(max-width:640px) { .section-notice { right:10px; padding:5px 8px; gap:8px; max-width:270px; } .section-notice__arrows { grid-template-columns:24px 24px; } .section-notice__arrows button { width:24px; height:24px; line-height:24px; } body:has([data-section-notice]) main { padding-top:120px; } [data-project-section] { scroll-margin-top:150px; } }
+@media(prefers-reduced-motion:reduce) { .section-notice, .section-notice__arrows button { transition:none; transform:none; } }

@@ -720,13 +720,27 @@ function initPhotoGallery() {
 function initProjectLightbox() {
   const viewer = document.querySelector<HTMLDialogElement>("#project-viewer");
   const carousel = document.querySelector<HTMLElement>("[data-project-carousel]");
-  const viewerImage = viewer?.querySelector<HTMLImageElement>("[data-viewer-image]");
+  let viewerImage = viewer?.querySelector<HTMLImageElement>("[data-viewer-image]");
   if (!viewer || !viewerImage || !carousel) return;
   const allSlides = [...carousel.querySelectorAll<HTMLButtonElement>("[data-carousel-slide]")];
   const modes = [...document.querySelectorAll<HTMLButtonElement>("[data-gallery-mode]")];
   const panel = viewer.querySelector<HTMLElement>("#gallery-slides")!;
   const menu = viewer.querySelector<HTMLButtonElement>("[data-viewer-menu]")!;
   const thumbnails = viewer.querySelector<HTMLElement>("[data-viewer-thumbnails]")!;
+  // Decode each actual viewer element ahead of time; changing src alone can keep painting the old frame.
+  const preparedImages = new Map(allSlides.map(slide => {
+    const source = slide.querySelector<HTMLImageElement>("img")!;
+    source.loading = "eager";
+    const image = viewerImage!.cloneNode(false) as HTMLImageElement;
+    image.src = source.src;
+    image.alt = source.alt;
+    image.loading = "eager";
+    let decoded = false;
+    const ready = image.decode().then(() => { decoded = true; return true; }, () => false);
+    return [slide, { image, ready, isDecoded: () => decoded }] as const;
+  }));
+  let imageRequest = 0;
+  const stage = viewer.querySelector<HTMLElement>(".project-viewer__stage")!;
   const positions: Record<string, number> = { interfaces: 0, figma: 0 };
   let mode = "interfaces";
   let previousOverflow = "";
@@ -742,12 +756,33 @@ function initProjectLightbox() {
     modes.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.galleryMode === mode)));
     const counter = `${index + 1} / ${current.length}`;
     carousel.querySelector<HTMLElement>("[data-carousel-counter]")!.textContent = counter;
-    const image = current[index]?.querySelector<HTMLImageElement>("img");
-    if (image && viewer.open) {
-      viewerImage.src = image.src;
-      viewerImage.alt = image.alt;
-      viewer.querySelector<HTMLElement>("[data-viewer-caption]")!.textContent = image.alt;
-      viewer.querySelector<HTMLElement>("[data-viewer-counter]")!.textContent = counter;
+    const prepared = preparedImages.get(current[index]);
+    const request = ++imageRequest;
+    if (prepared && viewer.open) {
+      const apply = () => {
+        if (request !== imageRequest || !viewer.open) return;
+        viewerImage!.replaceWith(prepared.image);
+        viewerImage = prepared.image;
+        viewerImage.style.visibility = "";
+        stage.removeAttribute("aria-busy");
+        viewer.querySelector<HTMLElement>("[data-viewer-caption]")!.textContent = prepared.image.alt;
+        viewer.querySelector<HTMLElement>("[data-viewer-counter]")!.textContent = counter;
+      };
+      if (prepared.isDecoded()) apply();
+      else {
+        viewerImage!.style.visibility = "hidden";
+        stage.setAttribute("aria-busy", "true");
+        viewer.querySelector<HTMLElement>("[data-viewer-caption]")!.textContent = "Загрузка изображения…";
+        viewer.querySelector<HTMLElement>("[data-viewer-counter]")!.textContent = "";
+        void prepared.ready.then(ok => {
+          if (request !== imageRequest || !viewer.open) return;
+          if (ok) apply();
+          else {
+            stage.removeAttribute("aria-busy");
+            viewer.querySelector<HTMLElement>("[data-viewer-caption]")!.textContent = "Не удалось загрузить изображение";
+          }
+        });
+      }
     }
     viewer.querySelector<HTMLElement>("[data-viewer-total]")!.textContent = `(${current.length})`;
     thumbnails.replaceChildren(...current.map((slide, i) => {
@@ -808,7 +843,7 @@ function initProjectLightbox() {
     }, { passive: true });
   });
   viewer.addEventListener("click", event => { if (event.target === viewer) viewer.close(); });
-  viewer.addEventListener("close", () => { document.body.style.overflow = previousOverflow; slides()[positions[mode]]?.focus(); });
+  viewer.addEventListener("close", () => { imageRequest++; stage.removeAttribute("aria-busy"); document.body.style.overflow = previousOverflow; slides()[positions[mode]]?.focus(); });
   update();
 }
 
@@ -845,9 +880,15 @@ function initProjectSectionNotice() {
     next.hidden = index === sections.length - 1;
     prev.setAttribute("aria-label", `Перейти: ${sections[index - 1]?.dataset.projectSection ?? ""}`);
     next.setAttribute("aria-label", `Перейти: ${sections[index + 1]?.dataset.projectSection ?? ""}`);
+    notice.inert = false;
+    notice.setAttribute("aria-hidden", "false");
     notice.classList.add("is-announcing");
     clearTimeout(fadeTimer);
-    fadeTimer = window.setTimeout(() => notice.classList.remove("is-announcing"), 2400);
+    fadeTimer = window.setTimeout(() => {
+      notice.classList.remove("is-announcing");
+      notice.inert = true;
+      notice.setAttribute("aria-hidden", "true");
+    }, 2000);
   };
   const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
   const go = (delta: number) => {

@@ -1058,13 +1058,29 @@ function initPhotoGallery() {
 function initProjectLightbox() {
   const viewer = document.querySelector("#project-viewer");
   const carousel = document.querySelector("[data-project-carousel]");
-  const viewerImage = viewer?.querySelector("[data-viewer-image]");
+  let viewerImage = viewer?.querySelector("[data-viewer-image]");
   if (!viewer || !viewerImage || !carousel) return;
   const allSlides = [...carousel.querySelectorAll("[data-carousel-slide]")];
   const modes = [...document.querySelectorAll("[data-gallery-mode]")];
   const panel = viewer.querySelector("#gallery-slides");
   const menu = viewer.querySelector("[data-viewer-menu]");
   const thumbnails = viewer.querySelector("[data-viewer-thumbnails]");
+  const preparedImages = new Map(allSlides.map((slide) => {
+    const source = slide.querySelector("img");
+    source.loading = "eager";
+    const image = viewerImage.cloneNode(false);
+    image.src = source.src;
+    image.alt = source.alt;
+    image.loading = "eager";
+    let decoded = false;
+    const ready = image.decode().then(() => {
+      decoded = true;
+      return true;
+    }, () => false);
+    return [slide, { image, ready, isDecoded: () => decoded }];
+  }));
+  let imageRequest = 0;
+  const stage = viewer.querySelector(".project-viewer__stage");
   const positions = { interfaces: 0, figma: 0 };
   let mode = "interfaces";
   let previousOverflow = "";
@@ -1082,12 +1098,33 @@ function initProjectLightbox() {
     modes.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.galleryMode === mode)));
     const counter = `${index + 1} / ${current.length}`;
     carousel.querySelector("[data-carousel-counter]").textContent = counter;
-    const image = current[index]?.querySelector("img");
-    if (image && viewer.open) {
-      viewerImage.src = image.src;
-      viewerImage.alt = image.alt;
-      viewer.querySelector("[data-viewer-caption]").textContent = image.alt;
-      viewer.querySelector("[data-viewer-counter]").textContent = counter;
+    const prepared = preparedImages.get(current[index]);
+    const request = ++imageRequest;
+    if (prepared && viewer.open) {
+      const apply = () => {
+        if (request !== imageRequest || !viewer.open) return;
+        viewerImage.replaceWith(prepared.image);
+        viewerImage = prepared.image;
+        viewerImage.style.visibility = "";
+        stage.removeAttribute("aria-busy");
+        viewer.querySelector("[data-viewer-caption]").textContent = prepared.image.alt;
+        viewer.querySelector("[data-viewer-counter]").textContent = counter;
+      };
+      if (prepared.isDecoded()) apply();
+      else {
+        viewerImage.style.visibility = "hidden";
+        stage.setAttribute("aria-busy", "true");
+        viewer.querySelector("[data-viewer-caption]").textContent = "Загрузка изображения…";
+        viewer.querySelector("[data-viewer-counter]").textContent = "";
+        void prepared.ready.then((ok) => {
+          if (request !== imageRequest || !viewer.open) return;
+          if (ok) apply();
+          else {
+            stage.removeAttribute("aria-busy");
+            viewer.querySelector("[data-viewer-caption]").textContent = "Не удалось загрузить изображение";
+          }
+        });
+      }
     }
     viewer.querySelector("[data-viewer-total]").textContent = `(${current.length})`;
     thumbnails.replaceChildren(...current.map((slide, i) => {
@@ -1166,6 +1203,8 @@ function initProjectLightbox() {
     if (event.target === viewer) viewer.close();
   });
   viewer.addEventListener("close", () => {
+    imageRequest++;
+    stage.removeAttribute("aria-busy");
     document.body.style.overflow = previousOverflow;
     slides()[positions[mode]]?.focus();
   });
@@ -1206,9 +1245,15 @@ function initProjectSectionNotice() {
     next.hidden = index === sections.length - 1;
     prev.setAttribute("aria-label", `Перейти: ${sections[index - 1]?.dataset.projectSection ?? ""}`);
     next.setAttribute("aria-label", `Перейти: ${sections[index + 1]?.dataset.projectSection ?? ""}`);
+    notice.inert = false;
+    notice.setAttribute("aria-hidden", "false");
     notice.classList.add("is-announcing");
     clearTimeout(fadeTimer);
-    fadeTimer = window.setTimeout(() => notice.classList.remove("is-announcing"), 2400);
+    fadeTimer = window.setTimeout(() => {
+      notice.classList.remove("is-announcing");
+      notice.inert = true;
+      notice.setAttribute("aria-hidden", "true");
+    }, 2e3);
   };
   const schedule = () => {
     if (!queued) {

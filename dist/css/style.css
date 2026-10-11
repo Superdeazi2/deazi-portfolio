@@ -2490,59 +2490,88 @@ header nav a,header nav button{
 .section-notice{
   top:var(--notice-top,76px);
   z-index:40;
-  opacity:.58;
-  background:#0d1d14ed;
-  border:1px solid #91c9a333;
-  border-radius:14px;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  background:#0d1d14f0;
+  border:1px solid #91c9a338;
+  border-radius:9px;
   align-items:center;
-  gap:16px;
-  max-width:310px;
-  padding:12px 14px;
-  transition:opacity .5s,border-color .5s;
+  gap:10px;
+  width:-moz-max-content;
+  width:max-content;
+  max-width:280px;
+  padding:7px 10px;
+  transition:opacity .3s,transform .3s,visibility 0s .3s;
   display:flex;
   position:fixed;
-  right:20px;
-  box-shadow:0 8px 24px #0003
+  right:16px;
+  transform:translateY(-4px);
+  box-shadow:0 4px 14px #0002
 }
-.section-notice.is-announcing,.section-notice:hover,.section-notice:focus-within{
+.section-notice.is-announcing{
   opacity:1;
-  border-color:#91c9a373
+  visibility:visible;
+  pointer-events:auto;
+  transition:opacity .25s,transform .25s,visibility;
+  transform:translateY(0)
 }
 .section-notice__label{
-  flex-direction:column;
-  gap:4px;
-  display:flex
-}
-.section-notice__label>span{
-  color:#a9bcae;
-  letter-spacing:.06em;
-  font-size:10px
+  min-width:0
 }
 .section-notice__label>strong{
   color:#e4f2e8;
-  font-size:13px;
-  font-weight:500
+  white-space:nowrap;
+  font-size:11px;
+  font-weight:500;
+  line-height:20px;
+  display:block
 }
 .section-notice__arrows{
-  gap:6px;
-  display:flex
+  flex-shrink:0;
+  grid-template-columns:20px 20px;
+  gap:2px;
+  display:grid
+}
+.section-notice__arrows [data-section-next]{
+  grid-column:2
 }
 .section-notice__arrows button{
-  color:#fff;
-  opacity:.5;
-  background:#ffffff08;
-  border:1px solid #ffffff25;
-  border-radius:8px;
-  width:28px;
-  height:32px;
-  transition:opacity .2s
+  color:#e4f2e8;
+  opacity:.45;
+  cursor:pointer;
+  background:0 0;
+  border:0;
+  border-radius:4px;
+  width:20px;
+  height:20px;
+  padding:0;
+  font-size:11px;
+  line-height:20px;
+  transition:opacity .15s
 }
 .section-notice__arrows button:hover,.section-notice__arrows button:focus-visible{
   opacity:1;
-  background:#ffffff15
+  background:#ffffff0d
 }
 .section-notice__arrows button[hidden]{
   display:none
+}
+.nonselect,.project-carousel__arrow,.gallery-modes button,.project-viewer__actions button,.gallery-thumbnail{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent
+}
+.project-viewer__stage[aria-busy=true]:after{
+  content:"Загрузка изображения…";
+  color:#c8ddcf;
+  pointer-events:none;
+  place-items:center;
+  font-size:13px;
+  display:grid;
+  position:absolute;
+  inset:0
 }
 .profile-gallery[aria-busy=true]:after{
   content:"Загрузка фото…";
@@ -2554,64 +2583,36 @@ header nav a,header nav button{
   position:absolute;
   inset:0
 }
+[data-project-section]{
+  scroll-margin-top:90px
+}
 @media (max-width:640px){
   .section-notice{
-  gap:10px;
-  max-width:265px;
-  padding:8px 10px;
+  gap:8px;
+  max-width:270px;
+  padding:5px 8px;
   right:10px
 }
-.section-notice__label>span{
-  display:none
-}
-.section-notice__label>strong{
-  font-size:11px
+.section-notice__arrows{
+  grid-template-columns:24px 24px
 }
 .section-notice__arrows button{
-  width:26px;
-  height:28px
+  width:24px;
+  height:24px;
+  line-height:24px
+}
+body:has([data-section-notice]) main{
+  padding-top:120px
+}
+[data-project-section]{
+  scroll-margin-top:150px
 }
 
 }
 @media (prefers-reduced-motion:reduce){
   .section-notice,.section-notice__arrows button{
-  transition:none
-}
-
-}
-.section-notice{
-  width:300px
-}
-.section-notice__label{
-  flex:1;
-  min-width:0
-}
-.section-notice__arrows{
-  flex-shrink:0;
-  grid-template-columns:28px 28px;
-  display:grid
-}
-.section-notice__arrows [data-section-next]{
-  grid-column:2
-}
-@media (max-width:640px){
-  .section-notice{
-  width:265px
-}
-.section-notice__arrows{
-  grid-template-columns:26px 26px
-}
-body:has([data-section-notice]) main{
-  padding-top:140px
-}
-
-}
-[data-project-section]{
-  scroll-margin-top:90px
-}
-@media (max-width:640px){
-  [data-project-section]{
-  scroll-margin-top:170px
+  transition:none;
+  transform:none
 }
 
 }
