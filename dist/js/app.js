@@ -143,6 +143,13 @@ function initMatrixBackground() {
     animationTime += delta * 1e3;
     context.clearRect(0, 0, width, height);
     for (const stream of streams) {
+      const phase = stream.phase * 100;
+      if (advance && Math.floor((animationTime + phase) / 260) !== Math.floor((animationTime - delta * 1e3 + phase) / 260)) {
+        const glyphs = [...stream.glyphs];
+        glyphs[0] = randomGlyph();
+        glyphs[Math.floor(Math.random() * stream.length)] = randomGlyph();
+        stream.glyphs = glyphs.join("");
+      }
       const sway = Math.sin(animationTime * 35e-5 + stream.phase) * 1.4;
       for (let index = 0; index < stream.length; index += 1) {
         const y = stream.y + index * fontSize;
@@ -740,18 +747,55 @@ function initPageIcons() {
     const folder = icon.dataset.pageIcon;
     if (!folder) return;
     const frames = getAnimationFrames(folder);
-    if (frames.length) {
-      icon.style.backgroundImage = `url("${frames[0]}")`;
-      void preloadFrames(frames).then(() => {
-        const setFrames = startFrameLoop((url) => icon.style.backgroundImage = `url("${url}")`, frames, 270);
-        const animate = () => setFrames(frames, 90);
-        const idle = () => setFrames(frames, 270);
-        icon.addEventListener("pointerenter", animate);
-        icon.addEventListener("pointerleave", idle);
-        icon.addEventListener("focus", animate);
-        icon.addEventListener("blur", idle);
+    if (!frames.length) return;
+    const show = (index) => {
+      icon.style.backgroundImage = `url("${frames[index]}")`;
+    };
+    show(0);
+    void preloadFrames(frames).then(() => {
+      let hovered = false;
+      let focused = false;
+      let frameIndex = 0;
+      let lastFrameTime = 0;
+      let frameRequest = 0;
+      const loop = (time) => {
+        frameRequest = 0;
+        if (!hovered && !focused || document.hidden) return;
+        if (time - lastFrameTime >= 90) {
+          frameIndex = (frameIndex + 1) % frames.length;
+          lastFrameTime = time;
+          show(frameIndex);
+        }
+        frameRequest = window.requestAnimationFrame(loop);
+      };
+      const sync = () => {
+        if (frameRequest) window.cancelAnimationFrame(frameRequest);
+        frameRequest = 0;
+        lastFrameTime = performance.now();
+        if ((hovered || focused) && !document.hidden) frameRequest = window.requestAnimationFrame(loop);
+        else {
+          frameIndex = 0;
+          show(0);
+        }
+      };
+      icon.addEventListener("pointerenter", () => {
+        hovered = true;
+        sync();
       });
-    }
+      icon.addEventListener("pointerleave", () => {
+        hovered = false;
+        sync();
+      });
+      icon.addEventListener("focus", () => {
+        focused = true;
+        sync();
+      });
+      icon.addEventListener("blur", () => {
+        focused = false;
+        sync();
+      });
+      document.addEventListener("visibilitychange", sync);
+    });
   });
 }
 async function initCat() {

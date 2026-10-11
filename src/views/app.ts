@@ -361,23 +361,40 @@ function initFoxLoader() {
 function initPageIcons() {
   document.querySelectorAll<HTMLElement>("[data-page-icon]").forEach((icon) => {
     const folder = icon.dataset.pageIcon;
-
     if (!folder) return;
-
     const frames = getAnimationFrames(folder);
-
-    if (frames.length) {
-      icon.style.backgroundImage = `url("${frames[0]}")`;
-      void preloadFrames(frames).then(() => {
-        const setFrames = startFrameLoop((url) => (icon.style.backgroundImage = `url("${url}")`), frames, 270);
-        const animate = () => setFrames(frames, 90);
-        const idle = () => setFrames(frames, 270);
-        icon.addEventListener("pointerenter", animate);
-        icon.addEventListener("pointerleave", idle);
-        icon.addEventListener("focus", animate);
-        icon.addEventListener("blur", idle);
-      });
-    }
+    if (!frames.length) return;
+    const show = (index: number) => { icon.style.backgroundImage = `url("${frames[index]}")`; };
+    show(0);
+    void preloadFrames(frames).then(() => {
+      let hovered = false;
+      let focused = false;
+      let frameIndex = 0;
+      let lastFrameTime = 0;
+      let frameRequest = 0;
+      const loop = (time: number) => {
+        frameRequest = 0;
+        if ((!hovered && !focused) || document.hidden) return;
+        if (time - lastFrameTime >= 90) {
+          frameIndex = (frameIndex + 1) % frames.length;
+          lastFrameTime = time;
+          show(frameIndex);
+        }
+        frameRequest = window.requestAnimationFrame(loop);
+      };
+      const sync = () => {
+        if (frameRequest) window.cancelAnimationFrame(frameRequest);
+        frameRequest = 0;
+        lastFrameTime = performance.now();
+        if ((hovered || focused) && !document.hidden) frameRequest = window.requestAnimationFrame(loop);
+        else { frameIndex = 0; show(0); }
+      };
+      icon.addEventListener("pointerenter", () => { hovered = true; sync(); });
+      icon.addEventListener("pointerleave", () => { hovered = false; sync(); });
+      icon.addEventListener("focus", () => { focused = true; sync(); });
+      icon.addEventListener("blur", () => { focused = false; sync(); });
+      document.addEventListener("visibilitychange", sync);
+    });
   });
 }
 

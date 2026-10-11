@@ -145,6 +145,15 @@ export function initMatrixBackground(): MatrixController | null {
     context.clearRect(0, 0, width, height);
 
     for (const stream of streams) {
+      // Refresh glyphs on their own clock, independent of scrolling speed.
+      const phase = stream.phase * 100;
+      if (advance && Math.floor((animationTime + phase) / 260) !==
+          Math.floor((animationTime - delta * 1000 + phase) / 260)) {
+        const glyphs = [...stream.glyphs];
+        glyphs[0] = randomGlyph();
+        glyphs[Math.floor(Math.random() * stream.length)] = randomGlyph();
+        stream.glyphs = glyphs.join("");
+      }
       const sway = Math.sin(animationTime * 0.00035 + stream.phase) * 1.4;
 
       for (let index = 0; index < stream.length; index += 1) {
