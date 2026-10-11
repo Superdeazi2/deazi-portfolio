@@ -748,53 +748,64 @@ function initPageIcons() {
     if (!folder) return;
     const frames = getAnimationFrames(folder);
     if (!frames.length) return;
+    const images = frames.map((url, index) => {
+      const image = document.createElement("img");
+      image.src = url;
+      image.alt = "";
+      image.draggable = false;
+      image.className = "page-sprite__frame";
+      image.style.visibility = index === 0 ? "visible" : "hidden";
+      icon.append(image);
+      return image;
+    });
+    let ready = false;
+    let hovered = false;
+    let focused = false;
+    let frameIndex = 0;
+    let lastFrameTime = 0;
+    let frameRequest = 0;
     const show = (index) => {
-      icon.style.backgroundImage = `url("${frames[index]}")`;
+      images[frameIndex].style.visibility = "hidden";
+      frameIndex = index;
+      images[frameIndex].style.visibility = "visible";
     };
-    show(0);
-    void preloadFrames(frames).then(() => {
-      let hovered = false;
-      let focused = false;
-      let frameIndex = 0;
-      let lastFrameTime = 0;
-      let frameRequest = 0;
-      const loop = (time) => {
-        frameRequest = 0;
-        if (!hovered && !focused || document.hidden) return;
-        if (time - lastFrameTime >= 90) {
-          frameIndex = (frameIndex + 1) % frames.length;
-          lastFrameTime = time;
-          show(frameIndex);
-        }
-        frameRequest = window.requestAnimationFrame(loop);
-      };
-      const sync = () => {
-        if (frameRequest) window.cancelAnimationFrame(frameRequest);
-        frameRequest = 0;
-        lastFrameTime = performance.now();
-        if ((hovered || focused) && !document.hidden) frameRequest = window.requestAnimationFrame(loop);
-        else {
-          frameIndex = 0;
-          show(0);
-        }
-      };
-      icon.addEventListener("pointerenter", () => {
-        hovered = true;
-        sync();
-      });
-      icon.addEventListener("pointerleave", () => {
-        hovered = false;
-        sync();
-      });
-      icon.addEventListener("focus", () => {
-        focused = true;
-        sync();
-      });
-      icon.addEventListener("blur", () => {
-        focused = false;
-        sync();
-      });
-      document.addEventListener("visibilitychange", sync);
+    const loop = (time) => {
+      frameRequest = 0;
+      if (!hovered && !focused || document.hidden || !ready) return;
+      if (time - lastFrameTime >= 90) {
+        show((frameIndex + 1) % frames.length);
+        lastFrameTime = time;
+      }
+      frameRequest = window.requestAnimationFrame(loop);
+    };
+    const sync = () => {
+      if (frameRequest) window.cancelAnimationFrame(frameRequest);
+      frameRequest = 0;
+      lastFrameTime = performance.now();
+      if ((hovered || focused) && !document.hidden && ready) frameRequest = window.requestAnimationFrame(loop);
+      else show(0);
+    };
+    icon.addEventListener("pointerenter", () => {
+      hovered = true;
+      sync();
+    });
+    icon.addEventListener("pointerleave", () => {
+      hovered = false;
+      sync();
+    });
+    icon.addEventListener("focus", () => {
+      focused = true;
+      sync();
+    });
+    icon.addEventListener("blur", () => {
+      focused = false;
+      sync();
+    });
+    document.addEventListener("visibilitychange", sync);
+    void Promise.all(images.map((image) => image.decode().catch(() => {
+    }))).then(() => {
+      ready = true;
+      sync();
     });
   });
 }
@@ -1002,42 +1013,92 @@ function initPhotoGallery() {
   setActivePhoto(0);
 }
 function initProjectLightbox() {
-  const lightbox = document.querySelector("#lightbox");
-  const lightboxImg = document.querySelector("#lightbox-img");
-  if (!lightbox || !lightboxImg) {
-    return;
-  }
-  let previousBodyOverflow = "";
-  const openLightbox = (image) => {
-    previousBodyOverflow = document.body.style.overflow;
-    lightboxImg.src = image.src;
-    lightboxImg.alt = image.alt;
-    document.body.style.overflow = "hidden";
-    lightbox.classList.remove("opacity-0", "pointer-events-none");
-    lightbox.classList.add("opacity-100", "pointer-events-auto");
-  };
-  const closeLightbox = () => {
-    document.body.style.overflow = previousBodyOverflow;
-    lightbox.classList.remove("opacity-100", "pointer-events-auto");
-    lightbox.classList.add("opacity-0", "pointer-events-none");
-  };
-  document.querySelectorAll("[data-project]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const image = button.querySelector("img");
-      if (!image) {
-        return;
+  const viewer = document.querySelector("#project-viewer");
+  const viewerImage = viewer?.querySelector("[data-viewer-image]");
+  if (!viewer || !viewerImage) return;
+  const viewerCaption = viewer.querySelector("[data-viewer-caption]");
+  const viewerCounter = viewer.querySelector("[data-viewer-counter]");
+  let active;
+  let opener = null;
+  let previousOverflow = "";
+  document.querySelectorAll("[data-project-carousel]").forEach((carousel) => {
+    const slides = [...carousel.querySelectorAll("[data-carousel-slide]")];
+    const counter = carousel.querySelector("[data-carousel-counter]");
+    const prev = carousel.querySelector("[data-carousel-prev]");
+    const next = carousel.querySelector("[data-carousel-next]");
+    if (!slides.length) return;
+    let index = 0;
+    const update = () => {
+      slides.forEach((slide, i) => {
+        slide.hidden = i !== index;
+      });
+      if (counter) counter.textContent = `${index + 1} / ${slides.length}`;
+      if (prev) prev.hidden = slides.length < 2;
+      if (next) next.hidden = slides.length < 2;
+      if (viewer.open && active === controller) {
+        const image = slides[index].querySelector("img");
+        if (image) {
+          viewerImage.src = image.src;
+          viewerImage.alt = image.alt;
+          if (viewerCaption) viewerCaption.textContent = image.alt;
+        }
+        if (viewerCounter) viewerCounter.textContent = `${index + 1} / ${slides.length}`;
+        const modalPrev = viewer.querySelector("[data-viewer-prev]");
+        const modalNext = viewer.querySelector("[data-viewer-next]");
+        if (modalPrev) modalPrev.hidden = slides.length < 2;
+        if (modalNext) modalNext.hidden = slides.length < 2;
       }
-      openLightbox(image);
+    };
+    const step = (delta) => {
+      index = (index + delta + slides.length) % slides.length;
+      update();
+    };
+    const controller = { step, update };
+    prev?.addEventListener("click", () => step(-1));
+    next?.addEventListener("click", () => step(1));
+    slides.forEach((slide) => slide.addEventListener("click", () => {
+      active = controller;
+      opener = slide;
+      previousOverflow = document.body.style.overflow;
+      viewer.showModal();
+      document.body.style.overflow = "hidden";
+      update();
+    }));
+    carousel.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+        step(event.key === "ArrowLeft" ? -1 : 1);
+      }
     });
+    let startX = 0;
+    let startY = 0;
+    carousel.addEventListener("touchstart", (event) => {
+      startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+    }, { passive: true });
+    carousel.addEventListener("touchend", (event) => {
+      const dx = event.changedTouches[0].clientX - startX;
+      const dy = event.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) step(dx > 0 ? -1 : 1);
+    }, { passive: true });
+    update();
   });
-  lightbox.addEventListener("click", (event) => {
-    if (event.target === lightbox) {
-      closeLightbox();
+  viewer.querySelector("[data-viewer-close]")?.addEventListener("click", () => viewer.close());
+  viewer.querySelector("[data-viewer-prev]")?.addEventListener("click", () => active?.step(-1));
+  viewer.querySelector("[data-viewer-next]")?.addEventListener("click", () => active?.step(1));
+  viewer.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      active?.step(event.key === "ArrowLeft" ? -1 : 1);
     }
   });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !lightbox.classList.contains("pointer-events-none")) {
-      closeLightbox();
-    }
+  viewer.addEventListener("click", (event) => {
+    if (event.target === viewer) viewer.close();
+  });
+  viewer.addEventListener("close", () => {
+    document.body.style.overflow = previousOverflow;
+    active = void 0;
+    const visibleOpener = opener?.closest("[data-project-carousel]")?.querySelector("[data-carousel-slide]:not([hidden])");
+    (visibleOpener ?? opener)?.focus();
   });
 }

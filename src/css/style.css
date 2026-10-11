@@ -926,4 +926,40 @@ body {
   .bg main [id] { scroll-margin-top: 84px; }
 }
 
-.motion-preference { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.5rem 0 1.5rem; color: #a9b8af; font-size: 0.8rem; }
+
+.page-sprite__frame { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; image-rendering: pixelated; }
+.matrix-motion-toggle--header { display: block; position: absolute; top: 50%; right: 14px; transform: translateY(-50%); }
+@media (max-width: 599px) { .matrix-motion-toggle--header { top: 30px; right: 16px; } }
+@media (min-width: 600px) and (max-width: 1023px) { .site-nav { padding-right: 60px; } .site-nav .header-brand > a { font-size: 18px; } }
+.project-carousel { position: relative; margin-top: 24px; overflow: hidden; border-radius: 12px; border: 1px solid rgb(255 255 255 / .12); background: #111d18; touch-action: pan-y; }
+.project-carousel__slide { display: flex; flex-direction: column; width: 100%; text-align: left; cursor: zoom-in; }
+.project-carousel__slide[hidden], .project-carousel__arrow[hidden] { display: none; }
+.project-carousel__slide img { display: block; width: 100%; height: clamp(240px, 48vw, 520px); object-fit: contain; background: #0c1611; }
+.project-carousel__slide > span { padding: 16px 20px 48px; min-height: 84px; color: #e5eee8; font-weight: 600; }
+.project-carousel__arrow { position: absolute; top: calc(50% - 28px); width: 44px; height: 48px; border: 1px solid rgb(255 255 255 / .25); border-radius: 12px; background: rgb(13 24 19 / .85); color: white; font-size: 32px; line-height: 1; z-index: 2; cursor: pointer; }
+.project-carousel__arrow--prev { left: 12px; }
+.project-carousel__arrow--next { right: 12px; }
+.project-carousel__counter { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); border-radius: 20px; padding: 5px 12px; background: rgb(5 14 9 / .9); color: white; font-size: 13px; opacity: 0; transition: opacity 160ms ease; pointer-events: none; }
+.project-carousel:hover .project-carousel__counter, .project-carousel:focus-within .project-carousel__counter { opacity: 1; }
+.project-carousel:focus-visible, .project-carousel button:focus-visible, .project-viewer button:focus-visible { outline: 2px solid #86efac; outline-offset: -3px; }
+.project-viewer { width: 96vw; height: 94dvh; max-width: 1400px; max-height: 100dvh; margin: auto; border: 1px solid rgb(255 255 255 / .16); border-radius: 16px; background: #0c1611; padding: 48px 64px 64px; color: white; }
+.project-viewer::backdrop { background: rgb(0 0 0 / .88); }
+.project-viewer > img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.project-viewer__close { position: absolute; right: 12px; top: 8px; width: 40px; height: 40px; font-size: 32px; border-radius: 10px; }
+.project-viewer__caption { position: absolute; bottom: 16px; left: 64px; right: 64px; text-align: center; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+@media (hover: none), (pointer: coarse) { .project-carousel__counter { opacity: 1; } }
+@media (max-width: 640px) { .project-carousel__slide > span { padding: 14px 16px 48px; font-size: 14px; } .project-carousel__counter { bottom: 12px; opacity: 1; } .project-viewer { padding: 48px 12px 80px; } .project-viewer__caption { left: 40px; right: 40px; } }
+
+.project-preview-card { position: relative; isolation: isolate; overflow: hidden; min-height: 330px; background: #0c1913; border-color: rgb(255 255 255 / .2); }
+.project-preview-card::before { content: ""; position: absolute; inset: 0; z-index: -2; background-size: cover; background-position: center; opacity: 1; transition: transform 250ms ease; }
+.project-preview-card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(8 20 13 / .66), rgb(8 20 13 / .76) 60%, rgb(8 20 13 / .94)); }
+.project-preview-card--protocol::before { background-image: url("../assets/protocol-preview.jpg"); }
+.project-preview-card--designer::before { background-image: url("../assets/designer-preview.jpg"); }
+.project-preview-card:hover::before { transform: scale(1.025); }
+.project-preview-card p { color: #edf5ef; }
+.project-preview-card h3 { text-shadow: 0 2px 8px rgb(0 0 0 / .7); }
+@media (prefers-reduced-motion: reduce) { .project-preview-card::before { transition: none; } }
+
+.project-preview-card--protocol::before { filter: brightness(1.7); }
+
+.project-preview-card::before { background-size: auto 170%; background-position: right top; }
