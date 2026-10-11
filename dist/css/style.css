@@ -2103,6 +2103,15 @@ header nav a,header nav button{
 }
 
 }
+.motion-preference{
+  color:#a9b8af;
+  justify-content:center;
+  align-items:center;
+  gap:.75rem;
+  padding:.5rem 0 1.5rem;
+  font-size:.8rem;
+  display:flex
+}
 @property --tw-translate-x{
   syntax:"*";
   inherits:false;

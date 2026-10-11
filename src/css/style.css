@@ -925,3 +925,5 @@ body {
   .bg main { padding-top: 84px; }
   .bg main [id] { scroll-margin-top: 84px; }
 }
+
+.motion-preference { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.5rem 0 1.5rem; color: #a9b8af; font-size: 0.8rem; }

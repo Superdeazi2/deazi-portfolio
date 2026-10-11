@@ -211,6 +211,7 @@ export function initMatrixBackground(): MatrixController | null {
 
     motionEnabled = enabled;
     storeMotionPreference(enabled);
+    window.dispatchEvent(new Event("deazi-motion-change"));
     stopAnimation();
 
     if (motionEnabled) {

@@ -79,9 +79,9 @@ function initMatrixMotionToggle(controller: MatrixController | null) {
       button.setAttribute("aria-pressed", String(enabled));
       button.setAttribute(
         "aria-label",
-        enabled ? "Остановить движение фона" : "Продолжить движение фона",
+        enabled ? "Остановить анимации" : "Включить анимации",
       );
-      button.title = enabled ? "Остановить фон" : "Продолжить фон";
+      button.title = enabled ? "Остановить анимации" : "Включить анимации";
     });
   };
 
@@ -241,14 +241,18 @@ function startFrameLoop(
 
   const setFrames = (nextFrames: string[], nextDelay = delay) => {
     if (!nextFrames.length) return;
+    if (frames !== nextFrames) frameIndex = 0;
     frames = nextFrames;
     delay = nextDelay;
-    frameIndex = 0;
     lastFrameTime = performance.now();
     render();
   };
 
+  let frameRequest = 0;
+  const isEnabled = () => matrixController?.isMotionEnabled() ?? !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const loop = (time: number) => {
+    frameRequest = 0;
+    if (!isEnabled() || document.hidden) return;
     // requestAnimationFrame naturally pauses in background tabs. Resetting the
     // timestamp after a long gap prevents sprite animations from trying to
     // catch up when the tab becomes visible again.
@@ -258,13 +262,19 @@ function startFrameLoop(
       render();
     }
 
-    window.requestAnimationFrame(loop);
+    frameRequest = window.requestAnimationFrame(loop);
   };
 
+  const syncMotion = () => {
+    if (frameRequest) window.cancelAnimationFrame(frameRequest);
+    frameRequest = 0;
+    lastFrameTime = performance.now();
+    if (isEnabled() && !document.hidden) frameRequest = window.requestAnimationFrame(loop);
+  };
   render();
-  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    window.requestAnimationFrame(loop);
-  }
+  window.addEventListener("deazi-motion-change", syncMotion);
+  document.addEventListener("visibilitychange", syncMotion);
+  syncMotion();
 
   return setFrames;
 }
@@ -359,9 +369,9 @@ function initPageIcons() {
     if (frames.length) {
       icon.style.backgroundImage = `url("${frames[0]}")`;
       void preloadFrames(frames).then(() => {
-        const setFrames = startFrameLoop((url) => (icon.style.backgroundImage = `url("${url}")`), frames, 180);
+        const setFrames = startFrameLoop((url) => (icon.style.backgroundImage = `url("${url}")`), frames, 270);
         const animate = () => setFrames(frames, 90);
-        const idle = () => setFrames(frames, 180);
+        const idle = () => setFrames(frames, 270);
         icon.addEventListener("pointerenter", animate);
         icon.addEventListener("pointerleave", idle);
         icon.addEventListener("focus", animate);

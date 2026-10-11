@@ -188,6 +188,7 @@ function initMatrixBackground() {
     if (isDestroyed || motionEnabled === enabled) return;
     motionEnabled = enabled;
     storeMotionPreference(enabled);
+    window.dispatchEvent(new Event("deazi-motion-change"));
     stopAnimation();
     if (motionEnabled) {
       startAnimation();
@@ -518,9 +519,9 @@ function initMatrixMotionToggle(controller) {
       button.setAttribute("aria-pressed", String(enabled));
       button.setAttribute(
         "aria-label",
-        enabled ? "Остановить движение фона" : "Продолжить движение фона"
+        enabled ? "Остановить анимации" : "Включить анимации"
       );
-      button.title = enabled ? "Остановить фон" : "Продолжить фон";
+      button.title = enabled ? "Остановить анимации" : "Включить анимации";
     });
   };
   buttons.forEach((button) => {
@@ -645,24 +646,34 @@ function startFrameLoop(showFrame, initialFrames, delay = 110) {
   };
   const setFrames = (nextFrames, nextDelay = delay) => {
     if (!nextFrames.length) return;
+    if (frames !== nextFrames) frameIndex = 0;
     frames = nextFrames;
     delay = nextDelay;
-    frameIndex = 0;
     lastFrameTime = performance.now();
     render();
   };
+  let frameRequest = 0;
+  const isEnabled = () => matrixController?.isMotionEnabled() ?? !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const loop = (time) => {
+    frameRequest = 0;
+    if (!isEnabled() || document.hidden) return;
     if (time - lastFrameTime >= delay) {
       frameIndex = (frameIndex + 1) % frames.length;
       lastFrameTime = time;
       render();
     }
-    window.requestAnimationFrame(loop);
+    frameRequest = window.requestAnimationFrame(loop);
+  };
+  const syncMotion = () => {
+    if (frameRequest) window.cancelAnimationFrame(frameRequest);
+    frameRequest = 0;
+    lastFrameTime = performance.now();
+    if (isEnabled() && !document.hidden) frameRequest = window.requestAnimationFrame(loop);
   };
   render();
-  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    window.requestAnimationFrame(loop);
-  }
+  window.addEventListener("deazi-motion-change", syncMotion);
+  document.addEventListener("visibilitychange", syncMotion);
+  syncMotion();
   return setFrames;
 }
 function initFoxLoader() {
@@ -732,9 +743,9 @@ function initPageIcons() {
     if (frames.length) {
       icon.style.backgroundImage = `url("${frames[0]}")`;
       void preloadFrames(frames).then(() => {
-        const setFrames = startFrameLoop((url) => icon.style.backgroundImage = `url("${url}")`, frames, 180);
+        const setFrames = startFrameLoop((url) => icon.style.backgroundImage = `url("${url}")`, frames, 270);
         const animate = () => setFrames(frames, 90);
-        const idle = () => setFrames(frames, 180);
+        const idle = () => setFrames(frames, 270);
         icon.addEventListener("pointerenter", animate);
         icon.addEventListener("pointerleave", idle);
         icon.addEventListener("focus", animate);
