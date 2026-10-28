@@ -44,7 +44,19 @@ import budget_screenUrl from "../assets/gallery-budget-screen.png";
 import green_figmaUrl from "../assets/gallery-green-figma.png";
 import kontur_figmaUrl from "../assets/gallery-kontur-figma.png";
 
+import grotesk_taskUrl from "../assets/grotesk-task.png";
+import grotesk_cart_figmaUrl from "../assets/grotesk-cart-figma.png";
+import grotesk_checkout_figmaUrl from "../assets/grotesk-checkout-figma.png";
+import grotesk_cartUrl from "../assets/grotesk-cart.png";
+import grotesk_checkoutUrl from "../assets/grotesk-checkout.png";
+
 const projectImageUrls: Record<string, string> = {
+  "grotesk-task": grotesk_taskUrl,
+  "grotesk-cart-figma": grotesk_cart_figmaUrl,
+  "grotesk-checkout-figma": grotesk_checkout_figmaUrl,
+  "grotesk-cart": grotesk_cartUrl,
+  "grotesk-checkout": grotesk_checkoutUrl,
+
   "neposeda-ui": neposeda_uiUrl,
   "neposeda-desktop": neposeda_desktopUrl,
   "neposeda-mobile": neposeda_mobileUrl,

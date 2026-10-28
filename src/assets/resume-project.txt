@@ -8,4 +8,12 @@ Email: deazinew@mail.ru
 Telegram: @SuperDeazi
 GitHub: https://github.com/Superdeazi2
 GitLab: https://gitlab.com/Deazi
-HH: https://perm.hh.ru/resume/a4721098ff10a7855d0039ed1f4b38437a4746
+HH: https://hh.ru/resume/a0a1eac0ff0f3cb0490039ed1f50774c6f6157
+
+Гротеск | Тестовое задание
+По макету Figma сделал корзину, оформление заказа и страницу успеха
+Адаптивная вёрстка, товары из API, логика корзины, промокод и проверка формы
+HTML, CSS, JavaScript, Vite
+Сайт: https://grotesk-test.vercel.app/cart
+Задание: https://www.figma.com/design/H17rbtGzwDMRoQQyukYjPT/?node-id=9001-185164
+Код: https://gitlab.com/Deazi/Grotesk_test

@@ -284,15 +284,15 @@ const experienceItems = [
     id: "aliot-current",
     title: "ALIOT / EcoReef",
     role: "Frontend Developer · проектная работа",
-    period: "06.2026 – настоящее время",
+    period: "06.2026 – 10.2026",
     repositoryPrivate: true,
-    shortDescription: "Продолжаю развивать React-интерфейс управления освещением.",
-    description: "Работаю с существующим приложением: дорабатываю интерактивные интерфейсы, состояние и взаимодействие с API.",
+    shortDescription: "Дорабатывал React-интерфейс управления освещением",
+    description: "Работал с существующим приложением: дорабатывал интерфейсы, состояние и взаимодействие с API",
     responsibilities: [
-      "развиваю интерфейс на React и TypeScript",
-      "дорабатываю управление настройками и состоянием приложения на Zustand",
-      "интегрирую изменения интерфейса с REST API",
-      "проверяю расчётную логику и граничные сценарии тестами"
+      "дорабатывал интерфейс на React и TypeScript",
+      "работал с настройками и состоянием приложения на Zustand",
+      "подключал изменения интерфейса к REST API",
+      "проверял расчётную логику и граничные сценарии тестами"
     ],
     stack: ["React", "TypeScript", "Zustand", "REST API", "GitLab"]
   },
@@ -439,6 +439,11 @@ const budget_figmaUrl = "" + new URL("../images/gallery-budget-figma.png", impor
 const budget_screenUrl = "" + new URL("../images/gallery-budget-screen.png", import.meta.url).href;
 const green_figmaUrl = "" + new URL("../images/gallery-green-figma.png", import.meta.url).href;
 const kontur_figmaUrl = "" + new URL("../images/gallery-kontur-figma.png", import.meta.url).href;
+const grotesk_taskUrl = "" + new URL("../images/grotesk-task.png", import.meta.url).href;
+const grotesk_cart_figmaUrl = "" + new URL("../images/grotesk-cart-figma.png", import.meta.url).href;
+const grotesk_checkout_figmaUrl = "" + new URL("../images/grotesk-checkout-figma.png", import.meta.url).href;
+const grotesk_cartUrl = "" + new URL("../images/grotesk-cart.png", import.meta.url).href;
+const grotesk_checkoutUrl = "" + new URL("../images/grotesk-checkout.png", import.meta.url).href;
 const animationFrameUrls = /* @__PURE__ */ Object.assign({
   "../animations/cat/cat_01.png": __vite_glob_0_0,
   "../animations/cat/cat_02.png": __vite_glob_0_1,
@@ -498,6 +503,11 @@ const foxAnimationFrames = [
   fox08Url
 ];
 const projectImageUrls = {
+  "grotesk-task": grotesk_taskUrl,
+  "grotesk-cart-figma": grotesk_cart_figmaUrl,
+  "grotesk-checkout-figma": grotesk_checkout_figmaUrl,
+  "grotesk-cart": grotesk_cartUrl,
+  "grotesk-checkout": grotesk_checkoutUrl,
   "neposeda-ui": neposeda_uiUrl,
   "neposeda-desktop": neposeda_desktopUrl,
   "neposeda-mobile": neposeda_mobileUrl,

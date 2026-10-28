@@ -2714,6 +2714,48 @@ body:has([data-section-notice]) main{
 }
 
 }
+.career-project-card--grotesk{
+  grid-column:1/-1
+}
+.grotesk-preview{
+  background:#fff;
+  border-radius:8px;
+  display:block;
+  overflow:hidden
+}
+.grotesk-preview img{
+  width:100%;
+  height:auto;
+  display:block
+}
+.grotesk-details{
+  color:#d1d9d3;
+  margin:16px 0;
+  padding-left:20px;
+  font-size:14px;
+  line-height:1.7;
+  list-style:outside
+}
+.grotesk-stack{
+  color:#a6c8b0;
+  margin:16px 0;
+  font-size:13px
+}
+#grotesk{
+  scroll-margin-top:110px
+}
+@media (min-width:768px){
+  .career-project-card--grotesk{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  align-items:start;
+  display:grid
+}
+.grotesk-preview{
+  position:sticky;
+  top:110px
+}
+
+}
 @property --tw-translate-x{
   syntax:"*";
   inherits:false;
